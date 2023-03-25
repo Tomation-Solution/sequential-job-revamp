@@ -1,25 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Route } from "react-router";
+import { Routes, BrowserRouter } from "react-router-dom";
+import NotFound from "./components/NotFound/NotFound";
+import MainLayout from "./layout/MainLayout";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <ToastContainer />
+      <BrowserRouter>
+        <Routes>
+          <Route element={<MainLayout />}>
+            <Route
+              path="/"
+              element={<h1>HELLO WORLD, TYPE THIS PATH IN THE URL "/path"</h1>}
+            />
+            <Route path="/path" element={<h1>PATH PAGE</h1>} />
+            {/* ADD OTHER PATHS THAT SHOULD BE RENDERED WITH THE SIDEBAR HERE, ELSE DO SO OUTSIDE */}
+          </Route>
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </BrowserRouter>
+    </>
   );
 }
 
