@@ -9,7 +9,7 @@ import {
   FormContainer,
   Header,
   VerificationCodeContainer,
-} from "./styles/forms.styles";
+} from "../../../globals/styles/forms.styles";
 
 const Verify = () => {
   return (

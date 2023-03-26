@@ -5,7 +5,7 @@ import {
   FormContainer,
   FormInput,
   Header,
-} from "./styles/forms.styles";
+} from "../../../globals/styles/forms.styles";
 import { Link } from "react-router-dom";
 import { Container } from "./Signup.styles";
 

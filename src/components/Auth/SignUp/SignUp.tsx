@@ -6,7 +6,7 @@ import {
 } from "./Signup.styles";
 import { Link } from "react-router-dom";
 import Logo from "../../../assets/Logo.png";
-import { FormContainer } from "./styles/forms.styles";
+import { FormContainer } from "../../../globals/styles/forms.styles";
 
 const SignUp = () => {
   return (

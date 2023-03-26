@@ -4,7 +4,11 @@ import {
   SignUpContainer,
   SignUpWrapper,
 } from "./SignUp/Signup.styles";
-import { Form, FormContainer, FormInput } from "./SignUp/styles/forms.styles";
+import {
+  Form,
+  FormContainer,
+  FormInput,
+} from "../../globals/styles/forms.styles";
 import { Link } from "react-router-dom";
 import EastIcon from "@mui/icons-material/East";
 import Logo from "../../assets/Logo.png";

@@ -1,11 +1,6 @@
 import styled from "styled-components";
-import {
-  seqBlue100,
-  seqLightBlue,
-  seqWhite,
-  seqWhite100,
-} from "../../../../globals/colors";
-import { Laptop, tablet } from "../../../../responsive";
+import { seqBlue100, seqLightBlue, seqWhite, seqWhite100 } from "../colors";
+import { Laptop, mobile, tablet } from "../../responsive";
 
 export const Header = styled.div`
   h1 {
@@ -56,60 +51,6 @@ export const FormContainer = styled.div`
   })}
 `;
 
-export const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  /* margin-top: 2em; */
-`;
-
-export const FormInput = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 1em;
-  width: 100%;
-  label {
-    font-weight: 500;
-    margin-bottom: 0.5em;
-  }
-  input {
-    padding: 1em;
-    background: rgba(242, 238, 252, 0.39);
-    border: 1px solid ${seqBlue100};
-    border-radius: 10px
-    outline: none;
-    &:focus {
-        border: 2px solid ${seqLightBlue};
-        outline: none;
-    }
-    
-  }
-`;
-
-export const FormButton = styled.button`
-  padding: 0.5em;
-  border: none;
-  border-radius: 5px;
-  background-color: ${seqLightBlue};
-  color: ${seqWhite};
-  font-weight: 500;
-  margin-top: 1em;
-  cursor: pointer;
-  outline: none;
-  a {
-    text-decoration: none;
-    color: ${seqWhite};
-    &:hover {
-      color: ${seqLightBlue};
-    }
-  }
-  &:hover {
-    background-color: ${seqWhite};
-    color: ${seqLightBlue};
-    border: 1px solid ${seqLightBlue};
-  }
-`;
-
 export const VerificationCodeContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -146,6 +87,81 @@ export const CodeContainer = styled.div`
       border: 2px solid ${seqWhite};
       animation: 1s ease-in-out 1s 1 slidein;
     }
+  }
+`;
+
+export const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  /* margin-top: 2em; */
+`;
+
+export const FormInput = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1em;
+  width: auto;
+  flex: 1;
+
+  label {
+    font-weight: 500;
+    margin-bottom: 0.5em;
+  }
+  input {
+    padding: 1em;
+    background: rgba(242, 238, 252, 0.39);
+    border: 1px solid ${seqBlue100};
+    border-radius: 5px;
+
+    outline: none;
+    &:focus {
+      border: 2px solid ${seqLightBlue};
+      outline: none;
+    }
+  }
+
+  textarea {
+    padding: 1em;
+    background: rgba(242, 238, 252, 0.39);
+    border: 1px solid ${seqBlue100};
+    border-radius: 5px;
+    outline: none;
+    &:focus {
+      border: 2px solid ${seqLightBlue};
+      outline: none;
+    }
+  }
+
+  ${mobile({
+    width: "100%",
+    input: {
+      fontSize: "14px",
+    },
+  })}
+`;
+
+export const FormButton = styled.button`
+  padding: 0.5em;
+  border: none;
+  border-radius: 5px;
+  background-color: ${seqLightBlue};
+  color: ${seqWhite};
+  font-weight: 500;
+  margin-top: 1em;
+  cursor: pointer;
+  outline: none;
+  a {
+    text-decoration: none;
+    color: ${seqWhite};
+    &:hover {
+      color: ${seqLightBlue};
+    }
+  }
+  &:hover {
+    background-color: ${seqWhite};
+    color: ${seqLightBlue};
+    border: 1px solid ${seqLightBlue};
   }
 `;
 
@@ -203,17 +219,24 @@ export const FormSelect = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 1em;
-  width: 100%;
+  flex: 1;
+  width: auto;
   label {
     font-weight: 500;
     margin-bottom: 0.5em;
   }
   select {
-    padding: 0.5em;
+    padding: 1em;
     border: 1px solid ${seqBlue100};
     border-radius: 5px;
     outline: none;
   }
+  ${mobile({
+    width: "100%",
+    input: {
+      fontSize: "14px",
+    },
+  })}
 `;
 
 export const FormRadio = styled.div`
