@@ -1,6 +1,6 @@
 import { Route } from "react-router";
 import { Routes, BrowserRouter } from "react-router-dom";
-import NotFound from "./components/NotFound/NotFound";
+import NotFound from "./pages/NotFound/NotFound";
 import MainLayout from "./layout/MainLayout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -12,6 +12,8 @@ import Medicals from "./components/Medicals/Medicals";
 import MedicalsInvitation from "./components/Medicals/MedicalsInvitation/MedicalsInvitation";
 import InterviewManagement from "./components/InterviewManagement/InterviewManagement";
 import Jobs from "./pages/Jobs";
+import CVManagement from "./pages/CVManagement/CVManagement";
+// import AuthRoutes from "./components/Auth/AuthRoutes";
 
 function App() {
   return (
@@ -36,6 +38,7 @@ function App() {
             <Route path="/jobs" element={<Jobs />} />
             {/*ELIJAHS REUSABLE COMPONENTS || LOOK AT THEM */}
 
+            <Route path="/cvmanagement" element={<CVManagement />} />
             {/* ADD OTHER PATHS THAT SHOULD BE RENDERED WITH THE SIDEBAR HERE, ELSE DO SO OUTSIDE */}
           </Route>
           <Route path="*" element={<NotFound />} />
