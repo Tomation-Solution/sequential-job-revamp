@@ -1,10 +1,10 @@
 import { Route } from "react-router";
 import { Routes, BrowserRouter } from "react-router-dom";
-import NotFound from "./components/NotFound/NotFound";
+import NotFound from "./pages/NotFound/NotFound";
 import MainLayout from "./layout/MainLayout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import CVManagement from "./components/CVManagement/CVManagement";
+import CVManagement from "./pages/CVManagement/CVManagement";
 // import AuthRoutes from "./components/Auth/AuthRoutes";
 
 function App() {
