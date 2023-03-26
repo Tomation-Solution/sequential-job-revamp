@@ -16,6 +16,7 @@ import CVManagement from "./pages/CVManagement/CVManagement";
 import Button from "./components/Button/Button";
 import MedicalsScheduleInfo from "./pages/MedicalsScheduleInfo";
 import InterviewManagementCompletion from "./pages/InterviewManagement";
+import MedicalsListSubbmission from "./pages/MedicalsListSubbmission";
 // import AuthRoutes from "./components/Auth/AuthRoutes";
 
 function App() {
@@ -49,7 +50,7 @@ function App() {
             {/* ADD OTHER PATHS THAT SHOULD BE RENDERED WITH THE SIDEBAR HERE, ELSE DO SO OUTSIDE */}
             <Route path="/medicals-scheduleinfo" element={<MedicalsScheduleInfo />} />
             <Route path="/interview-completion" element={<InterviewManagementCompletion />} />
-            {/* .tsx */}
+            <Route path="/medicals-list-subbmission" element={<MedicalsListSubbmission />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
