@@ -5,6 +5,7 @@ import MainLayout from "./layout/MainLayout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CVManagement from "./pages/CVManagement/CVManagement";
+import Button from "./components/Button/Button";
 // import AuthRoutes from "./components/Auth/AuthRoutes";
 
 function App() {
@@ -16,7 +17,10 @@ function App() {
           <Route element={<MainLayout />}>
             <Route
               path="/"
-              element={<h1>HELLO WORLD, TYPE THIS PATH IN THE URL "/path"</h1>}
+              element={<h1>HELLO WORLD, TYPE THIS PATH IN THE URL "/path"
+                <Button  styleType="sec">Hello world</Button>
+
+              </h1>}
             />
             <Route path="/cvmanagement" element={<CVManagement />} />
             {/* ADD OTHER PATHS THAT SHOULD BE RENDERED WITH THE SIDEBAR HERE, ELSE DO SO OUTSIDE */}
