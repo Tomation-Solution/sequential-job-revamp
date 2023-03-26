@@ -13,6 +13,8 @@ import MedicalsInvitation from "./components/Medicals/MedicalsInvitation/Medical
 import InterviewManagement from "./components/InterviewManagement/InterviewManagement";
 import Jobs from "./pages/Jobs";
 import CVManagement from "./pages/CVManagement/CVManagement";
+import Button from "./components/Button/Button";
+import MedicalsScheduleInfo from "./pages/MedicalsScheduleInfo";
 // import AuthRoutes from "./components/Auth/AuthRoutes";
 
 function App() {
@@ -24,7 +26,10 @@ function App() {
           <Route element={<MainLayout />}>
             <Route
               path="/"
-              element={<h1>HELLO WORLD, TYPE THIS PATH IN THE URL "/path"</h1>}
+              element={<h1>HELLO WORLD, TYPE THIS PATH IN THE URL "/path"
+                <Button  styleType="sec">Hello world</Button>
+
+              </h1>}
             />
             {/*ELIJAHS REUSABLE COMPONENTS || LOOK AT THEM */}
             <Route path="/test-management" element={<TestManagement />} />
@@ -36,10 +41,13 @@ function App() {
             <Route path="/interviews" element={<InterviewManagement />} />
             {/* ESPECIALLY THE JOBS COMPONENT */}
             <Route path="/jobs" element={<Jobs />} />
+            
             {/*ELIJAHS REUSABLE COMPONENTS || LOOK AT THEM */}
 
             <Route path="/cvmanagement" element={<CVManagement />} />
             {/* ADD OTHER PATHS THAT SHOULD BE RENDERED WITH THE SIDEBAR HERE, ELSE DO SO OUTSIDE */}
+            <Route path="/medicals_scheduleinfo" element={<MedicalsScheduleInfo />} />
+            
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
