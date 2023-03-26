@@ -10,7 +10,7 @@ export const ButtonStyle = styled(motion.button)<ButtonProp>`
   
  border: transparent;
  padding: .7rem 1rem;
-border-radius: 5px;
+border-radius: 10px;
 cursor: pointer;
 /* this code makes the icon if there is one to fit with the button word */
 display: flex;
