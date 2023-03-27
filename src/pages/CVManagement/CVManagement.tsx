@@ -2,6 +2,7 @@ import React from "react";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import {
   CVManagementHeader,
+  CVManagemntCVUpload,
   CVManagemntContainer,
   CVManagemntFormContainer,
   CVManagemntPersonalStatement,
@@ -173,6 +174,9 @@ const CVManagement = () => {
 
   return (
     <>
+      <CVManagemntCVUpload >
+        
+      </CVManagemntCVUpload>
       <CVManagemntContainer>
         <CVManagementHeader>
           <h1>My CV</h1>

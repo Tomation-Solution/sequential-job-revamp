@@ -98,3 +98,29 @@ export const CVManagemntSection = styled.div`
     gap: 20px;
   }
 `;
+
+export const CVManagemntCVUpload = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 3em;
+
+  h2 {
+    align-self: flex-start;
+  }
+
+  button {
+    border: none;
+    outline: none;
+  }
+
+  div {
+    display: flex;
+    align-self: flex-start;
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+`;
