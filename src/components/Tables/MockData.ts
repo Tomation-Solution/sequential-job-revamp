@@ -37,31 +37,40 @@ export const jobMockData = [
   },
 ];
 
+export const dashboardMockData = [
+  {
+    id: 1,
+    position: "Software Enginneer",
+    company: "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
+    dateOfUpload: "2023-05-23",
+    candidatesApplied: "400",
+    status: "Applied",
+  },
+];
 
-
-export const medicalsMockData =[
+export const medicalsMockData = [
   {
-    'id':1,
-    'position':'Tomiwa Ayandele',
-    'Company':'ABC Company',
-    'date_of_upload':'2023-05-23',
-    'CandidatesApplied':'400',
-    'status':'Applied'
+    id: 1,
+    position: "Tomiwa Ayandele",
+    Company: "ABC Company",
+    date_of_upload: "2023-05-23",
+    CandidatesApplied: "400",
+    status: "Applied",
   },
   {
-    'id':2,
-    'position':'Tomiwa Ayandele',
-    'Company':'ABC Company',
-    'date_of_upload':'2023-05-23',
-    'CandidatesApplied':'400',
-    'status':'Applied'
+    id: 2,
+    position: "Tomiwa Ayandele",
+    Company: "ABC Company",
+    date_of_upload: "2023-05-23",
+    CandidatesApplied: "400",
+    status: "Applied",
   },
   {
-    'id':3,
-    'position':'Tomiwa Ayandele',
-    'Company':'ABC Company',
-    'date_of_upload':'2023-05-23',
-    'CandidatesApplied':'400',
-    'status':'Applied'
+    id: 3,
+    position: "Tomiwa Ayandele",
+    Company: "ABC Company",
+    date_of_upload: "2023-05-23",
+    CandidatesApplied: "400",
+    status: "Applied",
   },
-]
+];

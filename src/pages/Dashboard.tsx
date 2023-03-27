@@ -1,10 +1,10 @@
 import React from "react";
-import DashboardTopSummary from "../components/Dashboard/DashboardTopSummary";
+import DashboardComponent from "../components/Dashboard/DashboardComponent";
 
 const Dashboard = () => {
   return (
     <div>
-      <DashboardTopSummary />
+      <DashboardComponent />
     </div>
   );
 };

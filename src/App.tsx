@@ -19,6 +19,7 @@ import InterviewManagementCompletion from "./pages/InterviewManagement";
 import MedicalsListSubbmission from "./pages/MedicalsListSubbmission";
 import JobList from "./pages/JobList";
 import JobDetail from "./pages/JobDetail";
+import Dashboard from "./pages/Dashboard";
 // import AuthRoutes from "./components/Auth/AuthRoutes";
 
 function App() {
@@ -28,15 +29,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route element={<MainLayout />}>
-            <Route
-              path="/"
-              element={
-                <h1>
-                  HELLO WORLD, TYPE THIS PATH IN THE URL "/path"
-                  <Button styleType="sec">Hello world</Button>
-                </h1>
-              }
-            />
+            <Route path="/" element={<Dashboard />} />
             {/*ELIJAHS REUSABLE COMPONENTS || LOOK AT THEM */}
             <Route path="/test-management" element={<TestManagement />} />
             <Route path="/take-test" element={<TakeTest />} />

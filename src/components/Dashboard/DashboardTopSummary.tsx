@@ -3,22 +3,31 @@ import {
   ItemCountCon,
   TopSummaryContainer,
   TopSummaryItems,
-} from "./TopSummaryBox.styles";
+} from "./DashbordStyles.styles";
 
 const data = [
   { color: "red", name: "Jobs Applied " },
   { color: "green", name: "Interviews Attended" },
   { color: "gray", name: "Jobs Test Taken" },
   { color: "purple", name: "Jobs Test Scheduled" },
-  { color: "pink", name: "Interview Scheduled" },
+  { color: "pink", name: "Scheduled Interview" },
   { color: "brown", name: "Job Offers" },
 ];
 
-const DashboardTopSummary = () => {
+const DashboardTopSummary = ({
+  setComponentRenderer,
+  componentRenderer,
+}: any) => {
   return (
     <TopSummaryContainer>
       {data.map((item, index) => (
-        <TopSummaryItems newColor={item.color} key={index}>
+        <TopSummaryItems
+          onClick={() => setComponentRenderer(item.name)}
+          newColor={item.color}
+          componentRenderer={componentRenderer}
+          name={item.name}
+          key={index}
+        >
           <ItemCountCon>
             <h1>109</h1>
 
