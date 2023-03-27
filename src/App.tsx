@@ -17,6 +17,7 @@ import Button from "./components/Button/Button";
 import MedicalsScheduleInfo from "./pages/MedicalsScheduleInfo";
 import InterviewManagementCompletion from "./pages/InterviewManagement";
 import MedicalsListSubbmission from "./pages/MedicalsListSubbmission";
+import JobList from "./pages/JobList";
 // import AuthRoutes from "./components/Auth/AuthRoutes";
 
 function App() {
@@ -43,9 +44,9 @@ function App() {
             <Route path="/interviews" element={<InterviewManagement />} />
             {/* ESPECIALLY THE JOBS COMPONENT */}
             <Route path="/jobs" element={<Jobs />} />
-            
             {/*ELIJAHS REUSABLE COMPONENTS || LOOK AT THEM */}
 
+            <Route path="/jobs_list" element={<JobList />} />
             <Route path="/cvmanagement" element={<CVManagement />} />
             {/* ADD OTHER PATHS THAT SHOULD BE RENDERED WITH THE SIDEBAR HERE, ELSE DO SO OUTSIDE */}
             <Route path="/medicals-scheduleinfo" element={<MedicalsScheduleInfo />} />
