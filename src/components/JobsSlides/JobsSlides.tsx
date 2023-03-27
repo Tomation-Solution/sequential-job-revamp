@@ -63,25 +63,23 @@ export const JobsRejectSlides = () => {
 
 export const JobsTakeTestSlides = () => {
   return (
-    <JobsSlidesContainer>
-      <JobTakeTestContainer>
-        <h1>Business Developer</h1>
-        <p>VI, Lagos</p>
-        <span>Job details</span>
-        <JobTestExtra>
-          <span>Salary: $97,000/yr</span>
-          <span>JobType: Remote</span>
-        </JobTestExtra>
+    <JobTakeTestContainer>
+    <h1>Business Developer</h1>
+    <p>VI, Lagos</p>
+    <span>Job details</span>
+    <JobTestExtra>
+      <span>Salary: $97,000/yr</span>
+      <span>JobType: Remote</span>
+    </JobTestExtra>
 
-        <p>
-          Congratulations , you have been scheduled for a test, please kindly
-          take the test in due time in other toquicken the process
-        </p>
+    <p>
+      Congratulations , you have been scheduled for a test, please kindly
+      take the test in due time in other toquicken the process
+    </p>
 
-        <JobBtnCon>
-          <JobBtn darken={true}>Take Test</JobBtn>
-        </JobBtnCon>
-      </JobTakeTestContainer>
-    </JobsSlidesContainer>
+    <JobBtnCon>
+      <JobBtn darken={true}>Take Test</JobBtn>
+    </JobBtnCon>
+  </JobTakeTestContainer>
   );
 };

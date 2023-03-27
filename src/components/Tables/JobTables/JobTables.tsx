@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { jobMockData } from "../MockData";
 import { TableAccept, TableReject, TableView } from "../Tables.styles";
 import { Hooks } from "react-table";
@@ -9,8 +9,13 @@ import {
   // JobsRejectSlides,
   JobsTakeTestSlides,
 } from "../../JobsSlides/JobsSlides";
+import OffCanvas from "../../OffCanvas/OffCanvas";
 
 const JobTables = () => {
+  const [isOpen, setIsOpen] = useState(false)
+  const handleFloatingBtnClick=()=>{
+    //
+  }
   const columns = [
     {
       Header: "Id",
@@ -56,7 +61,9 @@ const JobTables = () => {
         Header: "Offer Letter",
         Cell: ({ row }) => (
           <TableView
-            onClick={() => alert("Editing row it the id " + row.values.id)}
+            onClick={() => {
+              setIsOpen(true)
+            }}
           >
             View
           </TableView>
@@ -97,7 +104,18 @@ const JobTables = () => {
     <>
       {/* <JobsAcceptSlides /> */}
       {/* <JobsRejectSlides /> */}
+      <OffCanvas
+        size={30}
+        btnClick={handleFloatingBtnClick}
+        setIsOpen={setIsOpen}
+        isOpen={isOpen}
+        // btnContrroller={ 
+             
+        // } 
+      >
       <JobsTakeTestSlides />
+     
+      </OffCanvas>
       <Tables
         tableColumn={columns}
         tableData={jobMockData}
