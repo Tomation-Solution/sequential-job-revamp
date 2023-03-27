@@ -14,7 +14,7 @@ type Prop =React.PropsWithChildren<
  setIsOpen:any;
 }>
 
-const OffCanvas = ({children,isOpen,setIsOpen,size=80,direction='right',btnClick=()=>null}:Prop):React.ReactElement=>{
+const OffCanvas = ({children,isOpen,setIsOpen,size=90,direction='right',btnClick=()=>null}:Prop):React.ReactElement=>{
     const toggleDrawer = () => {
         btnClick()
         setIsOpen((prevState:boolean) => !prevState)
