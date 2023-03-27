@@ -36,3 +36,32 @@ export const jobMockData = [
       "Slim-fitting style, contrast raglan long sleeve, three-button henley placket, light weight & soft fabric for breathable and comfortable wearing. And Solid stitched shirts with round neck made for durability and a great fit for casual fashion wear and diehard baseball fans. The Henley style round neckline includes a three-button placket.",
   },
 ];
+
+
+
+export const medicalsMockData =[
+  {
+    'id':1,
+    'position':'Tomiwa Ayandele',
+    'Company':'ABC Company',
+    'date_of_upload':'2023-05-23',
+    'CandidatesApplied':'400',
+    'status':'Applied'
+  },
+  {
+    'id':2,
+    'position':'Tomiwa Ayandele',
+    'Company':'ABC Company',
+    'date_of_upload':'2023-05-23',
+    'CandidatesApplied':'400',
+    'status':'Applied'
+  },
+  {
+    'id':3,
+    'position':'Tomiwa Ayandele',
+    'Company':'ABC Company',
+    'date_of_upload':'2023-05-23',
+    'CandidatesApplied':'400',
+    'status':'Applied'
+  },
+]
