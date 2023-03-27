@@ -1,10 +1,11 @@
+import MedicalsSubmissionTables from "../components/Tables/MedicalsSubmissionTables/MedicalsSubmissionTables"
 
 
 
 export const MedicalsListSubbmission = ()=>{
     return (
         <div>
-            <h1>MedicalsListSubbmission</h1>
+            <MedicalsSubmissionTables/>
         </div>
     )
 }
