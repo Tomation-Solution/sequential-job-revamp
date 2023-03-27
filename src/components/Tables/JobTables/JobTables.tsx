@@ -13,7 +13,7 @@ import {
 const JobTables = () => {
   const columns = [
     {
-      Header: "Id",
+      Header: "S/N",
       accessor: "id",
     },
     {
@@ -34,7 +34,7 @@ const JobTables = () => {
         Header: "Click to Accept",
         Cell: ({ row }) => (
           <TableAccept
-            onClick={() => alert("Editing row it the id " + row.values.id)}
+            onClick={() => alert("Accept row it the id " + row.values.id)}
           >
             Accept
           </TableAccept>
@@ -45,7 +45,7 @@ const JobTables = () => {
         Header: "Click to Reject",
         Cell: ({ row }) => (
           <TableReject
-            onClick={() => alert("Editing row it the id " + row.values.id)}
+            onClick={() => alert("Reject row it the id " + row.values.id)}
           >
             Reject
           </TableReject>
@@ -56,7 +56,7 @@ const JobTables = () => {
         Header: "Offer Letter",
         Cell: ({ row }) => (
           <TableView
-            onClick={() => alert("Editing row it the id " + row.values.id)}
+            onClick={() => alert("View row it the id " + row.values.id)}
           >
             View
           </TableView>
