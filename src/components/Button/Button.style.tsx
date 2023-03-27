@@ -22,8 +22,12 @@ ${(prop)=>{
     let style;
     if(prop.styleType==='pry'){
       style = `background-color:${seqLightBlue};color: ${seqWhite};font-weight: 600;padding: 1rem 1rem;`
-    }else{
+    }
+    else if(prop.styleType ==='sec'){
       style = `background-color:transparent;color: ${seqLightBlue};font-weight: 600;border:1px solid  ${seqLightBlue};`
+    }
+    else if(prop.styleType ==='whiteBg'){
+      style = `background-color: ${seqWhite};color: ${seqLightBlue};font-weight: 600;`
     }
     return style
   }};

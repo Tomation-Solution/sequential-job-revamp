@@ -11,6 +11,7 @@ import {
   JobsTakeTestSlides,
 } from "../../JobsSlides/JobsSlides";
 import OffCanvas from "../../OffCanvas/OffCanvas";
+import Button from "../../Button/Button";
 
 
 
@@ -71,6 +72,39 @@ export const MedicalsSubmissionTables = ():React.ReactElement=>{
         tableData={medicalsMockData}
         customHooks={[statusHook]}
       />
+
+
+<button onClick={(e)=>{
+        setIsOpen(true)
+      }}>open congrats</button>
+      <OffCanvas
+        size={30}
+        btnClick={handleFloatingBtnClick}
+        setIsOpen={setIsOpen}
+        isOpen={isOpen}
+        // btnContrroller={ 
+             
+        // } 
+      >
+     <div style={{'textAlign':'center'}}>
+        <h2>Congrat</h2>
+        <br />
+        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Illo cumque dolorem, in atque maxime voluptate accusamus officiis itaque commodi quo. Inventore qui officia eligendi aspernatur blanditiis totam aliquam dolores ipsum ab repudiandae sint maxime dolorem, ipsa facilis magnam architecto obcaecati assumenda illum sequi dolore molestias porro impedit. Neque laudantium minus ullam quod harum cumque eum id consequuntur ab nisi facilis repellendus, quibusdam labore rerum, enim esse. Perferendis laboriosam dolorem quasi ex earum omnis mollitia atque rerum nemo eligendi. At reiciendis fugit nesciunt, fugiat dolor expedita debitis eveniet. Vel sunt minima minus facilis. A minima suscipit hic architecto? Distinctio, dolorum. Soluta.</p>
+        <br />
+        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Illo cumque dolorem, in atque maxime voluptate accusamus officiis itaque commodi quo. Inventore qui officia eligendi aspernatur blanditiis totam aliquam dolores ipsum ab repudiandae sint maxime dolorem, ipsa facilis magnam architecto obcaecati assumenda illum sequi dolore molestias porro impedit. Neque laudantium minus ullam quod harum cumque eum id consequuntur ab nisi facilis repellendus, quibusdam labore rerum, enim esse. Perferendis laboriosam dolorem quasi ex earum omnis mollitia atque rerum nemo eligendi. At reiciendis fugit nesciunt, fugiat dolor expedita debitis eveniet. Vel sunt minima minus facilis. A minima suscipit hic architecto? Distinctio, dolorum. Soluta.</p>
+        <br />
+        <br />
+        <div style={{'display':'flex','maxWidth':'800px','justifyContent':'space-between'}}>
+            <Button>
+                Accept Offer
+            </Button>
+            <Button styleType="whiteBg">
+            Decline Offer
+            </Button>
+        </div>
+     </div>
+     
+      </OffCanvas>
         </div>
     )
 }
