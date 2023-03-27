@@ -13,7 +13,12 @@ import MedicalsInvitation from "./components/Medicals/MedicalsInvitation/Medical
 import InterviewManagement from "./components/InterviewManagement/InterviewManagement";
 import Jobs from "./pages/Jobs";
 import CVManagement from "./pages/CVManagement/CVManagement";
-import Dashboard from "./pages/Dashboard";
+import Button from "./components/Button/Button";
+import MedicalsScheduleInfo from "./pages/MedicalsScheduleInfo";
+import InterviewManagementCompletion from "./pages/InterviewManagement";
+import MedicalsListSubbmission from "./pages/MedicalsListSubbmission";
+import JobList from "./pages/JobList";
+import JobDetail from "./pages/JobDetail";
 // import AuthRoutes from "./components/Auth/AuthRoutes";
 
 function App() {
@@ -23,7 +28,15 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route element={<MainLayout />}>
-            <Route path="/" element={<Dashboard />} />
+            <Route
+              path="/"
+              element={
+                <h1>
+                  HELLO WORLD, TYPE THIS PATH IN THE URL "/path"
+                  <Button styleType="sec">Hello world</Button>
+                </h1>
+              }
+            />
             {/*ELIJAHS REUSABLE COMPONENTS || LOOK AT THEM */}
             <Route path="/test-management" element={<TestManagement />} />
             <Route path="/take-test" element={<TakeTest />} />
@@ -36,9 +49,23 @@ function App() {
             <Route path="/jobs" element={<Jobs />} />
             {/*ELIJAHS REUSABLE COMPONENTS || LOOK AT THEM */}
 
+            <Route path="/job_detail" element={<JobDetail />} />
+            <Route path="/jobs_list" element={<JobList />} />
             <Route path="/cvmanagement" element={<CVManagement />} />
 
             {/* ADD OTHER PATHS THAT SHOULD BE RENDERED WITH THE SIDEBAR HERE, ELSE DO SO OUTSIDE */}
+            <Route
+              path="/medicals-scheduleinfo"
+              element={<MedicalsScheduleInfo />}
+            />
+            <Route
+              path="/interview-completion"
+              element={<InterviewManagementCompletion />}
+            />
+            <Route
+              path="/medicals-list-subbmission"
+              element={<MedicalsListSubbmission />}
+            />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
