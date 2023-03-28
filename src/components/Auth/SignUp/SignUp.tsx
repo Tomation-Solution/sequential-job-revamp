@@ -24,7 +24,7 @@ const schema = yup.object({
   phone:yup.number().min(11).required(),
 })
 
-type FormData = yup.InferType<typeof schema>;
+export type signUpAsJobSeekerForm = yup.InferType<typeof schema>;
 
 
 
@@ -32,11 +32,11 @@ const SignUp = () => {
 
 
   
-  const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
+  const { register, handleSubmit, formState: { errors } } = useForm<signUpAsJobSeekerForm>({
     resolver: yupResolver(schema)
   });
 
-  const onSubmit = (data: FormData) => console.log(data);
+  const onSubmit = (data: signUpAsJobSeekerForm) => console.log(data);
   return (
     <SignUpContainer>
       <SignUpWrapper>

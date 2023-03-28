@@ -1,3 +1,7 @@
+import jwt_decode from "jwt-decode";
+import { UserType } from "../redux/api/authentication.api";
+
+
 export type StyleTpe =  {
     'style'?:{
       [Key:string]:string,
@@ -18,4 +22,14 @@ export type StyleTpe =  {
     return styles
   }
   
-  
+
+
+  export const getUser = ():UserType|null=>{
+    try{
+        const logged_in_user:UserType = jwt_decode(JSON.parse( localStorage.get('user')).access)
+        return logged_in_user
+    }catch(err:any){
+        return null
+    }
+
+    }

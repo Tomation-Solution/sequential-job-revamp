@@ -23,10 +23,17 @@ import AuthRoutes from "./components/Auth/AuthRoutes";
 import SignUpRoutes from "./components/Auth/SignUp/SignUpRoutes";
 import Login from "./components/Auth/Login";
 import SignUp from "./components/Auth/SignUp/SignUp";
+import {
+  QueryClient,
+  QueryClientProvider,
+} from 'react-query';
+
+const queryClient = new QueryClient()
+
 
 function App() {
   return (
-    <>
+<QueryClientProvider client={queryClient}>
       <ToastContainer />
       <BrowserRouter>
         <Routes>
@@ -64,7 +71,7 @@ function App() {
           {/* <Route path="*" element={<NotFound />} /> */}
         </Routes>
       </BrowserRouter>
-    </>
+      </QueryClientProvider>
   );
 }
 
