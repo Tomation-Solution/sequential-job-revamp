@@ -25,3 +25,20 @@ export const signUpAsJobSeekerApi = async (data:signUpAsJobSeekerForm ):Promise<
     const  resp = await api.post('/auth/create-seeker/',data)
     return resp.data
 }
+
+
+
+type SignInApiResponse = {
+  "status": 200,
+  "message":string,
+  "data": {
+      "tokens": {
+          "refresh": string,
+          "access": string
+      }
+  }
+}
+export const signInApi =async(data:{'email':string,'password':string}):Promise<SignInApiResponse>=>{
+    const resp = await api.post('/auth/login/',{'email':data.email.toLowerCase().trim(),'password':data.password})
+    return resp.data
+}

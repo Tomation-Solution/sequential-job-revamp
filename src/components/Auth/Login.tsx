@@ -16,28 +16,53 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
+import { useMutation } from "react-query";
+import { signInApi } from "../../redux/api/authentication.api";
+import { setUser } from "../../utils/extraFunction";
+import useToast from "../../hooks/useToastify";
+import Button from "../Button/Button";
+import Preloader from "../Preloader/Preloader";
 // styles here were copied from signups.styles.tsx and forms.styles.tsx
 // and then modified to fit the needs of this component
 
 
 const schema = yup.object({
   email: yup.string().email().required(),
-  full_name:yup.string().required(),
   password:yup.string().required(),
-  confirm_password:yup.string().oneOf([yup.ref('password')],'Passwords must match'),
-  phone:yup.number().min(11).required(),
 })
 
-type FormData = yup.InferType<typeof schema>;
+type LoginFormType = yup.InferType<typeof schema>;
 const Login = () => {
-  const navigate = useNavigate()
-  const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
+  const navigate = useNavigate();
+  const {notify} = useToast()
+  const {mutate,isLoading} = useMutation(signInApi,{
+    'onSuccess':(data)=>{
+      if(data.status == 200){
+        const user = setUser(data.data.tokens)
+        notify(`Welcome back ${user?.full_name}`,'success')
+        navigate('/jobs_list')
+      }
+    },
+    'onError':(error:any)=>{
+      const data:any = error.response.data
+      notify(data.message,'error')
+    }
+  })
+  const { register, handleSubmit, formState: { errors } } = useForm<LoginFormType>({
     resolver: yupResolver(schema)
   });
+
+  const onSubmit = (data: LoginFormType) =>{
+    console.log(data);
+    mutate(data)
+  } 
+  console.log({'foprm error':errors})
+
   return (
     <SignUpContainer>
       <SignUpWrapper>
         <img alt="logo" src={Logo} />
+        <Preloader loading={isLoading} />
         <FormContainer>
           <h2>Get Started</h2>
           <p>
@@ -45,11 +70,21 @@ const Login = () => {
           </p>
 
           <DecisionContainer>
-            <Form>
-              {/* <InputWithLabel 
-                  label="Email"
-              /> */}
-              
+            <Form onSubmit={handleSubmit(onSubmit)}>
+              <InputWithLabel 
+                  label="email"
+                  register={register('email')}
+                  errorMessage={errors.email?.message}
+              />
+               <InputWithLabel 
+                  label="password"
+                  register={register('password')}
+                  errorMessage={errors.password?.message}
+              />
+              <br />
+              <Button type="submit">
+                Login
+              </Button>
             </Form>
 
           </DecisionContainer>

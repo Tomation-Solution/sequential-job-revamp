@@ -24,12 +24,18 @@ export type StyleTpe =  {
   
 
 
-  export const getUser = ():UserType|null=>{
+ export const getUser = ():UserType|null=>{
     try{
-        const logged_in_user:UserType = jwt_decode(JSON.parse( localStorage.get('user')).access)
+      let data:any = localStorage.getItem('user')
+        const logged_in_user:UserType = jwt_decode(JSON.parse(data)?.access )
         return logged_in_user
     }catch(err:any){
         return null
     }
 
     }
+export const setUser = (data:{'refresh':string,'access':string})=>{
+    localStorage.setItem('user',JSON.stringify(data))
+
+  return getUser()
+}
