@@ -17,13 +17,16 @@ export default api
 api.interceptors.request.use(function (config:any) {
   // Do something before request is sent
   const path = window.location.pathname
-  let user = localStorage.get('user') 
+  let user:any = localStorage.getItem('user') 
 
-  if(!path.includes('/signin')&&!path.includes('/signup')
+  if(!path.includes('/login')&&!path.includes('/sign-up')
   &&!path.includes('/job_seeker_signup')&&!path.includes('/searchpage')
   ){
-    user = JSON.parse(user)
-    config['headers']={ 'Authorization':`Bearer ${user?.access}`}
+    if(user){
+      user = JSON.parse(user)
+      config['headers']={ 'Authorization':`Bearer ${user?.access}`}
+
+    }
 
   }
   return config;

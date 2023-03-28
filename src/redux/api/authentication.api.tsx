@@ -15,8 +15,13 @@ export type UserType = {
   'profile_image':string
 }
 
+type SigupJobSeekerResponse = {
+  "status": 201,
+  "message": string,
+  "data": any[]
+}
 
-export const signUpAsJobSeekerApi = async (data:signUpAsJobSeekerForm )=>{
+export const signUpAsJobSeekerApi = async (data:signUpAsJobSeekerForm ):Promise<SigupJobSeekerResponse>=>{
     const  resp = await api.post('/auth/create-seeker/',data)
     return resp.data
 }

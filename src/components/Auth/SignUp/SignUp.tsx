@@ -12,6 +12,11 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import Button from "../../Button/Button";
+import { useNavigate } from "react-router-dom";
+import { signUpAsJobSeekerApi } from "../../../redux/api/authentication.api";
+import { useMutation } from "react-query";
+import useToast from "../../../hooks/useToastify";
+import Preloader from "../../Preloader/Preloader";
 
 
 
@@ -21,7 +26,7 @@ const schema = yup.object({
   full_name:yup.string().required(),
   password:yup.string().required(),
   confirm_password:yup.string().oneOf([yup.ref('password')],'Passwords must match'),
-  phone:yup.number().min(11).required(),
+  phone_number:yup.number().min(11).required(),
 })
 
 export type signUpAsJobSeekerForm = yup.InferType<typeof schema>;
@@ -30,17 +35,34 @@ export type signUpAsJobSeekerForm = yup.InferType<typeof schema>;
 
 const SignUp = () => {
 
-
+  const navigate = useNavigate()
+  const {notify}= useToast()
+  const {mutate,isLoading} = useMutation(signUpAsJobSeekerApi,{
+    'onSuccess':(data)=>{
+      if(data.status ===201){
+        notify('acct created successfully please check your email for verification','success')
+        navigate('/login')
+      }
+    },
+    'onError':(error)=>{
+      console.log({'sever error':error})
+      notify('This email already exists try another','error')
+    }
+  })
   
   const { register, handleSubmit, formState: { errors } } = useForm<signUpAsJobSeekerForm>({
     resolver: yupResolver(schema)
   });
 
-  const onSubmit = (data: signUpAsJobSeekerForm) => console.log(data);
+  const onSubmit = (data: signUpAsJobSeekerForm) => {
+    console.log(data);
+    mutate(data)
+  }
   return (
     <SignUpContainer>
       <SignUpWrapper>
         <img alt="logo" src={Logo} />
+        <Preloader loading={isLoading} />
         <FormContainer>
           <h2>Sign Up</h2>
           <p>
@@ -67,8 +89,8 @@ const SignUp = () => {
 <InputWithLabel
               label="phone"
               style={{'margin':'10px 0'}}
-              register={register('phone')}
-              errorMessage={errors.phone?.message}
+              register={register('phone_number')}
+              errorMessage={errors.phone_number?.message}
               />
               <InputWithLabel
               label="password"
