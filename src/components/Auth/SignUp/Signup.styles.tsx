@@ -33,7 +33,7 @@ export const DecisionContainer = styled.div`
     }
   }
 
-  button {
+  /* button {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -54,7 +54,7 @@ export const DecisionContainer = styled.div`
       margin-left: 10px;
       width: 20px;
     }
-  }
+  } */
   ${tablet({
     p: {
       fontSize: "14px",
