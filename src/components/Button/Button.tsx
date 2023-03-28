@@ -9,6 +9,7 @@ export type ButtonProp =React.PropsWithChildren<{
   },
   onClick?:(e:React.MouseEvent<HTMLButtonElement>)=>void;
   isLoading?:boolean;
+  type?:"button" | "reset" | "submit" 
 }>
 
 
@@ -17,20 +18,20 @@ export type ButtonProp =React.PropsWithChildren<{
 //   'width'?:string,
 
 // }
-const Button = ({children,styleType='pry',isLoading=false,...rest}:ButtonProp):React.ReactElement=>{
+const Button = ({children,styleType='pry',isLoading=false,type='button',...rest}:ButtonProp):React.ReactElement=>{
 
 
   return (
     <ButtonStyle styleType={styleType} disabled={isLoading}   
-
     whileTap={{ scale: 0.9 }}
     animate={{
-    transition: {
+      transition: {
         type:'spring',
         stiffness:70
-    }
+      }
     }}
-      {...rest}>
+    type={type}
+    {...rest}>
       {isLoading?'Loading...':children}
     </ButtonStyle>
   )

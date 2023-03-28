@@ -19,7 +19,10 @@ import InterviewManagementCompletion from "./pages/InterviewManagement";
 import MedicalsListSubbmission from "./pages/MedicalsListSubbmission";
 import JobList from "./pages/JobList";
 import JobDetail from "./pages/JobDetail";
-// import AuthRoutes from "./components/Auth/AuthRoutes";
+import AuthRoutes from "./components/Auth/AuthRoutes";
+import SignUpRoutes from "./components/Auth/SignUp/SignUpRoutes";
+import Login from "./components/Auth/Login";
+import SignUp from "./components/Auth/SignUp/SignUp";
 
 function App() {
   return (
@@ -27,6 +30,9 @@ function App() {
       <ToastContainer />
       <BrowserRouter>
         <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/sign-up" element={<SignUp />} />
+        
           <Route element={<MainLayout />}>
             <Route
               path="/"
@@ -55,7 +61,7 @@ function App() {
             <Route path="/interview-completion" element={<InterviewManagementCompletion />} />
             <Route path="/medicals-list-subbmission" element={<MedicalsListSubbmission />} />
           </Route>
-          <Route path="*" element={<NotFound />} />
+          {/* <Route path="*" element={<NotFound />} /> */}
         </Routes>
       </BrowserRouter>
     </>

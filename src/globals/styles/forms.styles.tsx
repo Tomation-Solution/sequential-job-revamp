@@ -103,15 +103,16 @@ export const FormInput = styled.div`
   margin-bottom: 1em;
   width: auto;
   flex: 1;
-
+  position: relative;
   label {
     font-weight: 500;
     margin-bottom: 0.5em;
+    text-transform:capitalize;
   }
   input {
     padding: 1em;
     background: rgba(242, 238, 252, 0.39);
-    border: 1px solid ${seqBlue100};
+    border: 1px solid transparent;
     border-radius: 5px;
 
     outline: none;
@@ -132,6 +133,13 @@ export const FormInput = styled.div`
       outline: none;
     }
   }
+    svg{
+cursor: pointer ;
+  font-size: 1.5rem;
+  position: absolute;
+  left: 90%;
+  top: 50%;
+}
 
   ${mobile({
     width: "100%",
