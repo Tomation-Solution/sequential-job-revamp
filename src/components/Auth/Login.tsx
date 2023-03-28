@@ -40,7 +40,7 @@ const Login = () => {
       if(data.status == 200){
         const user = setUser(data.data.tokens)
         notify(`Welcome back ${user?.full_name}`,'success')
-        navigate('/')
+        navigate('/jobs_list')
       }
     },
     'onError':(error:any)=>{

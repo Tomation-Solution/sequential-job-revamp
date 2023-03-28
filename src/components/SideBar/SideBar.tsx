@@ -15,12 +15,14 @@ import FileOpenIcon from "@mui/icons-material/FileOpen";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import SettingsIcon from "@mui/icons-material/Settings";
 import LogoutIcon from "@mui/icons-material/Logout";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
   show?: boolean;
 };
 
 const SideBar: FC<Props> = ({ show }) => {
+  const navigate = useNavigate()
   return (
     <SideBarContainer show={show}>
       <SideLogo>
@@ -28,15 +30,15 @@ const SideBar: FC<Props> = ({ show }) => {
       </SideLogo>
 
       <SideBtnCon>
-        <SideBtn>
+        <SideBtn onClick={e=>navigate('/')}>
           <DashboardIcon />
           DashBoard
         </SideBtn>
-        <SideBtn>
+        <SideBtn onClick={e=>navigate('/jobs_list')}>
           <LibraryBooksIcon />
           Jobs
         </SideBtn>
-        <SideBtn>
+        <SideBtn onClick={e=>navigate('/cvmanagement')}>
           <ArrowUpwardIcon />
           CV Management
         </SideBtn>
