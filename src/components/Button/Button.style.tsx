@@ -29,6 +29,9 @@ ${(prop)=>{
     else if(prop.styleType ==='whiteBg'){
       style = `background-color: ${seqWhite};color: ${seqLightBlue};font-weight: 600;`
     }
+    else if(prop.styleType == 'danger'){
+      style = `background-color: crimson;color: white;font-weight: 600;`
+    }
     return style
   }};
   ${(props)=>createExternalStyle(props)}

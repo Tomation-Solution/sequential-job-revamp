@@ -80,6 +80,7 @@ const Login = () => {
                   label="password"
                   register={register('password')}
                   errorMessage={errors.password?.message}
+                  type='password'
               />
               <br />
               <Button type="submit">

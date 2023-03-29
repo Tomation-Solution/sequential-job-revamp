@@ -3,7 +3,7 @@ import {ButtonStyle} from './Button.style'
 
 
 export type ButtonProp =React.PropsWithChildren<{
-  'styleType'?:'pry'|'sec'|'whiteBg',
+  'styleType'?:'pry'|'sec'|'whiteBg'|'danger',
   'style'?:{
     [Key:string]:string,
   },
