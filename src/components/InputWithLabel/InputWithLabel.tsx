@@ -48,7 +48,7 @@ const InputWithLabel = ({style={}, type='text',errorMessage,label,placeholder=''
           !isTextArea?
           <input  type={decideType()} id={label}  placeholder={placeholder} {...register} />
         :
-        <textarea placeholder={placeholder}  id={label}>
+        <textarea placeholder={placeholder} id={label} {...register} >
 
         </textarea>
         }

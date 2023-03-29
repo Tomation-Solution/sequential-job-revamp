@@ -114,7 +114,7 @@ export const FormInput = styled.div`
     background: rgba(242, 238, 252, 0.39);
     border: 1px solid transparent;
     border-radius: 5px;
-
+    background-color: white;
     outline: none;
     &:focus {
       border: 2px solid ${seqLightBlue};
@@ -124,7 +124,8 @@ export const FormInput = styled.div`
 
   textarea {
     padding: 1em;
-    background: rgba(242, 238, 252, 0.39);
+    background-color: white;
+    /* background: rgba(242, 238, 252, 0.39); */
     border: 1px solid ${seqBlue100};
     border-radius: 5px;
     outline: none;
