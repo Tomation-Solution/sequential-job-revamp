@@ -1,16 +1,20 @@
 import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
-import JobCard from "../components/JobCard/JobCard"
-import Preloader from "../components/Preloader/Preloader"
-import useToast from "../hooks/useToastify";
-import { get_jobs_api } from "../redux/api/jobs.api";
-
+import JobCard from "../../components/JobCard/JobCard"
+import Preloader from "../../components/Preloader/Preloader"
+import useToast from "../../hooks/useToastify";
+import { get_jobs_api } from "../../redux/api/jobs.api";
+import { useMediaQuery } from 'react-responsive'
+import {JobListContainer} from './JobList.style'
 
 
 
 const JobList = ():React.ReactElement=>{
     const {notify} = useToast();
     const go = useNavigate()
+    const islaptop = useMediaQuery({
+      query: '(min-width: 800px)'
+    })
     const {status,error,data,isError,isLoading} = useQuery('jobs',()=>get_jobs_api({'is_active':true}),{
       retry:1,
       'onError':(err:any)=>{
@@ -26,18 +30,14 @@ const JobList = ():React.ReactElement=>{
      })
      console.log(data)
     return  (
-        <div style={{'display':'flex','justifyContent':'space-between',
-        'maxWidth':'1600px',
-        // 'border':'1px solid red',
-        'margin':'0 auto',
-        'flexWrap':'wrap'
-        }}>
+        <JobListContainer  >
     <Preloader loading={isLoading}/>
-
-            {[...new Array(20)].map((d,index)=>(
-                <JobCard key={index}/>
-            ))}
-        </div>
+    {
+      data?.map((job,index)=>(
+        <JobCard key={index} job={job} />
+      ))
+    }
+        </JobListContainer>
     )
 }
 

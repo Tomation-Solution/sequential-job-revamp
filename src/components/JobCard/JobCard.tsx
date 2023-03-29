@@ -3,31 +3,48 @@ import {FaMoneyBillWave} from 'react-icons/fa'
 import {IoBagSharp,IoSend} from 'react-icons/io5'
 import {BsHeart} from 'react-icons/bs'
 import {BsHeartFill} from 'react-icons/bs'
+import { JobType } from "../../redux/api/jobs.api"
+import Button from "../Button/Button"
+import { useNavigate } from "react-router-dom"
 
 
-const JobCard = ():React.ReactElement=>{
+
+type Prop ={
+  job:JobType
+}
+
+const JobCard = ({job}:Prop):React.ReactElement=>{
+  const navigate = useNavigate()
     return (
         <JobCardContainer>
         <div style={{'display':'flex','justifyContent':'space-between','alignItems':'center'}}>
             <h2>
-            Business Developer
+            {job.job_title}
             </h2>
             <BsHeartFill/>
         </div>
-        <h3><strong>ABC Limited</strong></h3>
-        <p>Lagos, Nigeria</p>
-      <div style={{'display':'flex','justifyContent':'space-between','alignItems':'center','width':'270px','margin':'.7rem 0'}}>
+        <h3><strong>{job.org_name}</strong></h3>
+        <p>{job.country},{job.location}</p>
+      <div style={{'display':'flex','justifyContent':'space-between','alignItems':'center',
+      'width':'100%','padding':'.7rem 0','flexWrap':'wrap',}}>
       <span>
         <IoBagSharp />
         {' '}
-        Full-time
+        {job.job_type.replace('_',' ').toUpperCase()}
+
         </span>
         <span>
-           <FaMoneyBillWave/>$97,000/year
+           <FaMoneyBillWave/>{' '}{job.currency}{job.salary}/year
         </span>
       </div>
-        <p><IoSend/>{' '} Apply from your phone</p>
-        <p><IoSend/>{' '} Hiring Multiple candidates</p>
+      <Button style={{'padding':'.3rem .9rem'}}
+      onClick={e=>{
+        e.preventDefault()
+        navigate('/job_detail')
+      }}
+      >Apply</Button>
+        {/* <p><IoSend/>{' '} Apply from your phone</p> */}
+        {/* <p><IoSend/>{' '} Hiring Multiple candidates</p> */}
     </JobCardContainer>
     )
 }

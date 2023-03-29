@@ -17,7 +17,7 @@ import Button from "./components/Button/Button";
 import MedicalsScheduleInfo from "./pages/MedicalsScheduleInfo";
 import InterviewManagementCompletion from "./pages/InterviewManagement";
 import MedicalsListSubbmission from "./pages/MedicalsListSubbmission";
-import JobList from "./pages/JobList";
+import JobList from "./pages/JobList/JobList";
 import JobDetail from "./pages/JobDetail";
 import AuthRoutes from "./components/Auth/AuthRoutes";
 import SignUpRoutes from "./components/Auth/SignUp/SignUpRoutes";
