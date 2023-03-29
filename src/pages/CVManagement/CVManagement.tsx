@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import {FaTrash} from 'react-icons/fa'
 import {
@@ -13,12 +13,14 @@ import { useForm ,useFieldArray} from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
-import { useMutation } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import useToast from "../../hooks/useToastify";
 import InputWithLabel from "../../components/InputWithLabel/InputWithLabel";
 import SelectWithLabel from "../../components/SelectWithLabel/SelectWithLabel";
 import Button from "../../components/Button/Button";
 import { useMediaQuery } from 'react-responsive'
+import { get_jobseerker_profile, updateCvApi } from "../../redux/api/authentication.api";
+import Preloader from "../../components/Preloader/Preloader";
 
 const schema = yup.object({
   personal_statement:yup.string().required(),
@@ -62,17 +64,34 @@ const schema = yup.object({
 
 
 })
-type CvManagementFormType =yup.InferType<typeof schema>;
+export type CvManagementFormType =yup.InferType<typeof schema>;
 const CVManagement = () => {
+  const queryClient = useQueryClient();
+
   const {notify} = useToast()
   const isBigScreen = useMediaQuery({
     query: '(min-width: 500px)'
   })
 
+  const { isLoading:loadingcv,data:mydata } = useQuery('mycv',get_jobseerker_profile)
+
+
   const { register, handleSubmit,control, setValue,formState: { errors } } = useForm<CvManagementFormType>({
     resolver: yupResolver(schema)
   });
 
+
+  const { mutate,isLoading} = useMutation(updateCvApi,{
+    'onSuccess':(data)=>{
+      console.log({'UpdateSuccess response':data})
+      queryClient.invalidateQueries("mycv")
+
+      notify('Update Success','success')
+    },
+    'onError':(err:any)=>{
+      console.log({'server eroor':err})
+    }
+  })
 
   const { fields:education__fields, append:education__append,remove:education__remove } = useFieldArray({
     control,
@@ -99,11 +118,40 @@ const CVManagement = () => {
 
   const onSubmit = (data: CvManagementFormType) =>{
     console.log({'form submission':data});
+    mutate(data)
   } 
   console.log({'form errors':errors})
+  
+  useEffect(()=>{
+    console.log(mydata)
+    const cvstructure = mydata?.user_extra.job_seakers
+    if(mydata){
+      setValue('phone_number',mydata.phone_number)
+
+    }
+    if(cvstructure){
+      setValue('personal_statement',cvstructure.cvStucture.personal_statement)
+      setValue('first_name',cvstructure.cvStucture.first_name)    
+      setValue('middle_name',cvstructure.cvStucture.middle_name)    
+      setValue('last_name',cvstructure.cvStucture.last_name)   
+      setValue('email',cvstructure.cvStucture.email) 
+      setValue('city',cvstructure.cvStucture.addresse) 
+      setValue('state',cvstructure.cvStucture.state) 
+      setValue('country_of_residence',cvstructure.cvStucture.country_of_residence) 
+      setValue('linkdin',cvstructure.cvStucture.linkdin) 
+      setValue('twitter',cvstructure.cvStucture.twitter) 
+      setValue('education',cvstructure.cvStucture.education) 
+      setValue('experience',cvstructure.cvStucture.experience) 
+      setValue('certification',cvstructure.cvStucture.certificaton) 
+      setValue('refrences',cvstructure.cvStucture.refrences) 
+      setValue('addresse',cvstructure.cvStucture.addresse) 
+    
+    }
+  },[mydata])
   return (
     <>
       <CVManagemntContainer>
+    <Preloader loading={isLoading||loadingcv}/>
         <CVManagementHeader>
           <h1>My CV</h1>
 
