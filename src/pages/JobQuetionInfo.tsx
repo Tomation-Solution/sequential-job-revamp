@@ -15,7 +15,7 @@ const JobQuetionInfo = ():React.ReactElement=>{
         title="Application Received"
         body="You are required to anwser some few Quetions."
          onClick={(e)=>{
-            navigate(`/job_detail/${jobid}/`)
+            navigate(`/filter_quetions/${jobid}/`)
          }}
          buttonName='Proceed'
          />

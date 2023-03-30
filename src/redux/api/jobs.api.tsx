@@ -86,3 +86,27 @@ export const getJobDetailApi = async (job_id:string):Promise<JobType>=>{
     const  resp = await api.get(`/jobs/job-seeker-view/${job_id}/`)
     return resp.data.data
 }
+
+type Prop ={
+    data:getCvFilterQuetionsResponse,
+    job_id:number
+    
+}
+
+type submitCvFilterQuetionsResponseType ={
+    'fillInTheGap_result':number,
+    'quetionOption_result':number,
+    'filterQuetionMultiChoiceQuetion':number,
+    'job_variant':'filter_only'|'filter_and_test'
+}
+export const submitCvFilterQuetions = async ({data,job_id}:Prop):Promise<submitCvFilterQuetionsResponseType>=>{
+    const senddata :any = {
+        'job_id':job_id,
+        'filter_quetion_option':data.filter_quetion_option,
+        'fill_in_the_gap':data.fill_in_the_gap,
+        'filter_quetion_multi_choice_quetion':data.filter_quetion_multi_choice_quetion
+    }
+    const resp =  await api.post(`/jobs/job-seeker-view/submit_quetion/`,senddata)
+    return resp.data.data[0]
+}
+

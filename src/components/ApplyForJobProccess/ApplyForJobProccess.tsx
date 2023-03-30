@@ -21,7 +21,7 @@ const ApplyForJobProccess =({job_id}:{job_id:string}):React.ReactElement=>{
         },
         'onError':(err:any)=>{
             console.log({err})
-            notify('you have applioed already','error')
+            notify('you have applied already','error')
 
         }
     })
@@ -43,7 +43,12 @@ const ApplyForJobProccess =({job_id}:{job_id:string}):React.ReactElement=>{
             <br />
             <br />
 
-            <div className="proccess_btn_container">
+            <div className="proccess_btn_container"
+            onClick={e=>{
+                e.preventDefault()
+            navigate(`/cvmanagement/`)
+            }}
+            >
                 <div className="proccess_btn">
                 <p>Update current CV </p>
 

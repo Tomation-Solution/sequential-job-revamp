@@ -30,7 +30,7 @@ const JobDetailComponent =():React.ReactElement=>{
         },
         'onError':(err:any)=>{
             console.log({err})
-            notify('you have applioed already','error')
+            notify('you have applied already','error')
 
         }
     })

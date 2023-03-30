@@ -28,6 +28,7 @@ import {
   QueryClientProvider,
 } from 'react-query';
 import JobQuetionInfo from "./pages/JobQuetionInfo";
+import CvFilterTest from "./pages/CvFilterTest/CvFilterTest";
 
 const queryClient = new QueryClient()
 
@@ -65,6 +66,8 @@ function App() {
 
             <Route path="/job_detail/:id/" element={<JobDetail />} />
             <Route path="/jobs_list" element={<JobList />} />
+            <Route path="/filter_quetions/:job_id/" element={<CvFilterTest/>} />
+            
             <Route path="/cvmanagement" element={<CVManagement />} />
             {/* ADD OTHER PATHS THAT SHOULD BE RENDERED WITH THE SIDEBAR HERE, ELSE DO SO OUTSIDE */}
             <Route path="/medicals-scheduleinfo" element={<MedicalsScheduleInfo />} />
