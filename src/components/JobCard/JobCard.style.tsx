@@ -11,6 +11,7 @@ export const JobCardContainer = styled.div`
     margin: 10px auto;
     /* width: 100%; */
     box-shadow:rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    max-width: 350px;
     h2 {
         font-weight:lighter;
         padding-bottom:.3rem;   

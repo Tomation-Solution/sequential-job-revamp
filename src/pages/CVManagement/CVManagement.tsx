@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import {FaTrash} from 'react-icons/fa'
 import {
@@ -13,12 +13,14 @@ import { useForm ,useFieldArray} from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
-import { useMutation } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import useToast from "../../hooks/useToastify";
 import InputWithLabel from "../../components/InputWithLabel/InputWithLabel";
 import SelectWithLabel from "../../components/SelectWithLabel/SelectWithLabel";
 import Button from "../../components/Button/Button";
-
+import { useMediaQuery } from 'react-responsive'
+import { get_jobseerker_profile, updateCvApi } from "../../redux/api/authentication.api";
+import Preloader from "../../components/Preloader/Preloader";
 
 const schema = yup.object({
   personal_statement:yup.string().required(),
@@ -62,15 +64,34 @@ const schema = yup.object({
 
 
 })
-type CvManagementFormType =yup.InferType<typeof schema>;
+export type CvManagementFormType =yup.InferType<typeof schema>;
 const CVManagement = () => {
+  const queryClient = useQueryClient();
+
   const {notify} = useToast()
+  const isBigScreen = useMediaQuery({
+    query: '(min-width: 500px)'
+  })
+
+  const { isLoading:loadingcv,data:mydata } = useQuery('mycv',get_jobseerker_profile)
 
 
   const { register, handleSubmit,control, setValue,formState: { errors } } = useForm<CvManagementFormType>({
     resolver: yupResolver(schema)
   });
 
+
+  const { mutate,isLoading} = useMutation(updateCvApi,{
+    'onSuccess':(data)=>{
+      console.log({'UpdateSuccess response':data})
+      queryClient.invalidateQueries("mycv")
+
+      notify('Update Success','success')
+    },
+    'onError':(err:any)=>{
+      console.log({'server eroor':err})
+    }
+  })
 
   const { fields:education__fields, append:education__append,remove:education__remove } = useFieldArray({
     control,
@@ -97,11 +118,40 @@ const CVManagement = () => {
 
   const onSubmit = (data: CvManagementFormType) =>{
     console.log({'form submission':data});
+    mutate(data)
   } 
+  console.log({'form errors':errors})
   
+  useEffect(()=>{
+    console.log(mydata)
+    const cvstructure = mydata?.user_extra.job_seakers
+    if(mydata){
+      setValue('phone_number',mydata.phone_number)
+
+    }
+    if(cvstructure){
+      setValue('personal_statement',cvstructure.cvStucture.personal_statement)
+      setValue('first_name',cvstructure.cvStucture.first_name)    
+      setValue('middle_name',cvstructure.cvStucture.middle_name)    
+      setValue('last_name',cvstructure.cvStucture.last_name)   
+      setValue('email',cvstructure.cvStucture.email) 
+      setValue('city',cvstructure.cvStucture.addresse) 
+      setValue('state',cvstructure.cvStucture.state) 
+      setValue('country_of_residence',cvstructure.cvStucture.country_of_residence) 
+      setValue('linkdin',cvstructure.cvStucture.linkdin) 
+      setValue('twitter',cvstructure.cvStucture.twitter) 
+      setValue('education',cvstructure.cvStucture.education) 
+      setValue('experience',cvstructure.cvStucture.experience) 
+      setValue('certification',cvstructure.cvStucture.certificaton) 
+      setValue('refrences',cvstructure.cvStucture.refrences) 
+      setValue('addresse',cvstructure.cvStucture.addresse) 
+    
+    }
+  },[mydata])
   return (
     <>
       <CVManagemntContainer>
+    <Preloader loading={isLoading||loadingcv}/>
         <CVManagementHeader>
           <h1>My CV</h1>
 
@@ -110,80 +160,84 @@ const CVManagement = () => {
           </button>
           {/* onSubmit={handleSubmit(onSubmit)} */}
         </CVManagementHeader>
-          <Form>
-            <CVManagemntPersonalStatement>
-                    <p>Personal Statement</p>
-                    <textarea placeholder="Write your personal statement here" />
+          <Form onSubmit={handleSubmit(onSubmit)}>
+                  <CVManagemntPersonalStatement>
+                          <InputWithLabel 
+                          isTextArea={true}
+                          register={register('personal_statement')}
+                          label={'Personal Statement'}
+                          />
                   </CVManagemntPersonalStatement>
                   {/* Personal info */}
                   <CVManagemntFormContainer>
-                    <FormSelect>
-                      <label>CV Template</label>
-                      <select>
-                        <option value="1">Template 1</option>
-                        <option value="2">Template 2</option>
-                        <option value="3">Template 3</option>
-                      </select>
-                    </FormSelect>
 
-                    <FormInput>
-                      <label>First Name</label>
-                      <input type="text" placeholder="First Name" />
-                    </FormInput>
+                      {/* <SelectWithLabel 
+                      label="CV Template"
+                      options={[
+                        {'label':'Template 1','value':'Template 1'},
+                        {'label':'Template 1','value':'Template 1'},
+                        {'label':'Template 1','value':'Template 1'},
+                        {'label':'Template 1','value':'Template 1'},
+                      ]}
+                      setValue={setValue}
+                      name={''}
+                      /> */}
+                      <InputWithLabel
+                      label="First Name"
+                      register={register('first_name')}
+                      />
 
-                    <FormInput>
-                      <label>Middle Name</label>
-                      <input type="text" placeholder="Middle Name" />
-                    </FormInput>
+                    <InputWithLabel
+                    label="Middle Name"
+                    register={register('middle_name')}
+                    />
 
-                    <FormInput>
-                      <label>Last Name</label>
-                      <input type="text" placeholder="Last Name" />
-                    </FormInput>
 
-                    <FormInput>
-                      <label>Phone Number</label>
-                      <input type="text" placeholder="Phone Number" />
-                    </FormInput>
+                    <InputWithLabel
+                    label={'Last Name'}
+                    register={register('last_name')}
+                    />
 
-                    <FormInput>
-                      <label>Email</label>
-                      <input type="text" placeholder="Email" />
-                    </FormInput>
 
-                    <FormInput>
-                      <label>Address</label>
-                      <input type="text" placeholder="Address" />
-                    </FormInput>
+                    <InputWithLabel
+                    label={'Phone Number'}
+                    register={register('phone_number')}
+                    />
+                    <InputWithLabel
+                    label={'Email'}
+                    register={register('email')}
+                    />
+                    <InputWithLabel
+                    label={'Address'}
+                    register={register('addresse')}
+                    />
+                    
+                    <InputWithLabel
+                    label={'City'}
+                    register={register('city')}
+                    />
+                    <InputWithLabel
+                    label={'State'}
+                    register={register('state')}
+                    />
 
-                    <FormInput>
-                      <label>City</label>
-                      <input type="text" placeholder="City" />
-                    </FormInput>
-
-                    <FormInput>
-                      <label>State</label>
-                      <input type="text" placeholder="State" />
-                    </FormInput>
-
-                    <FormSelect>
-                      <label>Country of Residence</label>
-                      <select>
-                        <option value="1">Country 1</option>
-                        <option value="2">Country 2</option>
-                        <option value="3">Country 3</option>
-                      </select>
-                    </FormSelect>
-
-                    <FormInput>
-                      <label>LinkedIn</label>
-                      <input type="text" placeholder="LinkedIn" />
-                    </FormInput>
-
-                    <FormInput>
-                      <label>Twitter</label>
-                      <input type="text" placeholder="Twitter" />
-                    </FormInput>
+                    <SelectWithLabel
+                    setValue={setValue}
+                    label={'Country of Residence'}
+                    options={[
+                      {'label':'lagos','value':'lagos'},
+                      {'label':'Abuja','value':'Abuja'},
+                    ]}
+                    name={'country_of_residence'}
+                    />
+                    <InputWithLabel
+                    label="linkedin"
+                    register={register('linkdin')}
+                    />
+                    <InputWithLabel
+                    label="Twitter"
+                    register={register('twitter')}
+                    />
 
                     {/* Sections  */}
                   </CVManagemntFormContainer>
@@ -307,6 +361,15 @@ const CVManagement = () => {
                         placeholder="Responsibilities"
                         register={register(`experience.${index}.responsibilities`)}
                         />
+
+<Button styleType="danger"
+                        style={{'padding':'.8rem','alignSelf':'center'}}
+                        onClick={e=>{
+                         experience__remove(index)
+                        }}
+                        >
+                          <FaTrash />
+                        </Button>
                       </div>
                       ))
                     }
@@ -348,6 +411,16 @@ const CVManagement = () => {
                         placeholder="issuer"
                         register={register(`certification.${index}.issuer`)}
                         />
+
+
+                          <Button styleType="danger"
+                          style={{'padding':'.8rem','alignSelf':'center'}}
+                          onClick={e=>{
+                          certification__remove(index)
+                          }}
+                          >
+                          <FaTrash />
+                          </Button>
                       </div>
                       ))
                     }
@@ -393,7 +466,7 @@ const CVManagement = () => {
   <InputWithLabel
   label="Email"
   placeholder="john@gmail.com"
-  register={register(`refrences.${index}.relationship`)}
+  register={register(`refrences.${index}.email`)}
   />    
     <InputWithLabel
   label="Phone Number"
@@ -402,6 +475,14 @@ const CVManagement = () => {
   />       
 
                      
+<Button styleType="danger"
+                          style={{'padding':'.8rem','alignSelf':'center'}}
+                          onClick={e=>{
+                            refrences__remove(index)
+                          }}
+                          >
+                          <FaTrash />
+                          </Button>
                       </div>
                       ))
                     }
@@ -418,6 +499,18 @@ const CVManagement = () => {
                       <AddCircleIcon />
                     </button>
                   </CVManagemntSection>
+
+
+                  <br />
+              <Button 
+              style={isBigScreen?{
+                width:'200px',margin:'40px auto'
+                
+              }:{width:'100%',margin:'40px auto'}}
+              type="submit">
+                Update
+              </Button>
+
             </Form>
       </CVManagemntContainer>
     </>

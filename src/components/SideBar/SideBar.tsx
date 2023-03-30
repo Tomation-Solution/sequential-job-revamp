@@ -42,7 +42,7 @@ const SideBar: FC<Props> = ({ show }) => {
           <ArrowUpwardIcon />
           CV Management
         </SideBtn>
-        <SideBtn>
+        <SideBtn onClick={e=>navigate('/test-management')}>
           <QuizIcon />
           Test Management
         </SideBtn>
