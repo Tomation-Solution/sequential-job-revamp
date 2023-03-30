@@ -1,4 +1,7 @@
 import React, { FC } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { TestPreviewType } from "../../../redux/api/jobs.api";
+import Button from "../../Button/Button";
 import { TestManagementContentContainer } from "./TestManagementContent.styles";
 
 type Props = {
@@ -6,12 +9,15 @@ type Props = {
   testDate: string;
 };
 
-const TestManagementContent: FC<Props> = ({ testDetails, testDate }) => {
+const TestManagementContent= (data:TestPreviewType):React.ReactElement => {
+  const navigate = useNavigate()
   return (
     <TestManagementContentContainer>
-      <button>Take Test</button>
-      <p>{testDetails}</p>
-      <h5>{testDate}</h5>
+      <Button onClick={e=>{
+        navigate(`/test-management/taking_test/${data.id}`)
+      }}>Take Test</Button>
+      <p>{data.job_title}</p>
+      <h5>{data?.test_info?.org_name}</h5>
     </TestManagementContentContainer>
   );
 };
