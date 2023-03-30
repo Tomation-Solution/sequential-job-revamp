@@ -18,7 +18,7 @@ import MedicalsScheduleInfo from "./pages/MedicalsScheduleInfo";
 import InterviewManagementCompletion from "./pages/InterviewManagement";
 import MedicalsListSubbmission from "./pages/MedicalsListSubbmission";
 import JobList from "./pages/JobList/JobList";
-import JobDetail from "./pages/JobDetail";
+import JobDetail from "./pages/JobDetail/JobDetail";
 import AuthRoutes from "./components/Auth/AuthRoutes";
 import SignUpRoutes from "./components/Auth/SignUp/SignUpRoutes";
 import Login from "./components/Auth/Login";
@@ -27,6 +27,7 @@ import {
   QueryClient,
   QueryClientProvider,
 } from 'react-query';
+import JobQuetionInfo from "./pages/JobQuetionInfo";
 
 const queryClient = new QueryClient()
 
@@ -58,9 +59,11 @@ function App() {
             <Route path="/interviews" element={<InterviewManagement />} />
             {/* ESPECIALLY THE JOBS COMPONENT */}
             <Route path="/jobs" element={<Jobs />} />
+            <Route path="/job-quetion-info/:jobid" element={<JobQuetionInfo />} />
+            
             {/*ELIJAHS REUSABLE COMPONENTS || LOOK AT THEM */}
 
-            <Route path="/job_detail" element={<JobDetail />} />
+            <Route path="/job_detail/:id/" element={<JobDetail />} />
             <Route path="/jobs_list" element={<JobList />} />
             <Route path="/cvmanagement" element={<CVManagement />} />
             {/* ADD OTHER PATHS THAT SHOULD BE RENDERED WITH THE SIDEBAR HERE, ELSE DO SO OUTSIDE */}

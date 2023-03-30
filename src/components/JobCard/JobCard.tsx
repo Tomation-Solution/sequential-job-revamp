@@ -40,9 +40,9 @@ const JobCard = ({job}:Prop):React.ReactElement=>{
       <Button style={{'padding':'.3rem .9rem'}}
       onClick={e=>{
         e.preventDefault()
-        navigate('/job_detail')
+        navigate(`/job_detail/${job.id}/`)
       }}
-      >Apply</Button>
+      >View</Button>
         {/* <p><IoSend/>{' '} Apply from your phone</p> */}
         {/* <p><IoSend/>{' '} Hiring Multiple candidates</p> */}
     </JobCardContainer>

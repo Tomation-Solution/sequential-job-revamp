@@ -5,7 +5,7 @@ export const JobDetailComponentContainer= styled.div`
   color:black;
   padding:0 .5rem;
   /* background-color:white; */
-
+text-align: center;
 
   @media screen and (min-width: 500px) {
     text-align:center;

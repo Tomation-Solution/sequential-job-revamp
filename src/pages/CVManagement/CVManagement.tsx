@@ -208,7 +208,7 @@ const CVManagement = () => {
                     register={register('email')}
                     />
                     <InputWithLabel
-                    label={'Addresse'}
+                    label={'Address'}
                     register={register('addresse')}
                     />
                     
@@ -231,7 +231,7 @@ const CVManagement = () => {
                     name={'country_of_residence'}
                     />
                     <InputWithLabel
-                    label="Linkdin"
+                    label="linkedin"
                     register={register('linkdin')}
                     />
                     <InputWithLabel

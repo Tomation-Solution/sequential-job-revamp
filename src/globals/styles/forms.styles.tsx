@@ -112,9 +112,9 @@ export const FormInput = styled.div`
   input {
     padding: 1em;
     background: rgba(242, 238, 252, 0.39);
-    border: 1px solid transparent;
+    border: 1px solid gray;
     border-radius: 5px;
-    background-color: white;
+    /* background-color: white; */
     outline: none;
     &:focus {
       border: 2px solid ${seqLightBlue};
