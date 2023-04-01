@@ -20,10 +20,11 @@ const MedicalsContent: FC<Props> = ({ testDate, testDetails, time ,data}) => {
         {time ? <MedicalsRedBtn>{time}</MedicalsRedBtn> : null}
         <button onClick={e=>{
           navigate(`/register-interview/${data.id}/${data.interview.interview_id}/`)
-        }}>Take Test</button>
+        }}>View Interview</button>
       </MedicalsBtnContainer>
-      <p>{testDetails}</p>
-      <h5>{testDate}</h5>
+      <p><strong>Job title</strong>:{' '}{data.interview.job_title}</p>
+      <p><strong>Company</strong>:{' '}{data.interview.company}</p>
+      {/* <h5>{testDate}</h5> */}
     </TestManagementContentContainer>
   );
 };

@@ -6,7 +6,8 @@ export type JobSeerkerInterviewType =  {
     "job_seeker": number,
     "interview": {
         "job_title":string,
-        "interview_id": number
+        "interview_id": number,
+        'company':string,
     },
     "id": number
 }
@@ -28,7 +29,10 @@ export type JobSeekerInterviewType ={
                 "available_time":string,
                 "is_selected"?: boolean
             }[]
-        }
+        },
+        'interview_link':string,
+        'is_time_for_interview':boolean,
+        'has_picked_invitation':boolean
     },
     "date_picked": string,
     "time_picked": string
