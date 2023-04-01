@@ -31,6 +31,7 @@ import JobQuetionInfo from "./pages/JobQuetionInfo";
 import CvFilterTest from "./pages/CvFilterTest/CvFilterTest";
 import JobTestPage from "./pages/JobTestPage/JobTestPage";
 import JobSeekerRegisterForInterview from "./pages/JobSeekerRegisterForInterview";
+import DocumentManagent from "./pages/DocumentManagent/DocumentManagent";
 
 const queryClient = new QueryClient()
 
@@ -65,7 +66,7 @@ function App() {
             {/* ESPECIALLY THE JOBS COMPONENT */}
             <Route path="/jobs" element={<Jobs />} />
             <Route path="/job-quetion-info/:jobid" element={<JobQuetionInfo />} />
-            
+            <Route path="/document_managent" element={<DocumentManagent/>} />
             {/*ELIJAHS REUSABLE COMPONENTS || LOOK AT THEM */}
 
             <Route path="/job_detail/:id/" element={<JobDetail />} />

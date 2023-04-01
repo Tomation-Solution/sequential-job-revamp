@@ -9,7 +9,8 @@ export type ButtonProp =React.PropsWithChildren<{
   },
   onClick?:(e:React.MouseEvent<HTMLButtonElement>)=>void;
   isLoading?:boolean;
-  type?:"button" | "reset" | "submit" 
+  type?:"button" | "reset" | "submit";
+  disabled?:boolean
 }>
 
 
