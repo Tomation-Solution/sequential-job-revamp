@@ -7,9 +7,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { applyForJobsApi, getCvFilterQuetions, getJobDetailApi } from '../../redux/api/jobs.api';
 import Preloader from '../Preloader/Preloader';
 import useToast from '../../hooks/useToastify';
-/* @ts-ignore */
-// import Editor from 'react-medium-editor';
- 
+
 
 const JobDetailComponent =():React.ReactElement=>{
     const {id} = useParams()
