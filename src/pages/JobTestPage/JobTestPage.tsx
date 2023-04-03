@@ -1,16 +1,14 @@
-import React, { useEffect, useState } from "react";
+import { ReactElement, useEffect } from "react";
 import { useForm, useFieldArray, useWatch, Control } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import { useNavigate, useParams } from "react-router-dom";
-import { getCvFilterQuetions, submitCvFilterQuetions } from "../../redux/api/jobs.api";
-import { useMutation, useQuery,QueryClient } from "react-query";
 import useToast from "../../hooks/useToastify";
+import { useMutation, useQuery } from "react-query";
+import { getJobTest, submitJobTestQuetion } from "../../redux/api/jobs.api";
 import Preloader from "../../components/Preloader/Preloader";
 import Button from "../../components/Button/Button";
 import InputWithLabel from "../../components/InputWithLabel/InputWithLabel";
-
-
 
 export type FillInTheGapTakeTestType = {
     'id':number;
@@ -33,7 +31,6 @@ export type CvFilterTestType ={
         'quetion':string;
     }[]
 }
-
 const schema = yup.object({
     'fill_in_the_gap':yup.array().of(yup.object({
         quetion:yup.string(),
@@ -56,45 +53,26 @@ const schema = yup.object({
 
 })
 
-const queryClient = new QueryClient()
 
-export const CvFilterTest = ():React.ReactElement=>{
-
+const JobTestPage = ():ReactElement=>{
+    
+    const navigate = useNavigate();
     const {notify} = useToast()
-    const navigate = useNavigate()
-    const {job_id} =useParams()
-    const [numOfQuetions,setNumOfQuetions] =useState(0)
-    const { register,control,setValue, watch,handleSubmit,formState: { errors } } = useForm<CvFilterTestType>({
-        resolver: yupResolver(schema),
-      mode: "onBlur"
-    });
-    const [listofQuetions,setListofQuetions] = useState<any>()
-
-    const {data,isLoading,status} = useQuery('cv_filter',()=>getCvFilterQuetions(typeof job_id=='string'?job_id:'-',),{
+    const {job_id} = useParams()
+    // const [finalData ,setFinalData] = useState<CvFilterTestType>({} as CvFilterTestType );
+    const {status,isLoading,data} = useQuery('get_job_test',()=>getJobTest(typeof job_id=='string'?job_id:'-'),{
         onSuccess:(data)=>{
             console.log({'data Gotten':data})
         },
         'onError':(error)=>{
-             
-        },enabled:typeof job_id == 'string'?true:false
+        },enabled:typeof job_id=='string'?true:false
     })
 
-
-    
-    const {mutate:submitQUetions,isLoading:submitting} = useMutation(submitCvFilterQuetions,{
+    const {mutate:submitQUetions,isLoading:submitting} = useMutation(submitJobTestQuetion,{
         'onSuccess':(data)=>{
             notify('Submitted','success')
-            let has_test = 'no'
-            if(data.job_variant=='filter_and_test'){
-                notify('please check you test managent dashboard you have pending test to write','success')
-                queryClient.invalidateQueries('list_of_undonetest')
-                navigate('/test-management')
-            }else{
-                navigate('/jobs_list')
-            notify('your application has been recived','success')
-                
-            }
-            // navigate(`notice/${has_test}/`)
+            navigate('/test-management')
+            // v(`/job_seeker/test_quetion/notice/`)
         },
         'onError':(err)=>{
             notify('Error!','error')
@@ -102,6 +80,14 @@ export const CvFilterTest = ():React.ReactElement=>{
         }
     })
 
+
+
+
+
+    const { register,control,setValue, watch,handleSubmit,formState: { errors } } = useForm<CvFilterTestType>({
+        resolver: yupResolver(schema),
+      mode: "onBlur"
+    });
 
     const {fields,} = useFieldArray({
         name:'fill_in_the_gap',control
@@ -126,56 +112,38 @@ export const CvFilterTest = ():React.ReactElement=>{
         }
     }
 
-  
-
-
     useEffect(()=>{
         if(status==='success'){
-            if(data.fill_in_the_gap){
-                setValue('fill_in_the_gap',data.fill_in_the_gap.map((data)=>{
-                            return {
-                                'answer':'',
-                                'id':data.id,
-                                'quetion':data.quetion
-                            }
-                        }))
-            }
-            if(data.filter_quetion_option){
-                setValue('filter_quetion_option',data.filter_quetion_option.map((data)=>{
-                    return {
-                        'id':data.id,
-                        'quetion':data.quetion,
-                        'option_to_choose_from':data.option_to_choose_from,
-                        'answer':''
-                    }
-                }))
-            }
-            if(data.filter_quetion_multi_choice_quetion){
-                setValue('filter_quetion_multi_choice_quetion',data.filter_quetion_multi_choice_quetion.map((data)=>{
-                    return {
-                        'id':data.id,
-                        'quetion':data.quetion,
-                        'option_to_choose_from':data.option_to_choose_from,
-                        'answer':[]
-                    }
-                }))
-            }
-
-            // here we going to update the numOfQuetions
-            setNumOfQuetions(
-                data.fill_in_the_gap.length+ 
-                data.filter_quetion_option.length+ 
-                data.filter_quetion_multi_choice_quetion.length
-            )
-
-
-
+            setValue('fill_in_the_gap',data.fill_in_the_gap.map((data)=>{
+                        return {
+                            'answer':'',
+                            'id':data.id,
+                            'quetion':data.quetion
+                        }
+                    }))
+            setValue('filter_quetion_option',data.filter_quetion_option.map((data)=>{
+                return {
+                    'id':data.id,
+                    'quetion':data.quetion,
+                    'option_to_choose_from':data.option_to_choose_from,
+                    'answer':''
+                }
+            }))
+            setValue('filter_quetion_multi_choice_quetion',data.filter_quetion_multi_choice_quetion.map((data)=>{
+                return {
+                    'id':data.id,
+                    'quetion':data.quetion,
+                    'option_to_choose_from':data.option_to_choose_from,
+                    'answer':[]
+                }
+            }))
         }
     },[status])
-    console.log({errors})
     return (
         <div>
             <Preloader loading={isLoading||submitting}/>
+
+
 
             <form
                    onSubmit={handleSubmit(onSubmit)}
@@ -240,8 +208,10 @@ export const CvFilterTest = ():React.ReactElement=>{
             <br />
            </div>
             </form>
+
+
         </div>
     )
 }
 
-export default CvFilterTest
+export default JobTestPage

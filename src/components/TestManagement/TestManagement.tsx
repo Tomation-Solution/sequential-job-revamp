@@ -1,4 +1,7 @@
 import React from "react";
+import { useQuery } from "react-query";
+import { listOfTestApi } from "../../redux/api/jobs.api";
+import Preloader from "../Preloader/Preloader";
 import {
   TestManagementContainer,
   TestManagementSubCon,
@@ -6,16 +9,18 @@ import {
 import TestManagementContent from "./TestManagementContent/TestManagementContent";
 
 const TestManagement = () => {
+  // listOfTestApi
+  const  {data,isLoading} = useQuery('list_of_undonetest',listOfTestApi,{'refetchOnWindowFocus':false})
+  console.log({data})
   return (
     <TestManagementContainer>
       <h1>Test Schedules</h1>
-
+      <Preloader loading={isLoading} />
       <TestManagementSubCon>
-        {[1, 2, 3, 4, 5].map((item) => (
+        {data?.map((item,index) => (
           <TestManagementContent
-            key={item}
-            testDetails="Interview with Elijah Papi for the position of Software Engineer"
-            testDate="20 March 2023, 14:15 - 15:30 "
+            key={index}
+            {...item}
           />
         ))}
       </TestManagementSubCon>

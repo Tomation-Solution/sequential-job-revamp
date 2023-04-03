@@ -7,7 +7,7 @@ type Props = {
 };
 
 export const JobsSlidesContainer = styled.div`
-  width: 500px;
+  width: 100%;
   position: fixed;
   top: 0;
   right: 0;
@@ -17,15 +17,13 @@ export const JobsSlidesContainer = styled.div`
   padding: 30px;
   overflow-y: auto;
 
-  ${tablet({
-    width: "80%",
-  })}
+  
 
   h1 {
     font-size: 25px;
     font-weight: 400;
     margin: 20px 0px;
-    text-align: center;
+    text-align: left;
   }
   p {
     line-height: 25px;

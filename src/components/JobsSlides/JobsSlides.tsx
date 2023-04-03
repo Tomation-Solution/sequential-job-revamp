@@ -8,6 +8,8 @@ import {
   JobTestExtra,
 } from "./JobsSlides.styles";
 import AttachmentIcon from "@mui/icons-material/Attachment";
+import Button from "../Button/Button";
+import JobsUploadComponent from "../JobsUploadComponent/JobsUploadComponent";
 
 export const JobsAcceptSlides = () => {
   return (
@@ -49,14 +51,12 @@ export const JobsRejectSlides = () => {
       <h1>Please, Upload the following documents for confirmation purpose</h1>
 
       {[...Array(5)].map((item, index) => (
-        <JobsUploadCon key={index}>
-          <p>Upload membership cert for both companies</p>
-          <AttachmentIcon />
-        </JobsUploadCon>
+        <JobsUploadComponent key={index}/>
       ))}
-      <JobBtnCon>
-        <JobBtn darken={true}>Complete</JobBtn>
-      </JobBtnCon>
+     
+     <Button type="submit" style={{'margin':'0 auto'}}>
+      Submit
+     </Button>
     </JobsSlidesContainer>
   );
 };

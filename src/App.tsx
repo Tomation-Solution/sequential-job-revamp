@@ -29,6 +29,9 @@ import {
 } from 'react-query';
 import JobQuetionInfo from "./pages/JobQuetionInfo";
 import CvFilterTest from "./pages/CvFilterTest/CvFilterTest";
+import JobTestPage from "./pages/JobTestPage/JobTestPage";
+import JobSeekerRegisterForInterview from "./pages/JobSeekerRegisterForInterview";
+import DocumentManagent from "./pages/DocumentManagent/DocumentManagent";
 
 const queryClient = new QueryClient()
 
@@ -52,16 +55,18 @@ function App() {
             />
             {/*ELIJAHS REUSABLE COMPONENTS || LOOK AT THEM */}
             <Route path="/test-management" element={<TestManagement />} />
+            <Route path="/test-management/taking_test/:job_id" element={<JobTestPage/>} />
             <Route path="/take-test" element={<TakeTest />} />
             <Route path="/test" element={<Tests />} />
             <Route path="/test-submitted" element={<TestSubmitted />} />
             <Route path="/medicals" element={<Medicals />} />
             <Route path="/medicals-invite" element={<MedicalsInvitation />} />
             <Route path="/interviews" element={<InterviewManagement />} />
+            <Route path="/register-interview/:interview_invite_id/:interview_id/" element={<JobSeekerRegisterForInterview />} />
             {/* ESPECIALLY THE JOBS COMPONENT */}
             <Route path="/jobs" element={<Jobs />} />
             <Route path="/job-quetion-info/:jobid" element={<JobQuetionInfo />} />
-            
+            <Route path="/document_managent" element={<DocumentManagent/>} />
             {/*ELIJAHS REUSABLE COMPONENTS || LOOK AT THEM */}
 
             <Route path="/job_detail/:id/" element={<JobDetail />} />
@@ -73,6 +78,8 @@ function App() {
             <Route path="/medicals-scheduleinfo" element={<MedicalsScheduleInfo />} />
             <Route path="/interview-completion" element={<InterviewManagementCompletion />} />
             <Route path="/medicals-list-subbmission" element={<MedicalsListSubbmission />} />
+            <Route path="/medicals-list-subbmission" element={<MedicalsListSubbmission />} />
+
           </Route>
           {/* <Route path="*" element={<NotFound />} /> */}
         </Routes>

@@ -12,7 +12,7 @@ const JobQuetionInfo = ():React.ReactElement=>{
         'justifyContent':'center','flexDirection':'column',
         'height':'80vh',}}>
         <Greetings
-        title="Application Received"
+        title="Application Sent"
         body="You are required to anwser some few Quetions."
          onClick={(e)=>{
             navigate(`/filter_quetions/${jobid}/`)

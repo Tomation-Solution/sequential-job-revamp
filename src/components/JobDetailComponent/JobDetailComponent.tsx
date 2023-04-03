@@ -2,14 +2,12 @@ import {AiOutlineHeart} from 'react-icons/ai'
 import {ImDownload2} from 'react-icons/im'
 import Button from '../Button/Button'
 import { JobDetailComponentContainer ,JobTitleContainer, MoreDetailInfo} from './JobDetailComponent.style'
-/* @ts-ignore */
-import Editor from 'react-medium-editor';
 import { useMutation, useQuery } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 import { applyForJobsApi, getCvFilterQuetions, getJobDetailApi } from '../../redux/api/jobs.api';
 import Preloader from '../Preloader/Preloader';
 import useToast from '../../hooks/useToastify';
- 
+
 
 const JobDetailComponent =():React.ReactElement=>{
     const {id} = useParams()
@@ -74,12 +72,12 @@ const JobDetailComponent =():React.ReactElement=>{
             <h2 style={{'color':'#24CDE2','padding':'1rem 0',fontWeight: 400}}>Job Description</h2>
             <br /><br />
             <div style={{'textAlign':'center','overflow':'scroll','padding':'0 1rem','color':'black'}}>
-            <Editor
+            {/* <Editor
           text={job?.description_content.replaceAll('"',' ')}
           options={{
             'disableEditing':true
           }}
-        /> 
+        />  */}
             </div>
             <br /><br />
           

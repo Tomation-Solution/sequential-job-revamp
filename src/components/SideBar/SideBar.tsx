@@ -46,11 +46,13 @@ const SideBar: FC<Props> = ({ show }) => {
           <QuizIcon />
           Test Management
         </SideBtn>
-        <SideBtn>
+        <SideBtn onClick={e=>{
+        navigate('/interviews')
+        }}>
           <ImportContactsIcon />
           Interview Management
         </SideBtn>
-        <SideBtn>
+        <SideBtn  onClick={e=>navigate('/document_managent')}>
           <FileOpenIcon />
           Documentation Management
         </SideBtn>
