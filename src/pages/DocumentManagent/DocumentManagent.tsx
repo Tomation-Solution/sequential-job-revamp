@@ -15,7 +15,7 @@ const DocumentManagent = ():React.ReactElement=>{
     // getApplicationListApi
     const {notify} = useToast();
     const [isOpen, setIsOpen] = useState(false);
-    const {isLoading,data} = useQuery('docs_application_list',getApplicationListApi,)
+    const {isLoading,data} = useQuery('docs_application_list',()=>getApplicationListApi({}),)
     const {mutate,isLoading:accepting_jobs} =useMutation(acceptJobApplication,{
         'onSuccess':()=>{
             notify('Accepted we would get back to you please upload "Required Docs" ','success')

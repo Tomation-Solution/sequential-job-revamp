@@ -32,12 +32,15 @@ import CvFilterTest from "./pages/CvFilterTest/CvFilterTest";
 import JobTestPage from "./pages/JobTestPage/JobTestPage";
 import JobSeekerRegisterForInterview from "./pages/JobSeekerRegisterForInterview";
 import DocumentManagent from "./pages/DocumentManagent/DocumentManagent";
-
+import Dashboard from "./pages/dashboard";
+import { store } from './redux/store'
+import { Provider } from 'react-redux'
 const queryClient = new QueryClient()
 
 
 function App() {
   return (
+    <Provider store={store}>
 <QueryClientProvider client={queryClient}>
       <ToastContainer />
       <BrowserRouter>
@@ -48,10 +51,9 @@ function App() {
           <Route element={<MainLayout />}>
             <Route
               path="/"
-              element={<h1>HELLO WORLD, TYPE THIS PATH IN THE URL "/path"
-                <Button  styleType="sec">Hello world</Button>
-
-              </h1>}
+              element={
+                <Dashboard />
+              }
             />
             {/*ELIJAHS REUSABLE COMPONENTS || LOOK AT THEM */}
             <Route path="/test-management" element={<TestManagement />} />
@@ -85,6 +87,7 @@ function App() {
         </Routes>
       </BrowserRouter>
       </QueryClientProvider>
+      </Provider>
   );
 }
 

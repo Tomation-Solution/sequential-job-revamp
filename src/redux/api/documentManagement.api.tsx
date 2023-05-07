@@ -17,8 +17,8 @@ export type getApplicationListApiResponse = {
     "accept_application": boolean,
     "final_selection_state": "selected" |'in_view' | 'not_selected' | 'idle'
 }
-export const getApplicationListApi= async ():Promise<getApplicationListApiResponse[]>=>{
-    const resp = await api.get('/jobs/jobseeker-application-process/');
+export const getApplicationListApi= async ({status}:{status?:getApplicationListApiResponse['final_selection_state']}):Promise<getApplicationListApiResponse[]>=>{
+    const resp = await api.get(`/jobs/jobseeker-application-process/?final_selection_state=${status?status:''}`);
     return resp.data.data
 }
 

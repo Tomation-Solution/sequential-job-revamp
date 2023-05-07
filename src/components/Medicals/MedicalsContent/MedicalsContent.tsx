@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { JobSeerkerInterviewType } from "../../../redux/api/jobSeekerInterview.api";
 import { TestManagementContentContainer } from "../../TestManagement/TestManagementContent/TestManagementContent.styles";
 import { MedicalsBtnContainer, MedicalsRedBtn } from "./MedicalsContent.styles";
-
+import moment from 'moment'
 type Props = {
   time?: string;
   testDetails: string;
@@ -17,14 +17,14 @@ const MedicalsContent: FC<Props> = ({ testDate, testDetails, time ,data}) => {
   return (
     <TestManagementContentContainer>
       <MedicalsBtnContainer>
-        {time ? <MedicalsRedBtn>{time}</MedicalsRedBtn> : null}
+        {time ? <MedicalsRedBtn>{moment(time).fromNow()}</MedicalsRedBtn> : null}
         <button onClick={e=>{
           navigate(`/register-interview/${data.id}/${data.interview.interview_id}/`)
         }}>View Interview</button>
       </MedicalsBtnContainer>
       <p><strong>Job title</strong>:{' '}{data.interview.job_title}</p>
       <p><strong>Company</strong>:{' '}{data.interview.company}</p>
-      {/* <h5>{testDate}</h5> */}
+      <h5>{moment(testDate).format('LLLL')}</h5>
     </TestManagementContentContainer>
   );
 };

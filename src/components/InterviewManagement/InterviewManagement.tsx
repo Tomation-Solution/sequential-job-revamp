@@ -9,6 +9,7 @@ import {
   TestManagementContainer,
   TestManagementSubCon,
 } from "../TestManagement/TestManagement.style";
+import dayjs from "dayjs";
 
 const InterviewManagement = () => {
   
@@ -25,10 +26,10 @@ const InterviewManagement = () => {
         {data?.map((item,index) => (
           <MedicalsContent
             key={index}
-            time="."
+            time={`${item.date_picked} ${item.time_picked}`}
             data={item}
-            testDetails={` You Have Been Invite For this job "${item.interview.job_title}"`}
-            testDate="20 March 2023, 14:15 - 15:30 "
+            testDetails={` You Have Beenx Invite For this job "${item.interview.job_title}"`}
+            testDate={item.date_picked}
           />
         ))}
       </TestManagementSubCon>
