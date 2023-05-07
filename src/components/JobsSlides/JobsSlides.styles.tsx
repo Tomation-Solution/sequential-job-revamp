@@ -52,7 +52,7 @@ export const JobBtn = styled.button<Props>`
     props.darken ? `${seqLightBlue}` : `${seqWhite}`};
 `;
 
-export const JobsUploadCon = styled.div`
+export const JobsUploadCon = styled.label<any>`
   border-radius: 10px;
   background-color: #d3d3d3;
   color: ${seqBlue100};
@@ -61,7 +61,9 @@ export const JobsUploadCon = styled.div`
   align-items: center;
   justify-content: space-between;
   margin: 20px 0px;
-
+ input{
+  /* display: none; */
+ }
   p {
     margin: 0;
   }

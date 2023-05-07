@@ -27,3 +27,15 @@ export const acceptJobApplication= async (data:{job_applicant_id:number})=>{
 
     return resp.data
 }
+
+
+export const get_required_job_docs = async(job_id:number):Promise<string[]>=>{
+    const resp = await api.get(`/jobs/job-seeker-handles-doc/?job_id=${job_id}`,)
+
+    return resp.data.data
+}
+
+export const submitDocsApi  = async(data:{job_id:number,data:any}):Promise<string[]>=>{
+    const resp = await api.post(`/jobs/job-seeker-handles-doc/?job_id=${data.job_id}`,data.data)
+    return resp.data.data
+}
