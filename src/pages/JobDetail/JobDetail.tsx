@@ -6,7 +6,6 @@ import { JobDetailStyle } from "./JobDetail.style"
 
 
 
-
 const JobDetail =():React.ReactElement=>{
     const {id} = useParams()
     return (
