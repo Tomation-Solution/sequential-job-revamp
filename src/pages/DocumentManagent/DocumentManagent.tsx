@@ -15,13 +15,13 @@ const DocumentManagent = ():React.ReactElement=>{
     // getApplicationListApi
     const {notify} = useToast();
     const [isOpen, setIsOpen] = useState(false);
-    const {isLoading,data} = useQuery('docs_application_list',getApplicationListApi,)
+    const {isLoading,data} = useQuery('docs_application_list',()=>getApplicationListApi({}),)
     const {mutate,isLoading:accepting_jobs} =useMutation(acceptJobApplication,{
         'onSuccess':()=>{
             notify('Accepted we would get back to you please upload "Required Docs" ','success')
         }
     })
-
+    const [job_id,setJob_id]=useState<null|number>(null)
     const columns = [
         {
           Header: "Company name",
@@ -91,6 +91,7 @@ const DocumentManagent = ():React.ReactElement=>{
                     style={{'opacity':`${tableProps.row.original.accept_application?'1':'.3'}`}}
                     onClick={e=>{
                         console.log('hello world')
+                        setJob_id(tableProps.row.original.company.job_id)
                         setIsOpen(true)
                     }}>
                         upload required docs
@@ -115,8 +116,11 @@ const DocumentManagent = ():React.ReactElement=>{
                 size={50}
                 setIsOpen={setIsOpen}
                 isOpen={isOpen}
-            >
-                <JobsRejectSlides/>
+            >{
+                job_id?
+                <JobsRejectSlides job_id={job_id}/>
+                :''
+            }
             </OffCanvas>
         </div>
     )

@@ -32,12 +32,15 @@ import CvFilterTest from "./pages/CvFilterTest/CvFilterTest";
 import JobTestPage from "./pages/JobTestPage/JobTestPage";
 import JobSeekerRegisterForInterview from "./pages/JobSeekerRegisterForInterview";
 import DocumentManagent from "./pages/DocumentManagent/DocumentManagent";
-
+import Dashboard from "./pages/dashboard";
+import { store } from './redux/store'
+import { Provider } from 'react-redux'
 const queryClient = new QueryClient()
 
 
 function App() {
   return (
+    <Provider store={store}>
 <QueryClientProvider client={queryClient}>
       <ToastContainer />
       <BrowserRouter>
@@ -48,10 +51,9 @@ function App() {
           <Route element={<MainLayout />}>
             <Route
               path="/"
-              element={<h1>HELLO WORLD, TYPE THIS PATH IN THE URL "/path"
-                <Button  styleType="sec">Hello world</Button>
-
-              </h1>}
+              element={
+                <Dashboard />
+              }
             />
             {/*ELIJAHS REUSABLE COMPONENTS || LOOK AT THEM */}
             <Route path="/test-management" element={<TestManagement />} />
@@ -60,7 +62,7 @@ function App() {
             <Route path="/test" element={<Tests />} />
             <Route path="/test-submitted" element={<TestSubmitted />} />
             <Route path="/medicals" element={<Medicals />} />
-            <Route path="/medicals-invite" element={<MedicalsInvitation />} />
+            <Route path="/medicals-invite/:id" element={<MedicalsInvitation />} />
             <Route path="/interviews" element={<InterviewManagement />} />
             <Route path="/register-interview/:interview_invite_id/:interview_id/" element={<JobSeekerRegisterForInterview />} />
             {/* ESPECIALLY THE JOBS COMPONENT */}
@@ -85,6 +87,7 @@ function App() {
         </Routes>
       </BrowserRouter>
       </QueryClientProvider>
+      </Provider>
   );
 }
 

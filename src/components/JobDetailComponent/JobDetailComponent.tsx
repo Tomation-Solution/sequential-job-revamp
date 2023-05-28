@@ -7,7 +7,10 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { applyForJobsApi, getCvFilterQuetions, getJobDetailApi } from '../../redux/api/jobs.api';
 import Preloader from '../Preloader/Preloader';
 import useToast from '../../hooks/useToastify';
-
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
+/* @ts-ignore */
+import Editor from 'react-medium-editor';
 
 const JobDetailComponent =():React.ReactElement=>{
     const {id} = useParams()
@@ -78,6 +81,15 @@ const JobDetailComponent =():React.ReactElement=>{
             'disableEditing':true
           }}
         />  */}
+        <Editor
+          text={job?.description_content?.replaceAll('"',' ')}
+          options={{
+            'disableEditing':true
+          }}
+        />
+        {/* <ReactMarkdown remarkPlugins={[[remarkGfm, {singleTilde: false}]]}>
+   {job?.description_content?.replaceAll('"',' ')+''}
+  </ReactMarkdown> */}
             </div>
             <br /><br />
           

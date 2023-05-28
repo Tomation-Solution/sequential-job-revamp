@@ -53,7 +53,7 @@ const Login = () => {
   });
 
   const onSubmit = (data: LoginFormType) =>{
-    console.log(data);
+    console.log({data});
     mutate(data)
   } 
   console.log({'foprm error':errors})
@@ -84,7 +84,7 @@ const Login = () => {
               />
               <br />
               <Button type="submit">
-                Login
+                Logins
               </Button>
             </Form>
 

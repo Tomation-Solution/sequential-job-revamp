@@ -7,7 +7,7 @@ export const MedicalsRedBtn = styled.button`
   border: none;
   outline: none;
   color: ${seqWhite};
-  margin: 20px 0px;
+  /* margin: 20px 0px; */
   border-radius: 20px;
   cursor: pointer;
 `;
@@ -15,5 +15,9 @@ export const MedicalsRedBtn = styled.button`
 export const MedicalsBtnContainer = styled.div`
   display: flex;
   align-items: center;
-  gap: 20px;
+  flex-wrap: wrap;
+  @media screen and (min-width: 600px) {
+    gap: 10px;
+    
+  }
 `;

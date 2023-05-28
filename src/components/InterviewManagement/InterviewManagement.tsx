@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { get_interviews } from "../../redux/api/jobSeekerInterview.api";
@@ -9,26 +9,42 @@ import {
   TestManagementContainer,
   TestManagementSubCon,
 } from "../TestManagement/TestManagement.style";
+import dayjs from "dayjs";
+import SelectWithLabel from "../SelectWithLabel/SelectWithLabel";
 
 const InterviewManagement = () => {
-  
-  const user = getUser()
-  const {isLoading,data} = useQuery('get_interviews_for_jobseekers',get_interviews,{
+  const [filter,setFilter] = useState<'unscheduled'|'scheduled'>('unscheduled')
+  const user = getUser()  
+  const {isLoading,data,refetch} = useQuery(['get_interviews_for_jobseekers',filter],()=>get_interviews({'filter_by_scheduled':filter}),{
       enabled:user?.user_type==='job_seakers'?true:false
   })
   const  navigate = useNavigate();
   return (
     <TestManagementContainer>
       <h1>Interview Schedule</h1>
+      <div style={{'width':'30%'}}>
+      <SelectWithLabel
+      label=" "
+      name="interview filter"
+      onChange={(value:any)=>{
+        console.log(value)
+        setFilter(value)
+      }}
+      options={[
+        {'label':'unscheduled interviews','value':'unscheduled'},
+        {'label':'scheduled interviews','value':'scheduled'},
+      ]}
+      />
+      </div>
     <Preloader loading={isLoading}/>
       <TestManagementSubCon>
         {data?.map((item,index) => (
           <MedicalsContent
             key={index}
-            time="."
+            time={`${item.date_picked} ${item.time_picked}`}
             data={item}
-            testDetails={` You Have Been Invite For this job "${item.interview.job_title}"`}
-            testDate="20 March 2023, 14:15 - 15:30 "
+            testDetails={` You Have Beenx Invite For this job "${item.interview.job_title}"`}
+            testDate={item.date_picked}
           />
         ))}
       </TestManagementSubCon>

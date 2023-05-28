@@ -8,9 +8,10 @@ type SelectWithLabelType ={
     setValue?:any;//for react-hook-form use;
     style?: React.CSSProperties;
     name:string;
+    onChange?:(value:any)=>void
 
 }
-const SelectWithLabel = ({label,options,setValue,style={},name}:SelectWithLabelType):React.ReactElement=>{
+const SelectWithLabel = ({onChange,label,options,setValue,style={},name}:SelectWithLabelType):React.ReactElement=>{
 
 
 
@@ -18,7 +19,12 @@ const SelectWithLabel = ({label,options,setValue,style={},name}:SelectWithLabelT
         <FormSelect style={style}>
             <label>{label}</label>
                 <select name="degree" onChange={e=>{
-                    setValue(name,e.target.value)
+                    if(setValue){
+                        setValue(name,e.target.value)
+                    }
+                    if(onChange){
+                        onChange(e.target.value)
+                    }
                 }}>
                     {
                         options.map((data,index)=>(
