@@ -75,17 +75,15 @@ const Tables: FC<Props> = ({ tableData, tableColumn, customHooks }) => {
 
       <pre>
         <code>
-          {JSON.stringify(
+          {/* {JSON.stringify(
             {
-              // selectedRowIds: rowsById,
-              //selectedFlatRows[].original
               "selected rows listed": selectedFlatRows.map(
                 (d: { original: any }) => d.original
               ),
             },
             null,
             2
-          )}
+          )} */}
         </code>
       </pre>
     </>
