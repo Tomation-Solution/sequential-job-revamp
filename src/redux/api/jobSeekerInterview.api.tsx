@@ -15,8 +15,8 @@ export type JobSeerkerInterviewType =  {
     }
 
 
-export const get_interviews=async():Promise<JobSeerkerInterviewType[]>=>{
-    const resp = await api.get('interview/job_seeker_manage_invites/')
+export const get_interviews=async({filter_by_scheduled='unscheduled'}:{filter_by_scheduled?:'unscheduled'|'scheduled'}):Promise<JobSeerkerInterviewType[]>=>{
+    const resp = await api.get('interview/job_seeker_manage_invites/'+''+`?filter_by_scheduled=${filter_by_scheduled}`)
     return resp.data.data
 }
 

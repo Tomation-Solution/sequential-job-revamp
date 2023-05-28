@@ -5,6 +5,7 @@ import Button from "../components/Button/Button";
 import InterviewDateSelect from "../components/InterviewDateSelect/InterviewDateSelect";
 import useToast from "../hooks/useToastify";
 import { get_interviewDetail, pick_interview_date } from "../redux/api/jobSeekerInterview.api";
+import Preloader from "../components/Preloader/Preloader";
 
 
 
@@ -54,6 +55,7 @@ const JobSeekerRegisterForInterview =():React.ReactElement=>{
     console.log({'details info':data})
     return (
         <div>
+            <Preloader loading={submitting} />
             {
                 !data?.interview.has_picked_invitation?
             <div>

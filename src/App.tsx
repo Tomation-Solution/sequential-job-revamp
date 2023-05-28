@@ -62,7 +62,7 @@ function App() {
             <Route path="/test" element={<Tests />} />
             <Route path="/test-submitted" element={<TestSubmitted />} />
             <Route path="/medicals" element={<Medicals />} />
-            <Route path="/medicals-invite" element={<MedicalsInvitation />} />
+            <Route path="/medicals-invite/:id" element={<MedicalsInvitation />} />
             <Route path="/interviews" element={<InterviewManagement />} />
             <Route path="/register-interview/:interview_invite_id/:interview_id/" element={<JobSeekerRegisterForInterview />} />
             {/* ESPECIALLY THE JOBS COMPONENT */}

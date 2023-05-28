@@ -56,14 +56,18 @@ const SideBar: FC<Props> = ({ show }) => {
           <FileOpenIcon />
           Documentation Management
         </SideBtn>
-        <SideBtn>
+        <SideBtn  onClick={e=>navigate('/medicals')}>
+          <FileOpenIcon />
+          Medicals Invite
+        </SideBtn>
+        {/* <SideBtn>
           <CalendarMonthIcon />
           Calender
-        </SideBtn>
-        <SideBtn>
+        </SideBtn> */}
+        {/* <SideBtn>
           <SettingsIcon />
           Settings
-        </SideBtn>
+        </SideBtn> */}
         <SideBtn>
           <LogoutIcon />
           Logout
