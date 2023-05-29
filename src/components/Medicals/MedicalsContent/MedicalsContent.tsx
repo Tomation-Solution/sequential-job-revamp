@@ -9,14 +9,15 @@ type Props = {
   time?: string;
   testDetails: string;
   testDate: string;
-  data:JobSeerkerInterviewType
+  data:JobSeerkerInterviewType;
+  style?:React.CSSProperties
 };
 
-const MedicalsContent: FC<Props> = ({ testDate, testDetails, time ,data}) => {
+const MedicalsContent: FC<Props> = ({ style={},testDate, testDetails, time ,data}) => {
   const  navigate = useNavigate();
 
   return (
-    <TestManagementContentContainer>
+    <TestManagementContentContainer style={style}>
       <MedicalsBtnContainer>
         {testDate ? <MedicalsRedBtn>{testDate?moment(time).fromNow():''}</MedicalsRedBtn> : null}
         <button onClick={e=>{

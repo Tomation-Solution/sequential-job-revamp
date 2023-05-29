@@ -10,7 +10,7 @@ import useToast from '../../hooks/useToastify';
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 /* @ts-ignore */
-import Editor from 'react-medium-editor';
+// import Editor from 'react-medium-editor';
 
 const JobDetailComponent =():React.ReactElement=>{
     const {id} = useParams()
@@ -81,12 +81,12 @@ const JobDetailComponent =():React.ReactElement=>{
             'disableEditing':true
           }}
         />  */}
-        <Editor
+        {/* <Editor
           text={job?.description_content?.replaceAll('"',' ')}
           options={{
             'disableEditing':true
           }}
-        />
+        /> */}
         {/* <ReactMarkdown remarkPlugins={[[remarkGfm, {singleTilde: false}]]}>
    {job?.description_content?.replaceAll('"',' ')+''}
   </ReactMarkdown> */}

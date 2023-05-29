@@ -3,7 +3,7 @@ import Tables from "../components/Tables/Tables"
 import TopSummaryBox from "../components/TopSummaryBox/TopSummaryBox"
 import { selectApplicantDashboard } from "../redux/applicantDashboardSlice"
 import { useAppDispatch, useAppSelector } from "../redux/hooks"
-import { getInterviewAttendedApi, get_jobs_applied_for, jobsTestScheduledApi, jobsTestTakenApi } from "../redux/api/jobSeekerInterview.api"
+import { getInterviewAttendedApi, get_interviews, get_jobs_applied_for, jobDasboardSummaryApi, jobsTestScheduledApi, jobsTestTakenApi } from "../redux/api/jobSeekerInterview.api"
 import Preloader from "../components/Preloader/Preloader"
 import InterviewManagement from "../components/InterviewManagement/InterviewManagement"
 import { getApplicationListApi } from "../redux/api/documentManagement.api"
@@ -12,6 +12,10 @@ import { useEffect, useState } from "react"
 import { getApplicationListApiResponse } from "../redux/api/documentManagement.api"
 import { acceptJobApplication } from "../redux/api/documentManagement.api"
 import useToast from "../hooks/useToastify"
+import ChartComponent, { ChartComponentProp } from "../components/ChartComponent"
+import styled from "styled-components"
+import MedicalsContent from "../components/Medicals/MedicalsContent/MedicalsContent"
+import { TestManagementSubCon } from "../components/TestManagement/TestManagement.style"
 
 
 const JobAppliedTable = ()=>{
@@ -423,10 +427,50 @@ const JobOffers = ()=>{
         </div>
     )
 }
+
+const ChartAndInterviewContainer = styled.div`
+  
+  @media screen and (min-width:600px) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width:100%;
+    /* border:1px solid red; */
+    & > div:nth-child(1){
+      width:60%;
+      background-color:white;
+      border-radius: 10px;
+    }
+    & > div:nth-child(2){
+      width:30%;
+      background-color:white;
+      border-radius:10px;
+      padding:1rem 1.5rem;
+    }
+}
+`
 const Dashboard =()=>{
     const { dashboardJobSummaryStatus } = useAppSelector(selectApplicantDashboard)
     const dispatch = useAppDispatch()
+    const [chartData,setChartData] = useState<ChartComponentProp>({
+      'info':{
+        data:[0,0,0,0,0,0],
+        labels:[ "Jobs Applied ","Interviews Attended","Jobs Test Taken","Jobs Test Scheduled","Interview Scheduled","Job Offers"],
+        backgroundColor:['red','green','gray','purple','pink','brown']
+      }
+    })
+    
+    const {} = useQuery('job-summary',jobDasboardSummaryApi,{
+      'onSuccess':(data)=>{
+        setChartData({
+          'info':{...chartData.info,
+            'data':[data.jobs_applied_for,data.interviews_attended,data.jobs_test_taken,data.jobs_test_scheduled,data.interview_scheduled,data.job_offers]}
+        })
+      }
+    })
 
+
+    const {isLoading,data,} = useQuery(['get_interviews_for_jobseekers'],()=>get_interviews({'filter_by_scheduled':'scheduled'}))
     return (
         <div>
             
@@ -455,6 +499,37 @@ const Dashboard =()=>{
         {
             dashboardJobSummaryStatus==='job_offers'?
             <JobOffers />:''
+        }
+        {
+          dashboardJobSummaryStatus ==='summary'?
+          <div>
+            <br />
+            <ChartAndInterviewContainer>
+                <div>
+                  <ChartComponent info={chartData}/>
+                </div>
+
+                {/* <div> */}
+                {/* <TestManagementSubCon> */}
+                    <div>
+                    <br />
+                      <h2>Upcoming Events</h2>
+                      <br />
+                    {data?.map((item,index) => (
+                      <MedicalsContent
+                      style={{'width':'100%'}}
+                        key={index}
+                        time={`${item.date_picked} ${item.time_picked}`}
+                        data={item}
+                        testDetails={` You Have Beenx Invite For this job "${item.interview.job_title}"`}
+                        testDate={item.date_picked}
+                      />
+                    ))}
+                    </div>
+                  {/* </TestManagementSubCon> */}
+                {/* </div> */}
+            </ChartAndInterviewContainer>
+          </div>:''
         }
         </div>
     )
