@@ -84,7 +84,7 @@ const Login = () => {
               />
               <br />
               <Button type="submit">
-                Logins
+                Login
               </Button>
             </Form>
 

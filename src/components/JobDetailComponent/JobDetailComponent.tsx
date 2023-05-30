@@ -99,7 +99,7 @@ const JobDetailComponent =():React.ReactElement=>{
         /> */}
 
 {/* //    job?.description_content.replaceAll('"',' ') */}
-        {
+        {/* {
             job?
             <ReactMarkdown children={
                 job?.description_content?.replaceAll('"',' ')  
@@ -107,9 +107,11 @@ const JobDetailComponent =():React.ReactElement=>{
             remarkPlugins={[remarkGfm]}
             />
         :''
+        } */}
+        {
+            job?
+            <p dangerouslySetInnerHTML={{__html: `${job?.description_content?.replaceAll('"',' ')  }`.replaceAll('\\',' ')}}/>:''
         }
-
-       -
             </div>
             <br /><br />
           
