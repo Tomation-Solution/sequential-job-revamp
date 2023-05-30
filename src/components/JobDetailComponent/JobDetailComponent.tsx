@@ -9,6 +9,8 @@ import Preloader from '../Preloader/Preloader';
 import useToast from '../../hooks/useToastify';
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
+// @ts-ignore
+// const TurndownService = require('turndown')
 /* @ts-ignore */
 // import Editor from 'react-medium-editor';
 
@@ -16,7 +18,7 @@ const JobDetailComponent =():React.ReactElement=>{
     const {id} = useParams()
     const {notify} = useToast()
     const navigate = useNavigate()
-
+    // const turndownService = new TurndownService()
 
     const {data:job,isLoading} = useQuery(['job_detail',id],()=>getJobDetailApi(typeof id==='string'?id:''),{
         enabled:id?true:false,
@@ -36,6 +38,13 @@ const JobDetailComponent =():React.ReactElement=>{
         }
     })
     const handleApplication = ()=>apply()
+    const markdown = `
+    | S/N | Pet | Image |
+    |--|--|--|
+    | 1 | Cat |![A cat looking at you](https://i.guim.co.uk/img/media/26392d05302e02f7bf4eb143bb84c8097d09144b/446_167_3683_2210/master/3683.jpg?width=465&quality=45&auto=format&fit=max&dpr=2&s=68615bab04be2077a471009ffc236509) |
+    | 2 | Dog |![A dog looking at you](https://ichef.bbci.co.uk/news/976/cpsprodpb/17638/production/_124800859_gettyimages-817514614.jpg)|
+    `
+
     return (
         <JobDetailComponentContainer >
             {/* <Preloader/> */}
@@ -81,15 +90,26 @@ const JobDetailComponent =():React.ReactElement=>{
             'disableEditing':true
           }}
         />  */}
+      
         {/* <Editor
           text={job?.description_content?.replaceAll('"',' ')}
           options={{
             'disableEditing':true
           }}
         /> */}
-        {/* <ReactMarkdown remarkPlugins={[[remarkGfm, {singleTilde: false}]]}>
-   {job?.description_content?.replaceAll('"',' ')+''}
-  </ReactMarkdown> */}
+
+{/* //    job?.description_content.replaceAll('"',' ') */}
+        {
+            job?
+            <ReactMarkdown children={
+                job?.description_content?.replaceAll('"',' ')  
+            }
+            remarkPlugins={[remarkGfm]}
+            />
+        :''
+        }
+
+       -
             </div>
             <br /><br />
           
