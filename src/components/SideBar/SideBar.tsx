@@ -19,9 +19,23 @@ import { useNavigate } from "react-router-dom";
 
 type Props = {
   show?: boolean;
+  navlinks?:{
+    name:string,
+    link:string,
+    icon:any
+  }[]
 };
 
-const SideBar: FC<Props> = ({ show }) => {
+const SideBar: FC<Props> = ({ show,navlinks=[
+  {name:'DashBoard',link:'/',icon:<DashboardIcon />},
+  {name:'Jobs',link:'/',icon:<LibraryBooksIcon />},
+  {name:'CV Management',link:'/cvmanagement',icon:<ArrowUpwardIcon />},
+  {name:'Test Management',link:'/test-management',icon:<QuizIcon/>},
+  {name:'Interview Management',link:'/interviews',icon:<ImportContactsIcon />},
+  {name:'Documentation Management',link:'/document_managent',icon:<FileOpenIcon />},
+  {name:'Medicals Invite',link:'/medicals',icon:<FileOpenIcon  />},
+  {name:'',link:'/',icon:<DashboardIcon />},
+] }) => {
   const navigate = useNavigate()
   return (
     <SideBarContainer show={show}>
@@ -30,44 +44,22 @@ const SideBar: FC<Props> = ({ show }) => {
       </SideLogo>
 
       <SideBtnCon>
-        <SideBtn onClick={e=>navigate('/')}>
-          <DashboardIcon />
-          DashBoard
-        </SideBtn>
-        <SideBtn onClick={e=>navigate('/jobs_list')}>
+        {/* <SideBtn onClick={e=>navigate('')}>
+        </SideBtn> */}
+        {/* <SideBtn onClick={e=>navigate('/jobs_list')}>
           <LibraryBooksIcon />
-          Jobs
-        </SideBtn>
-        <SideBtn onClick={e=>navigate('/cvmanagement')}>
-          <ArrowUpwardIcon />
-          CV Management
-        </SideBtn>
-        <SideBtn onClick={e=>navigate('/test-management')}>
-          <QuizIcon />
-          Test Management
-        </SideBtn>
-        <SideBtn onClick={e=>{
-        navigate('/interviews')
-        }}>
-          <ImportContactsIcon />
-          Interview Management
-        </SideBtn>
-        <SideBtn  onClick={e=>navigate('/document_managent')}>
-          <FileOpenIcon />
-          Documentation Management
-        </SideBtn>
-        <SideBtn  onClick={e=>navigate('/medicals')}>
-          <FileOpenIcon />
-          Medicals Invite
-        </SideBtn>
-        {/* <SideBtn>
-          <CalendarMonthIcon />
-          Calender
+          
         </SideBtn> */}
-        {/* <SideBtn>
-          <SettingsIcon />
-          Settings
-        </SideBtn> */}
+ {
+  navlinks.map((d,index)=>(
+    <SideBtn key={index} onClick={e=>navigate(d.link)}>
+    {d.icon}
+    {d.name}
+  </SideBtn>
+  ))
+ }
+
+ 
         <SideBtn>
           <LogoutIcon />
           Logout

@@ -3,8 +3,8 @@ import axios from 'axios'
 
 
 
-// export const url = 'https://recruitment-api-production.up.railway.app'
-export const url = 'http://localhost:8000'
+export const url = 'https://recruitment-api-production.up.railway.app'
+// export const url = 'http://localhost:8000'
 const api =axios.create({
   baseURL: url,
 });
@@ -44,11 +44,11 @@ api.interceptors.response.use(function (response) {
   try{
     const code:any = error.response.data.messages[0]
   if(code.token_class === 'AccessToken') {
-    if (!window.location.pathname.includes('/expired_token_page' ))
+    if (!window.location.pathname.includes('/login' ))
     {
 
       window.location.reload()
-      window.location.href='/expired_token_page'
+      window.location.href='/login'
     }
   } 
   }catch(err){

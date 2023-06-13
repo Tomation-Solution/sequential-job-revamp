@@ -4,9 +4,8 @@ import { useMutation } from "react-query"
 import { applyForJobsApi } from "../../redux/api/jobs.api"
 import Preloader from "../Preloader/Preloader"
 import useToast from "../../hooks/useToastify"
+
 import { useNavigate } from "react-router-dom"
-import ReactMarkdown from 'react-markdown'
-import remarkGfm from 'remark-gfm' 
 
 
 const ApplyForJobProccess =({job_id}:{job_id:string}):React.ReactElement=>{

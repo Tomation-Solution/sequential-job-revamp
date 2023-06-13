@@ -18,7 +18,7 @@ import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "react-query";
 import { signInApi } from "../../redux/api/authentication.api";
-import { setUser } from "../../utils/extraFunction";
+import { getUser, setUser } from "../../utils/extraFunction";
 import useToast from "../../hooks/useToastify";
 import Button from "../Button/Button";
 import Preloader from "../Preloader/Preloader";
@@ -39,8 +39,14 @@ const Login = () => {
     'onSuccess':(data)=>{
       if(data.status == 200){
         const user = setUser(data.data.tokens)
-        notify(`Welcome back ${user?.full_name}`,'success')
-        navigate('/jobs_list')
+        const savedUser = getUser()
+        notify(`Welcome back ${savedUser?.full_name}`,'success')
+        if(savedUser?.user_type ==='job_seakers'){
+          navigate('/')
+        }else{
+          navigate('/company')
+
+        }
       }
     },
     'onError':(error:any)=>{

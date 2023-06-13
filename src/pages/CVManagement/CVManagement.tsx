@@ -156,7 +156,12 @@ const CVManagement = () => {
           <h1>My CV</h1>
 
           <button>
-            <span>Upload Instead</span>
+            <label htmlFor={'upload-cv-instead'}>Upload Instead</label>
+          <input 
+          onChange={e=>{
+            
+          }}
+          style={{'display':'none'}} type="file" name="upload-cv-instead" id="upload-cv-instead" />
           </button>
           {/* onSubmit={handleSubmit(onSubmit)} */}
         </CVManagementHeader>

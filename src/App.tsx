@@ -35,6 +35,8 @@ import DocumentManagent from "./pages/DocumentManagent/DocumentManagent";
 import Dashboard from "./pages/dashboard";
 import { store } from './redux/store'
 import { Provider } from 'react-redux'
+import CompanyIndexPage from "./pages/company";
+import CompanyLayout from "./layout/CompanyLayout";
 const queryClient = new QueryClient()
 
 
@@ -84,6 +86,14 @@ function App() {
 
           </Route>
           {/* <Route path="*" element={<NotFound />} /> */}
+          <Route element={<CompanyLayout />}>
+          <Route
+              path="/company"
+              element={
+                <CompanyIndexPage />
+              }
+            />
+          </Route>
         </Routes>
       </BrowserRouter>
       </QueryClientProvider>

@@ -7,8 +7,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { applyForJobsApi, getCvFilterQuetions, getJobDetailApi } from '../../redux/api/jobs.api';
 import Preloader from '../Preloader/Preloader';
 import useToast from '../../hooks/useToastify';
-import ReactMarkdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
+
 // @ts-ignore
 // const TurndownService = require('turndown')
 /* @ts-ignore */
@@ -84,30 +83,7 @@ const JobDetailComponent =():React.ReactElement=>{
             <h2 style={{'color':'#24CDE2','padding':'1rem 0',fontWeight: 400}}>Job Description</h2>
             <br /><br />
             <div style={{'textAlign':'center','overflow':'scroll','padding':'0 1rem','color':'black'}}>
-            {/* <Editor
-          text={job?.description_content.replaceAll('"',' ')}
-          options={{
-            'disableEditing':true
-          }}
-        />  */}
-      
-        {/* <Editor
-          text={job?.description_content?.replaceAll('"',' ')}
-          options={{
-            'disableEditing':true
-          }}
-        /> */}
-
-{/* //    job?.description_content.replaceAll('"',' ') */}
-        {/* {
-            job?
-            <ReactMarkdown children={
-                job?.description_content?.replaceAll('"',' ')  
-            }
-            remarkPlugins={[remarkGfm]}
-            />
-        :''
-        } */}
+           
         {
             job?
             <p dangerouslySetInnerHTML={{__html: `${job?.description_content?.replaceAll('"',' ')  }`.replaceAll('\\',' ')}}/>:''
