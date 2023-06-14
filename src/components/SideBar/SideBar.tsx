@@ -28,13 +28,13 @@ type Props = {
 
 const SideBar: FC<Props> = ({ show,navlinks=[
   {name:'DashBoard',link:'/',icon:<DashboardIcon />},
-  {name:'Jobs',link:'/',icon:<LibraryBooksIcon />},
+  {name:'Jobs',link:'/jobs_list',icon:<LibraryBooksIcon />},
   {name:'CV Management',link:'/cvmanagement',icon:<ArrowUpwardIcon />},
   {name:'Test Management',link:'/test-management',icon:<QuizIcon/>},
   {name:'Interview Management',link:'/interviews',icon:<ImportContactsIcon />},
   {name:'Documentation Management',link:'/document_managent',icon:<FileOpenIcon />},
   {name:'Medicals Invite',link:'/medicals',icon:<FileOpenIcon  />},
-  {name:'',link:'/',icon:<DashboardIcon />},
+  {name:'Settings',link:'/',icon:<DashboardIcon />},
 ] }) => {
   const navigate = useNavigate()
   return (
