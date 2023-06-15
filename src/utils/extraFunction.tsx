@@ -39,3 +39,6 @@ export const setUser = (data:{'refresh':string,'access':string})=>{
 
   return getUser()
 }
+export const removeUserCred = ():void=>{
+  localStorage.removeItem('user')
+}

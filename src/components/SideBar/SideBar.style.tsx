@@ -10,7 +10,7 @@ export const SideBarContainer = styled.div<Props>`
   padding: 20px;
   display: flex;
   height: 100%;
-  width: 240px;
+  /* width: 260px; */
   background-color: ${seqBlue100};
   flex-direction: column;
   word-wrap: break-word;

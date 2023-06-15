@@ -86,11 +86,13 @@ function App() {
 
           </Route>
           {/* <Route path="*" element={<NotFound />} /> */}
-          <Route element={<CompanyLayout />}>
+          <Route 
+          element={<CompanyLayout />}>
           <Route
-              path="/company"
+              path="/company/dashboard"
               element={
-                <CompanyIndexPage />
+              <h1>hello world Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eum, a?</h1>
+                // <CompanyIndexPage />
               }
             />
           </Route>

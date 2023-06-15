@@ -16,6 +16,7 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import SettingsIcon from "@mui/icons-material/Settings";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useNavigate } from "react-router-dom";
+import { removeUserCred } from "../../utils/extraFunction";
 
 type Props = {
   show?: boolean;
@@ -60,7 +61,12 @@ const SideBar: FC<Props> = ({ show,navlinks=[
  }
 
  
-        <SideBtn>
+        <SideBtn
+        onClick={e=>{
+          removeUserCred()
+          navigate('/login')
+        }}
+        >
           <LogoutIcon />
           Logout
         </SideBtn>

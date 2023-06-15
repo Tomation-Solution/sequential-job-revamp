@@ -11,6 +11,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import LogoutIcon from "@mui/icons-material/Logout";
 import NoteAltIcon from "@mui/icons-material/NoteAlt";
 import MedicalServicesIcon from "@mui/icons-material/MedicalServices";
+import MainBody, { CompanyMainBody } from "../components/MainBody/MainBody";
 
 
 const CompanyLayout = ()=>{
@@ -18,7 +19,7 @@ const CompanyLayout = ()=>{
         <PrivateLayoutRoute>
             <SideBar
                 navlinks={[
-                    {name:'DashBoard',link:'/',icon:<DashboardIcon />},
+                    {name:'DashBoard',link:'/company/dashboard',icon:<DashboardIcon />},
                     {name:'Job Post Management',link:'/',icon:<LibraryBooksIcon />},
                     {name:'Job Test Management',link:'/',icon:<LibraryBooksIcon />},
                     {name:'Interview Managent',link:'/cvmanagement',icon:<NoteAltIcon />},
@@ -31,6 +32,7 @@ const CompanyLayout = ()=>{
                     {name:'',link:'/',icon:<DashboardIcon />},
                 ]}
             />
+            <CompanyMainBody />
         </PrivateLayoutRoute>
     )
 }
