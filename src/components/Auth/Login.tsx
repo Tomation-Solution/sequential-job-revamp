@@ -44,7 +44,7 @@ const Login = () => {
         if(savedUser?.user_type ==='job_seakers'){
           navigate('/')
         }else{
-          navigate('/company')
+          navigate('/company/dashboard')
 
         }
       }
