@@ -20,16 +20,16 @@ const CompanyLayout = ()=>{
             <SideBar
                 navlinks={[
                     {name:'DashBoard',link:'/company/dashboard',icon:<DashboardIcon />},
-                    {name:'Job Post Management',link:'/',icon:<LibraryBooksIcon />},
-                    {name:'Job Test Management',link:'/',icon:<LibraryBooksIcon />},
-                    {name:'Interview Managent',link:'/cvmanagement',icon:<NoteAltIcon />},
-                    {name:'Documentation Management',link:'/test-management',icon:<QuizIcon/>},
-                    {name:'Interview Management',link:'/interviews',icon:<ImportContactsIcon />},
-                    {name:'Documentation Management',link:'/document_managent',icon:<FileOpenIcon />},
-                    {name:'Medicals',link:'/medicals',icon:<MedicalServicesIcon  />},
-                    {name:'Calendar',link:'/medicals',icon:<CalendarMonthIcon  />},
-                    {name:'Settings',link:'/medicals',icon:<SettingsIcon  />},
-                    {name:'',link:'/',icon:<DashboardIcon />},
+                    {name:'Job Post Management',link:'/company/create-job',icon:<LibraryBooksIcon />},
+                    {name:'Job Test Management',link:'#',icon:<LibraryBooksIcon />},
+                    {name:'Interview Managent',link:'#',icon:<NoteAltIcon />},
+                    {name:'Documentation Management',link:'#',icon:<QuizIcon/>},
+                    {name:'Interview Management',link:'#',icon:<ImportContactsIcon />},
+                    {name:'Documentation Management',link:'#',icon:<FileOpenIcon />},
+                    {name:'Medicals',link:'#',icon:<MedicalServicesIcon  />},
+                    {name:'Calendar',link:'#',icon:<CalendarMonthIcon  />},
+                    {name:'Settings',link:'#',icon:<SettingsIcon  />},
+                    {name:'',link:'#',icon:<DashboardIcon />},
                 ]}
             />
             <CompanyMainBody />
