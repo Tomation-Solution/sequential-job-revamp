@@ -1,8 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 import applicantDashboardSlice from './applicantDashboardSlice';
+import companyDashboardSlice from './company/companyDashboardSlice';
 export const store = configureStore({
   reducer: {
-    'applicantDashboard':applicantDashboardSlice
+    'applicantDashboard':applicantDashboardSlice,
+    'CompanyDashboard':companyDashboardSlice
   },
 })
 

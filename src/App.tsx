@@ -91,8 +91,7 @@ function App() {
           <Route
               path="/company/dashboard"
               element={
-              <h1>hello world Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eum, a?</h1>
-                // <CompanyIndexPage />
+                <CompanyIndexPage />
               }
             />
           </Route>
