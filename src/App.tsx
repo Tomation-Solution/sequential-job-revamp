@@ -36,6 +36,7 @@ import CompanyIndexPage from "./pages/company";
 import CompanyLayout from "./layout/CompanyLayout";
 import CompanyMedicalsPage from "./pages/company/CompanyMedicalsPage";
 import CompletionComponent from "./components/CompletionComponent/CompletionComponent";
+import CompanySettingsPage from "./pages/company/CompanySettingsPage";
 const queryClient = new QueryClient();
 
 function App() {
@@ -120,6 +121,10 @@ function App() {
                     where={"/company/dashboard"}
                   />
                 }
+              />
+              <Route
+                path="/company/settings"
+                element={<CompanySettingsPage />}
               />
             </Route>
           </Routes>

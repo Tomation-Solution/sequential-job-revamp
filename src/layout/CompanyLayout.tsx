@@ -51,7 +51,11 @@ const CompanyLayout = () => {
             icon: <MedicalServicesIcon />,
           },
           { name: "Calendar", link: "#", icon: <CalendarMonthIcon /> },
-          { name: "Settings", link: "#", icon: <SettingsIcon /> },
+          {
+            name: "Settings",
+            link: "/company/settings",
+            icon: <SettingsIcon />,
+          },
           { name: "", link: "#", icon: <DashboardIcon /> },
         ]}
       />
