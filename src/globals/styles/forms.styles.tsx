@@ -107,13 +107,14 @@ export const FormInput = styled.div`
   label {
     font-weight: 500;
     margin-bottom: 0.5em;
-    text-transform:capitalize;
+    text-transform: capitalize;
   }
   input {
     padding: 1em;
     background: rgba(242, 238, 252, 0.39);
     border: 1px solid gray;
     border-radius: 5px;
+    border: 2px solid transparent;
     /* background-color: white; */
     outline: none;
     &:focus {
@@ -134,13 +135,13 @@ export const FormInput = styled.div`
       outline: none;
     }
   }
-    svg{
-cursor: pointer ;
-  font-size: 1.5rem;
-  position: absolute;
-  left: 90%;
-  top: 50%;
-}
+  svg {
+    cursor: pointer;
+    font-size: 1.5rem;
+    position: absolute;
+    left: 90%;
+    top: 50%;
+  }
 
   ${mobile({
     width: "100%",
