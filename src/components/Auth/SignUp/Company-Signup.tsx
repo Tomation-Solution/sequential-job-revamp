@@ -13,10 +13,19 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Button from "../../Button/Button";
 import { useNavigate } from "react-router-dom";
-import { signUpAsJobSeekerApi } from "../../../redux/api/authentication.api";
+import {
+  signUpAsJobRecruiterrApi,
+  signUpAsJobSeekerApi,
+} from "../../../redux/api/authentication.api";
 import { useMutation } from "react-query";
 import useToast from "../../../hooks/useToastify";
 import Preloader from "../../Preloader/Preloader";
+
+{
+  /* organisation_name":"dd.0", "industry":"hr industry",
+            "addresses":"devloper logde", "official_phone":"08162047348",
+            "organisation_name_shortname":"ff" */
+}
 
 const schema = yup.object({
   email: yup.string().email().required(),
@@ -26,14 +35,19 @@ const schema = yup.object({
     .string()
     .oneOf([yup.ref("password")], "Passwords must match"),
   phone_number: yup.number().min(11).required(),
+  organisation_name: yup.string().required(),
+  industry: yup.string().required(),
+  addresses: yup.string().required(),
+  official_phone: yup.number().min(11).required(),
+  organisation_name_shortname: yup.string().required(),
 });
 
 export type signUpAsJobSeekerForm = yup.InferType<typeof schema>;
 
-const SignUp = () => {
+const CompanySignup = () => {
   const navigate = useNavigate();
   const { notify } = useToast();
-  const { mutate, isLoading } = useMutation(signUpAsJobSeekerApi, {
+  const { mutate, isLoading } = useMutation(signUpAsJobRecruiterrApi, {
     onSuccess: (data) => {
       if (data.status === 201) {
         notify(
@@ -68,10 +82,10 @@ const SignUp = () => {
         <img alt="logo" src={Logo} />
         <Preloader loading={isLoading} />
         <FormContainer>
-          <h2>Sign Up</h2>
+          <h2>Sign Up - Recruiter</h2>
           <p className="">
-            Want to Sign up as a Recruiter?{" "}
-            <Link to={"/sign-up-company"}>Get Started</Link>
+            Want to Sign up as a Job Seeker?{" "}
+            <Link to={"/sign-up"}>Get Started</Link>
           </p>
           <p
             style={{
@@ -95,9 +109,33 @@ const SignUp = () => {
             />
 
             <InputWithLabel
-              label="Education Qualification"
+              label="organisation name"
               style={{ margin: "10px 0" }}
+              register={register("organisation_name")}
+              errorMessage={errors.organisation_name?.message}
             />
+
+            <InputWithLabel
+              label="industry"
+              style={{ margin: "10px 0" }}
+              register={register("industry")}
+              errorMessage={errors.industry?.message}
+            />
+
+            <InputWithLabel
+              label="addresses"
+              style={{ margin: "10px 0" }}
+              register={register("addresses")}
+              errorMessage={errors.addresses?.message}
+            />
+
+            <InputWithLabel
+              label="official phone"
+              style={{ margin: "10px 0" }}
+              register={register("official_phone")}
+              errorMessage={errors.official_phone?.message}
+            />
+
             <InputWithLabel
               label="phone"
               style={{ margin: "10px 0" }}
@@ -111,7 +149,6 @@ const SignUp = () => {
               errorMessage={errors.password?.message}
               type="password"
             />
-
             <InputWithLabel
               label="Confirm Password"
               style={{ margin: "10px 0" }}
@@ -133,4 +170,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default CompanySignup;

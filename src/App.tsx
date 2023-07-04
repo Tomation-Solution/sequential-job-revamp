@@ -37,6 +37,7 @@ import CompanyLayout from "./layout/CompanyLayout";
 import CompanyMedicalsPage from "./pages/company/CompanyMedicalsPage";
 import CompletionComponent from "./components/CompletionComponent/CompletionComponent";
 import CompanySettingsPage from "./pages/company/CompanySettingsPage";
+import ComapnySignup from "./components/Auth/SignUp/Company-Signup";
 const queryClient = new QueryClient();
 
 function App() {
@@ -48,6 +49,7 @@ function App() {
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/sign-up" element={<SignUp />} />
+            <Route path="/sign-up-company" element={<ComapnySignup />} />
 
             <Route element={<MainLayout />}>
               <Route path="/" element={<Dashboard />} />
