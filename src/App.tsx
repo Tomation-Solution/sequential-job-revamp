@@ -37,6 +37,7 @@ import CompanyLayout from "./layout/CompanyLayout";
 import CompanyMedicalsPage from "./pages/company/CompanyMedicalsPage";
 import CompletionComponent from "./components/CompletionComponent/CompletionComponent";
 import CompanySettingsPage from "./pages/company/CompanySettingsPage";
+import CompanyJobTestManagementPage from "./pages/company/CompanyJobTestManagementPage";
 const queryClient = new QueryClient();
 
 function App() {
@@ -125,6 +126,10 @@ function App() {
               <Route
                 path="/company/settings"
                 element={<CompanySettingsPage />}
+              />
+              <Route
+                path="/company/job-test-management"
+                element={<CompanyJobTestManagementPage />}
               />
             </Route>
           </Routes>

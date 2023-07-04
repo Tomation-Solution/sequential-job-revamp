@@ -30,7 +30,7 @@ const CompanyLayout = () => {
           },
           {
             name: "Job Test Management",
-            link: "#",
+            link: "/company/job-test-management",
             icon: <LibraryBooksIcon />,
           },
           { name: "Interview Managent", link: "#", icon: <NoteAltIcon /> },
