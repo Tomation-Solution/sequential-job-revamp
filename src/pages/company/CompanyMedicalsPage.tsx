@@ -1,9 +1,6 @@
-import React from "react";
 import CompanyMedicals from "../../components/Company-Medicals/CompanyMedicals";
 
-type Props = {};
-
-function CompanyMedicalsPage({}: Props) {
+function CompanyMedicalsPage() {
   return (
     <>
       <CompanyMedicals />
