@@ -7,59 +7,71 @@ import { CompanyJobTestManagementContainer } from "./CompanyJobTestManagement.st
 import { CompanyNavBarItemsContainer } from "../Company-NavBar/CompanyNavBar.styles";
 import { FlexBox } from "../../globals/styles/FlexBox";
 import Button from "../Button/Button";
-import InputWithLabel from "../InputWithLabel/InputWithLabel";
 import { QuestionSetterCard } from "../../globals/QuestionSetterCard/QuestionSetterCard";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 
-import { useForm, useFieldArray } from "react-hook-form";
+import { FormInput } from "../../globals/styles/forms.styles";
+import {
+  QuestionType,
+  TestManagementFormTestQuestionsType,
+} from "../../globals/QuestionSetterCard/types";
+import CompanyJobTestCutoff from "./CompanyJobTestCutoff";
+import { TestCutOffMark } from "./types";
+import CompanyJobTestInvitationLetter from "./CompanyJobTestInvitationLetter";
 
-type Props = {};
-
-function CompanyJobTestManagement({}: Props) {
+function CompanyJobTestManagement() {
   const [dropdownOption, setDropdownOption] = useState<string>("foodjob");
+  const [testInstruction, setTestInstruction] = useState<string>("");
+  const [currentRender, setCurrentRender] = useState(1);
+  const [testCutOffMark, setTestCutOffMark] = useState<TestCutOffMark>({
+    not_suitable: 0,
+    end_not_suitable: 0,
 
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-    register,
-  } = useForm({
-    defaultValues: {
-      title: "",
-      fill_in_gap_quetion: [
-        {
-          quetion: "",
-          answer: "",
-          quetion_mark: "",
-        },
-      ],
-      option_quetion: [
-        {
-          quetion: "",
-          option_to_choose_from: [""],
-          answer: "",
-          quetion_mark: "",
-        },
-      ],
-      multi_choice_quetion: [],
-    },
+    partially_suitable: 0,
+    end_partially_suitable: 0,
+
+    suitable: 0,
+    end_suitable: 0,
   });
 
-  // const fillGapQuestions = useFieldArray({
-  //   name: "fill_in_gap_quetion",
-  //   control,
-  // });
+  console.log(testCutOffMark);
 
-  // const optionQuestion = useFieldArray({
-  //   name: "option_quetion",
-  //   control,
-  // });
+  const [allQuestion, setAllQuestion] =
+    useState<TestManagementFormTestQuestionsType>({
+      fill_in_gap_quetion: [],
+      option_quetion: [],
+      multi_choice_quetion: [],
+    });
 
-  const onSubmitHandler = (inputData: any) => {
-    console.log(inputData);
+  const [testQuestion, setTestQuestion] = useState<QuestionType>({
+    question_type: "options_question",
+    quetion: "Are you an employer",
+    option_to_choose_from: ["Yes"],
+    image: "",
+    answer: "Yes",
+    quetion_mark: 10,
+  });
+
+  const onAddQuestion = () => {
+    if (testQuestion.question_type === "options_question") {
+      const { question_type, ...payload } = testQuestion;
+      setAllQuestion((oldState) => {
+        const new_options = [...oldState.option_quetion];
+        new_options.push(payload);
+        return { ...oldState, option_quetion: new_options };
+      });
+    } else if (testQuestion.question_type === "fill_in_gap_question") {
+      const { question_type, ...payload } = testQuestion;
+      setAllQuestion((oldState) => {
+        const new_options = [...oldState.fill_in_gap_quetion];
+        new_options.push(payload);
+        return { ...oldState, fill_in_gap_quetion: new_options };
+      });
+    }
   };
 
-  // console.log("errors", errors);
+  // console.log("testQuestion", testQuestion);
+  // console.log("allQuestion", allQuestion);
 
   return (
     <>
@@ -75,56 +87,146 @@ function CompanyJobTestManagement({}: Props) {
             onChange={setDropdownOption}
             defaultValue={dropdownOption}
           />
-          <CompanyNavBarTab isSelected={true}>Set Test</CompanyNavBarTab>
-          <CompanyNavBarTab>Set Test</CompanyNavBarTab>
+          <CompanyNavBarTab isSelected={currentRender === 1}>
+            Set Test
+          </CompanyNavBarTab>
+          <CompanyNavBarTab isSelected={currentRender === 3}>
+            Upload Invitation for Job Test
+          </CompanyNavBarTab>
         </CompanyNavBarItemsContainer>
       </CompanyNavBar>
 
-      <CompanyJobTestManagementContainer>
-        <FlexBox justifyContent="space-between">
-          <p>Select job you want to set test for above</p>
+      <FlexBox justifyContent="space-between">
+        <p>Select job you want to set test for above</p>
 
-          <Button>Continue to set test cut off</Button>
-        </FlexBox>
-
-        <main>
-          <div className="left">
-            <h2>Business Development</h2>
-            <h3 style={{ fontWeight: "400" }}>
-              Set Test Questions and Answers
-            </h3>
-            <p style={{ textAlign: "center" }}>
-              In other to ease the recruiutment selection process, It is
-              important that you set a pre-test that would help sort out
-              qualified candidates during application submission.
-            </p>
-
-            <div
-              style={{
-                width: "100%",
-                display: "flex",
-              }}
+        <div
+          style={{
+            display: "flex",
+            gap: "20px",
+          }}
+        >
+          {currentRender > 1 ? (
+            <Button
+              styleType="sec"
+              onClick={() =>
+                setCurrentRender((oldCurrentRender) => oldCurrentRender - 1)
+              }
             >
-              <InputWithLabel
-                isTextArea={true}
-                label="Instructions"
-                register={register("title", { required: true })}
+              Back to the questions
+            </Button>
+          ) : null}
+
+          {currentRender < 3 ? (
+            <Button
+              onClick={() =>
+                setCurrentRender((oldCurrentRender) => oldCurrentRender + 1)
+              }
+            >
+              Continue to set test cut off
+            </Button>
+          ) : (
+            <Button>Proceed to Select Candidates</Button>
+          )}
+        </div>
+      </FlexBox>
+
+      {currentRender === 1 ? (
+        <CompanyJobTestManagementContainer>
+          <main>
+            <div className="left">
+              <h2>Business Development</h2>
+              <h3 style={{ fontWeight: "400" }}>
+                Set Test Questions and Answers
+              </h3>
+              <p style={{ textAlign: "center" }}>
+                In other to ease the recruiutment selection process, It is
+                important that you set a pre-test that would help sort out
+                qualified candidates during application submission.
+              </p>
+
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                }}
+              >
+                <FormInput>
+                  <label style={{ textAlign: "center" }}>Instructions</label>
+                  <textarea
+                    value={testInstruction}
+                    onChange={(e) => setTestInstruction(e.target.value)}
+                  />
+                </FormInput>
+              </div>
+
+              <QuestionSetterCard
+                disableAll={false}
+                state={testQuestion}
+                onStateChange={setTestQuestion}
               />
+
+              <div className="upload-question" onClick={onAddQuestion}>
+                <AiOutlinePlusCircle size={30} />
+                <p>Or Upload Questions</p>
+              </div>
             </div>
 
-            <QuestionSetterCard disableAll={false} />
+            <div className="right">
+              <h3>Preview</h3>
 
-            <div className="upload-question">
-              <AiOutlinePlusCircle size={30} />
-              <p>Or Upload Questions</p>
+              {allQuestion.option_quetion.map((item, index) => {
+                const state = {
+                  ...item,
+                  question_type: "options_question",
+                  identifier: index,
+                };
+                return (
+                  <QuestionSetterCard
+                    key={index}
+                    disableAll={true}
+                    isPreview={true}
+                    state={state}
+                    previewStateChange={setAllQuestion}
+                  />
+                );
+              })}
+
+              {allQuestion.fill_in_gap_quetion.map((item, index) => {
+                const state = {
+                  ...item,
+                  question_type: "fill_in_gap_question",
+                  option_to_choose_from: [""],
+                  identifier: index,
+                };
+                return (
+                  <QuestionSetterCard
+                    key={index}
+                    disableAll={true}
+                    isPreview={true}
+                    state={state}
+                    previewStateChange={setAllQuestion}
+                  />
+                );
+              })}
             </div>
+          </main>
 
-            <Button onClick={handleSubmit(onSubmitHandler)}>test submit</Button>
-          </div>
+          <FlexBox justifyContent="flex-end">
+            <Button>Save & Continue Later</Button>
+          </FlexBox>
+        </CompanyJobTestManagementContainer>
+      ) : null}
 
-          <div className="right">CompanyJobTestManagement</div>
-        </main>
-      </CompanyJobTestManagementContainer>
+      {currentRender === 2 ? (
+        <CompanyJobTestCutoff
+          allQuestion={allQuestion}
+          setAllQuestion={setAllQuestion}
+          state={testCutOffMark}
+          onStateChange={setTestCutOffMark}
+        />
+      ) : null}
+
+      {currentRender === 3 ? <CompanyJobTestInvitationLetter /> : null}
     </>
   );
 }

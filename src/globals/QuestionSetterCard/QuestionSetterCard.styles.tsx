@@ -6,7 +6,7 @@ export const QuestionSetterCardContainer = styled.div`
   flex-direction: column;
   width: 350px;
   background-color: ${seqGray};
-  padding: 20px 10px 10px 10px;
+  padding: 0px 10px 10px 10px;
   color: ${seqWhite};
   border-radius: 10px;
   gap: 10px;
@@ -17,12 +17,16 @@ export const QuestionSetterCardContainer = styled.div`
     top: 5px;
     right: 5px;
     cursor: pointer;
+    background-color: #fff;
+    padding: 5px;
   }
 
   .top-banner {
+    padding: 10px 0px;
     text-align: center;
-    font-weight: 500;
-    text-decoration: underline;
+    color: ${seqGray};
+    font-weight: 800;
+    background-color: ${seqLightBlue};
   }
 
   .question-input {

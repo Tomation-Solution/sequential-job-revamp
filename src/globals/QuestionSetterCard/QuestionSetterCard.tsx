@@ -8,51 +8,115 @@ import {
   FillInGapQuestionSetterCardContainer,
   QuestionSetterCardContainer,
 } from "./QuestionSetterCard.styles";
-import InputWithLabel from "../../components/InputWithLabel/InputWithLabel";
-import { useState } from "react";
+import { QuestionType, TestManagementFormTestQuestionsType } from "./types";
+import { FormInput } from "../styles/forms.styles";
 
 type QuestionSetterCardProps = {
   disableAll: boolean;
   isPreview?: boolean;
+  state: QuestionType;
+  onStateChange?: React.Dispatch<React.SetStateAction<QuestionType>>;
+  previewStateChange?: React.Dispatch<
+    React.SetStateAction<TestManagementFormTestQuestionsType>
+  >;
 };
 
 export function QuestionSetterCard({
   disableAll,
   isPreview,
+  state,
+  onStateChange,
+  previewStateChange,
 }: QuestionSetterCardProps) {
-  const [questionType, setQuestionType] = useState<
-    "options_question" | "fill_in_gap_question" | string
-  >("options_question");
-
   return (
     <QuestionSetterCardContainer>
-      {questionType === "fill_in_gap_question" ? (
+      {state.question_type === "fill_in_gap_question" ? (
         <small className="top-banner">
           Represent the guess word or statement as five(5) underscores "_____"
         </small>
       ) : null}
 
       {isPreview && (
-        <div className="trash-bin">
+        <div
+          className="trash-bin"
+          onClick={() =>
+            previewStateChange!((oldPreviewState) => {
+              if (state.question_type === "options_question") {
+                const allOptionsQuestions = [...oldPreviewState.option_quetion];
+                allOptionsQuestions.splice(state.identifier!, 1);
+                return {
+                  ...oldPreviewState,
+                  option_quetion: allOptionsQuestions,
+                };
+              } else {
+                const allFillInQuestions = [
+                  ...oldPreviewState.fill_in_gap_quetion,
+                ];
+                allFillInQuestions.splice(state.identifier!, 1);
+                return {
+                  ...oldPreviewState,
+                  fill_in_gap_quetion: allFillInQuestions,
+                };
+              }
+            })
+          }
+        >
           <BsFillTrashFill color="red" size={20} />
         </div>
       )}
 
-      <input placeholder="Question" type="text" className="question-input" />
+      <input
+        placeholder="Question"
+        value={state.quetion}
+        disabled={disableAll}
+        onChange={(e) =>
+          onStateChange!((oldState) => ({
+            ...oldState,
+            quetion: e.target.value,
+          }))
+        }
+        type="text"
+        className="question-input"
+      />
 
       <div className="image-select">
         <section className="add-image-input">
-          <label htmlFor="file-input">
+          <label htmlFor={disableAll ? "" : "file-input"}>
             <BsFillImageFill size={30} />
-            <small>Add Image</small>
+            <small>
+              {state.image[0]?.name
+                ? state.image[0].name.length > 20
+                  ? `${state.image[0].name.slice(0, 20)}...`
+                  : state.image[0].name
+                : "Add Image"}
+            </small>
           </label>
-          <input id="file-input" type="file" accept="image/*" />
+          <input
+            id="file-input"
+            type="file"
+            disabled={disableAll}
+            accept="image/*"
+            onChange={(e) =>
+              onStateChange!((oldState) => ({
+                ...oldState,
+                image: e.target.files,
+              }))
+            }
+          />
         </section>
 
         <div className="select-container">
           <FiTarget size={15} className="svg1" />
           <AiFillCaretDown size={15} className="svg2" />
-          <select onChange={(e) => setQuestionType(e.target.value)}>
+          <select
+            disabled={disableAll}
+            onChange={(e) =>
+              onStateChange!((oldState) => ({
+                ...oldState,
+                question_type: e.target.value,
+              }))
+            }
+          >
             <option value={"options_question"}>Options question</option>
             <option value={"fill_in_gap_question"}>
               Fill in the gap question
@@ -61,11 +125,19 @@ export function QuestionSetterCard({
         </div>
       </div>
 
-      {questionType === "options_question" ? (
-        <OptionQuestionSetterCard disableAll={disableAll} />
+      {state.question_type === "options_question" ? (
+        <OptionQuestionSetterCard
+          disableAll={disableAll}
+          state={state}
+          onStateChange={onStateChange!}
+        />
       ) : null}
-      {questionType === "fill_in_gap_question" ? (
-        <FillInGapQuestionSetterCard disableAll={disableAll} />
+      {state.question_type === "fill_in_gap_question" ? (
+        <FillInGapQuestionSetterCard
+          disableAll={disableAll}
+          state={state}
+          onStateChange={onStateChange!}
+        />
       ) : null}
 
       <div className="marks-allocation">
@@ -73,7 +145,20 @@ export function QuestionSetterCard({
 
         <div className="marks-allocated-input-container">
           <FiTarget size={10} className="svg1" />
-          <input type="number" className="marks-allocated-input" />
+          <input
+            type="number"
+            className="marks-allocated-input"
+            value={state.quetion_mark}
+            min={1}
+            max={100}
+            disabled={disableAll}
+            onChange={(e) =>
+              onStateChange!((oldState) => ({
+                ...oldState,
+                quetion_mark: Number(e.target.value),
+              }))
+            }
+          />
         </div>
       </div>
     </QuestionSetterCardContainer>
@@ -82,39 +167,112 @@ export function QuestionSetterCard({
 
 type OptionQuestionSetterCardProps = {
   disableAll?: boolean;
+  state: QuestionType;
+  onStateChange: React.Dispatch<React.SetStateAction<QuestionType>>;
 };
 
 export function OptionQuestionSetterCard({
   disableAll,
+  state,
+  onStateChange,
 }: OptionQuestionSetterCardProps) {
   return (
     <OptionQuestionSetterCardContainer>
-      <div className="option">
-        <BsCircle size={15} />
-        <input placeholder="type option" />
-      </div>
+      {state.option_to_choose_from.map((item, index) => (
+        <div className="option" key={index}>
+          <BsCircle size={15} />
+          <input
+            placeholder="type option"
+            value={item}
+            disabled={disableAll}
+            onChange={(e) =>
+              onStateChange((oldState) => {
+                oldState.option_to_choose_from[index] = e.target.value;
+                return { ...oldState };
+              })
+            }
+          />
+
+          <button
+            disabled={disableAll}
+            onClick={() =>
+              onStateChange((oldState) => {
+                const new_option = [...oldState.option_to_choose_from];
+                new_option.splice(index, 1);
+
+                return { ...oldState, option_to_choose_from: new_option };
+              })
+            }
+          >
+            remove option
+          </button>
+        </div>
+      ))}
 
       <div className="option">
         <BsCircle size={15} />
-        <p>Add option</p>
+        <p
+          onClick={() => {
+            if (disableAll) {
+              return;
+            }
+            onStateChange((oldState) => {
+              const new_options = [...oldState.option_to_choose_from];
+              new_options.push(`new option`);
+              return { ...oldState, option_to_choose_from: new_options };
+            });
+          }}
+        >
+          Add option
+        </p>
       </div>
+
+      <FillInGapQuestionSetterCardContainer>
+        <FormInput>
+          <label>Input Expected Answer</label>
+          <input
+            disabled={disableAll}
+            placeholder="provide the expected answer"
+            value={state.answer}
+            onChange={(e) =>
+              onStateChange((oldState) => ({
+                ...oldState,
+                answer: e.target.value,
+              }))
+            }
+          />
+        </FormInput>
+      </FillInGapQuestionSetterCardContainer>
     </OptionQuestionSetterCardContainer>
   );
 }
 
 type FillInGapQuestionSetterCardProps = {
   disableAll?: boolean;
+  state: QuestionType;
+  onStateChange: React.Dispatch<React.SetStateAction<QuestionType>>;
 };
 
 export function FillInGapQuestionSetterCard({
   disableAll,
+  state,
+  onStateChange,
 }: FillInGapQuestionSetterCardProps) {
   return (
     <FillInGapQuestionSetterCardContainer>
-      <InputWithLabel
-        label="Input Expected Answer"
-        placeholder="provide the expected answer"
-      />
+      <FormInput>
+        <label>Input Expected Answer</label>
+        <input
+          placeholder="provide the expected answer"
+          value={state.answer}
+          onChange={(e) =>
+            onStateChange((oldState) => ({
+              ...oldState,
+              answer: e.target.value,
+            }))
+          }
+        />
+      </FormInput>
     </FillInGapQuestionSetterCardContainer>
   );
 }
