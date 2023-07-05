@@ -38,6 +38,10 @@ export const CompanyJobTestManagementContainer = styled.div`
 
     .right {
       flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
     }
   }
 `;
