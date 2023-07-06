@@ -25,7 +25,7 @@ const CompanyLayout = () => {
           },
           {
             name: "Job Post Management",
-            link: "/company/create-job",
+            link: "/company/job-post-management",
             icon: <LibraryBooksIcon />,
           },
           {
@@ -35,16 +35,6 @@ const CompanyLayout = () => {
           },
           { name: "Interview Managent", link: "#", icon: <NoteAltIcon /> },
           { name: "Documentation Management", link: "#", icon: <QuizIcon /> },
-          {
-            name: "Interview Management",
-            link: "#",
-            icon: <ImportContactsIcon />,
-          },
-          {
-            name: "Documentation Management",
-            link: "#",
-            icon: <FileOpenIcon />,
-          },
           {
             name: "Medicals",
             link: "/company/medicals",
@@ -56,7 +46,6 @@ const CompanyLayout = () => {
             link: "/company/settings",
             icon: <SettingsIcon />,
           },
-          { name: "", link: "#", icon: <DashboardIcon /> },
         ]}
       />
       <CompanyMainBody />

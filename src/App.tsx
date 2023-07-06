@@ -23,7 +23,7 @@ import AuthRoutes from "./components/Auth/AuthRoutes";
 import SignUpRoutes from "./components/Auth/SignUp/SignUpRoutes";
 import Login from "./components/Auth/Login";
 import SignUp from "./components/Auth/SignUp/SignUp";
-import { QueryClient, QueryClientProvider } from "react-query";
+
 import JobQuetionInfo from "./pages/JobQuetionInfo";
 import CvFilterTest from "./pages/CvFilterTest/CvFilterTest";
 import JobTestPage from "./pages/JobTestPage/JobTestPage";
@@ -39,104 +39,102 @@ import CompletionComponent from "./components/CompletionComponent/CompletionComp
 import CompanySettingsPage from "./pages/company/CompanySettingsPage";
 import ComapnySignup from "./components/Auth/SignUp/Company-Signup";
 import CompanyJobTestManagementPage from "./pages/company/CompanyJobTestManagementPage";
-const queryClient = new QueryClient();
+import CompanyJobPostManagementPage from "./pages/company/CompanyJobPostManagementPage";
 
 function App() {
   return (
     <Provider store={store}>
-      <QueryClientProvider client={queryClient}>
-        <ToastContainer />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/sign-up" element={<SignUp />} />
-            <Route path="/sign-up-company" element={<ComapnySignup />} />
+      <ToastContainer />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/sign-up" element={<SignUp />} />
+          <Route path="/sign-up-company" element={<ComapnySignup />} />
 
-            <Route element={<MainLayout />}>
-              <Route path="/" element={<Dashboard />} />
-              {/*ELIJAHS REUSABLE COMPONENTS || LOOK AT THEM */}
-              <Route path="/test-management" element={<TestManagement />} />
-              <Route
-                path="/test-management/taking_test/:job_id"
-                element={<JobTestPage />}
-              />
-              <Route path="/take-test" element={<TakeTest />} />
-              <Route path="/test" element={<Tests />} />
-              <Route path="/test-submitted" element={<TestSubmitted />} />
-              <Route path="/medicals" element={<Medicals />} />
-              <Route
-                path="/medicals-invite/:id"
-                element={<MedicalsInvitation />}
-              />
-              <Route path="/interviews" element={<InterviewManagement />} />
-              <Route
-                path="/register-interview/:interview_invite_id/:interview_id/"
-                element={<JobSeekerRegisterForInterview />}
-              />
-              {/* ESPECIALLY THE JOBS COMPONENT */}
-              <Route path="/jobs" element={<Jobs />} />
-              <Route
-                path="/job-quetion-info/:jobid"
-                element={<JobQuetionInfo />}
-              />
-              <Route path="/document_managent" element={<DocumentManagent />} />
-              {/*ELIJAHS REUSABLE COMPONENTS || LOOK AT THEM */}
+          <Route element={<MainLayout />}>
+            <Route path="/" element={<Dashboard />} />
+            {/*ELIJAHS REUSABLE COMPONENTS || LOOK AT THEM */}
+            <Route path="/test-management" element={<TestManagement />} />
+            <Route
+              path="/test-management/taking_test/:job_id"
+              element={<JobTestPage />}
+            />
+            <Route path="/take-test" element={<TakeTest />} />
+            <Route path="/test" element={<Tests />} />
+            <Route path="/test-submitted" element={<TestSubmitted />} />
+            <Route path="/medicals" element={<Medicals />} />
+            <Route
+              path="/medicals-invite/:id"
+              element={<MedicalsInvitation />}
+            />
+            <Route path="/interviews" element={<InterviewManagement />} />
+            <Route
+              path="/register-interview/:interview_invite_id/:interview_id/"
+              element={<JobSeekerRegisterForInterview />}
+            />
+            {/* ESPECIALLY THE JOBS COMPONENT */}
+            <Route path="/jobs" element={<Jobs />} />
+            <Route
+              path="/job-quetion-info/:jobid"
+              element={<JobQuetionInfo />}
+            />
+            <Route path="/document_managent" element={<DocumentManagent />} />
+            {/*ELIJAHS REUSABLE COMPONENTS || LOOK AT THEM */}
 
-              <Route path="/job_detail/:id/" element={<JobDetail />} />
-              <Route path="/jobs_list" element={<JobList />} />
-              <Route
-                path="/filter_quetions/:job_id/"
-                element={<CvFilterTest />}
-              />
+            <Route path="/job_detail/:id/" element={<JobDetail />} />
+            <Route path="/jobs_list" element={<JobList />} />
+            <Route
+              path="/filter_quetions/:job_id/"
+              element={<CvFilterTest />}
+            />
 
-              <Route path="/cvmanagement" element={<CVManagement />} />
-              {/* ADD OTHER PATHS THAT SHOULD BE RENDERED WITH THE SIDEBAR HERE, ELSE DO SO OUTSIDE */}
-              <Route
-                path="/medicals-scheduleinfo"
-                element={<MedicalsScheduleInfo />}
-              />
-              <Route
-                path="/interview-completion"
-                element={<InterviewManagementCompletion />}
-              />
-              <Route
-                path="/medicals-list-subbmission"
-                element={<MedicalsListSubbmission />}
-              />
-              <Route
-                path="/medicals-list-subbmission"
-                element={<MedicalsListSubbmission />}
-              />
-            </Route>
-            {/* <Route path="*" element={<NotFound />} /> */}
-            <Route element={<CompanyLayout />}>
-              <Route path="/company/dashboard" element={<CompanyIndexPage />} />
-              <Route
-                path="/company/medicals"
-                element={<CompanyMedicalsPage />}
-              />
-              <Route
-                path="/company/medicals/schedule-completed"
-                element={
-                  <CompletionComponent
-                    title={"Medicals Schedule Completed"}
-                    btnText={"Home"}
-                    where={"/company/dashboard"}
-                  />
-                }
-              />
-              <Route
-                path="/company/settings"
-                element={<CompanySettingsPage />}
-              />
-              <Route
-                path="/company/job-test-management"
-                element={<CompanyJobTestManagementPage />}
-              />
-            </Route>
-          </Routes>
-        </BrowserRouter>
-      </QueryClientProvider>
+            <Route path="/cvmanagement" element={<CVManagement />} />
+            {/* ADD OTHER PATHS THAT SHOULD BE RENDERED WITH THE SIDEBAR HERE, ELSE DO SO OUTSIDE */}
+            <Route
+              path="/medicals-scheduleinfo"
+              element={<MedicalsScheduleInfo />}
+            />
+            <Route
+              path="/interview-completion"
+              element={<InterviewManagementCompletion />}
+            />
+            <Route
+              path="/medicals-list-subbmission"
+              element={<MedicalsListSubbmission />}
+            />
+            <Route
+              path="/medicals-list-subbmission"
+              element={<MedicalsListSubbmission />}
+            />
+          </Route>
+
+          <Route element={<CompanyLayout />}>
+            <Route path="/company/dashboard" element={<CompanyIndexPage />} />
+            <Route path="/company/medicals" element={<CompanyMedicalsPage />} />
+            <Route
+              path="/company/medicals/schedule-completed"
+              element={
+                <CompletionComponent
+                  title={"Medicals Schedule Completed"}
+                  btnText={"Home"}
+                  where={"/company/dashboard"}
+                />
+              }
+            />
+            <Route path="/company/settings" element={<CompanySettingsPage />} />
+            <Route
+              path="/company/job-test-management"
+              element={<CompanyJobTestManagementPage />}
+            />
+            <Route
+              path="/company/job-post-management"
+              element={<CompanyJobPostManagementPage />}
+            />
+          </Route>
+
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </BrowserRouter>
     </Provider>
   );
 }

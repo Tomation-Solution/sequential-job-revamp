@@ -112,9 +112,9 @@ export const FormInput = styled.div`
   input {
     padding: 1em;
     background: rgba(242, 238, 252, 0.39);
-    border: 1px solid gray;
+    border: 2px solid gray;
     border-radius: 5px;
-    border: 2px solid transparent;
+    /* border: 2px solid transparent; */
     /* background-color: white; */
     outline: none;
     &:focus {
@@ -228,7 +228,7 @@ export const FormCheckbox = styled.div`
 export const FormSelect = styled.div`
   display: flex;
   flex-direction: column;
-  margin-bottom: 1em;
+
   flex: 1;
   width: auto;
   label {
@@ -236,6 +236,7 @@ export const FormSelect = styled.div`
     margin-bottom: 0.5em;
   }
   select {
+    margin-bottom: 1em;
     padding: 1em;
     border: 1px solid ${seqBlue100};
     border-radius: 5px;

@@ -72,8 +72,8 @@ const CompanySignup = () => {
     resolver: yupResolver(schema),
   });
 
+
   const onSubmit = (data: signUpAsJobSeekerForm) => {
-    console.log(data);
     mutate(data);
   };
   return (
@@ -113,6 +113,13 @@ const CompanySignup = () => {
               style={{ margin: "10px 0" }}
               register={register("organisation_name")}
               errorMessage={errors.organisation_name?.message}
+            />
+
+            <InputWithLabel
+              label="organisation shortname"
+              style={{ margin: "10px 0" }}
+              register={register("organisation_name_shortname")}
+              errorMessage={errors.organisation_name_shortname?.message}
             />
 
             <InputWithLabel
