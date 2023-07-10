@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { SavedTabs } from "./types";
+import { JobPostDetailsType, SavedTabs } from "./types";
 import {
   QuestionType,
   TestManagementFormTestQuestionsType,
@@ -11,6 +11,11 @@ import { AiOutlinePlusCircle } from "react-icons/ai";
 import { FlexBox } from "../../globals/styles/FlexBox";
 import Button from "../Button/Button";
 import useToast from "../../hooks/useToastify";
+import { useMutation } from "react-query";
+import { companyFilterQuestions } from "../../redux/api/company/jobs-post-management.api";
+import Preloader from "../Preloader/Preloader";
+import { convertImageToBase64String } from "../../utils/base64EncodeImage";
+import { useJobPostDetailsStore } from "../../zustand-store/jobPost";
 
 type Props = {
   setSavedTabs: React.Dispatch<React.SetStateAction<SavedTabs>>;
@@ -19,6 +24,7 @@ type Props = {
 function CompanyJobPostTab2({ setSavedTabs }: Props) {
   const [testInstruction, setTestInstruction] = useState<string>("");
   const { notify } = useToast();
+  const jobPostDetailsCtrl = useJobPostDetailsStore((state) => state);
 
   const [allQuestion, setAllQuestion] =
     useState<TestManagementFormTestQuestionsType>({
@@ -29,10 +35,10 @@ function CompanyJobPostTab2({ setSavedTabs }: Props) {
 
   const [testQuestion, setTestQuestion] = useState<QuestionType>({
     question_type: "options_question",
-    quetion: "Are you an employer",
-    option_to_choose_from: ["Yes"],
+    quetion: "Type Question Here",
+    option_to_choose_from: ["Option 1"],
     image: "",
-    answer: "Yes",
+    answer: "Question Answer",
     quetion_mark: 10,
   });
 
@@ -54,23 +60,84 @@ function CompanyJobPostTab2({ setSavedTabs }: Props) {
     }
   };
 
-  const onSubmitHandler = () => {
+  const { isLoading, mutate } = useMutation(companyFilterQuestions, {
+    onSuccess: (res) => {
+      setSavedTabs((oldState) => ({ ...oldState, tab1: true, tab2: true }));
+
+      jobPostDetailsCtrl.setFilterQuestionId(
+        res.data[0]?.job_filter_question_id
+      );
+
+      setAllQuestion({
+        fill_in_gap_quetion: [],
+        option_quetion: [],
+        multi_choice_quetion: [],
+      });
+
+      setTestQuestion({
+        question_type: "options_question",
+        quetion: "Type Question Here",
+        option_to_choose_from: ["Option 1"],
+        image: "",
+        answer: "Question Answer",
+        quetion_mark: 10,
+      });
+
+      setTestInstruction("");
+
+      notify(
+        "Application sorting questions successfully assigned to Job",
+        "success"
+      );
+    },
+    onError: () => {
+      notify("Failed to set question to test", "error");
+    },
+  });
+
+  const onSubmitHandler = async () => {
     if (!testInstruction || testInstruction === "") {
       notify("instruction must be provided", "error");
-    }
-    if (
+    } else if (
       allQuestion.fill_in_gap_quetion.length <= 0 &&
       allQuestion.option_quetion.length <= 0
     ) {
       notify("atleast one question must be provided", "error");
     } else {
-      setSavedTabs((oldState) => ({ ...oldState, tab1: true, tab2: true }));
-      console.log({ instruction: testInstruction, ...allQuestion });
+      let { option_quetion, fill_in_gap_quetion, multi_choice_quetion } =
+        allQuestion;
+
+      const new_option_quetion = option_quetion.map(async (item) => ({
+        ...item,
+        image: await convertImageToBase64String(item?.image),
+      }));
+
+      const new_fill_in_gap_quetion = fill_in_gap_quetion.map(async (item) => ({
+        ...item,
+        image: await convertImageToBase64String(item?.image),
+      }));
+
+      const new_multi_choice_quetion = multi_choice_quetion.map(
+        async (item: any) => ({
+          ...item,
+          image: await convertImageToBase64String(item?.image),
+        })
+      );
+
+      const payloadData = {
+        title: testInstruction,
+        option_quetion: await Promise.all(new_option_quetion),
+        fill_in_gap_quetion: await Promise.all(new_fill_in_gap_quetion),
+        multi_choice_quetion: await Promise.all(new_multi_choice_quetion),
+      };
+
+      mutate({ jobId: jobPostDetailsCtrl.jobId, ...payloadData });
     }
   };
 
   return (
     <>
+      <Preloader loading={isLoading} />
       <CompanyJobPostManagementContainer>
         <main>
           <div className="left">
@@ -150,7 +217,7 @@ function CompanyJobPostTab2({ setSavedTabs }: Props) {
         </main>
 
         <FlexBox justifyContent="flex-end">
-          <Button onClick={onSubmitHandler}>Save & Continue Later</Button>
+          <Button onClick={onSubmitHandler}>Save</Button>
         </FlexBox>
       </CompanyJobPostManagementContainer>
     </>

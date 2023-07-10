@@ -11,8 +11,13 @@ import {
 import { yupResolver } from "@hookform/resolvers/yup";
 import Button from "../Button/Button";
 import TextEditor from "../../globals/TextEditor/TextEditor";
-import { useRef } from "react";
-import { SavedTabs } from "./types";
+import { useRef, useState } from "react";
+import { JobPostDetailsType, SavedTabs } from "./types";
+import { useMutation } from "react-query";
+import { companyCreateJobs } from "../../redux/api/company/jobs-post-management.api";
+import useToast from "../../hooks/useToastify";
+import Preloader from "../Preloader/Preloader";
+import { useJobPostDetailsStore } from "../../zustand-store/jobPost";
 
 // type Props = {
 //   register: UseFormRegister<CompanyJobPostValidationType>;
@@ -26,6 +31,8 @@ type Props = {
 };
 
 function CompanyJobPostTab1({ setSavedTabs }: Props) {
+  const [jobDescriptionSave, setJobDescriptionSave] = useState(false);
+  const jobPostDetailsCtrl = useJobPostDetailsStore((state) => state);
   const {
     register,
     handleSubmit,
@@ -41,25 +48,49 @@ function CompanyJobPostTab1({ setSavedTabs }: Props) {
     },
   });
 
+  const { notify } = useToast();
+
+  const { isLoading, mutate } = useMutation(companyCreateJobs, {
+    onSuccess: (res) => {
+      setSavedTabs((oldState) => ({ ...oldState, tab1: true }));
+
+      jobPostDetailsCtrl.setJobId(res?.data?.id);
+      notify("job created successfully", "success");
+    },
+    onError: () => {
+      notify("failed to create job", "error");
+    },
+  });
+
+  const editorRef = useRef<any>();
+
+  const onSubmitButton = () => {
+    setJobDescriptionSave(true);
+    const data = editorRef.current.getContent();
+    setValue("description_content", data);
+  };
+
   const onSubmitHandler = (inputData: CompanyJobPostValidationType) => {
+    if (!jobDescriptionSave) {
+      return notify("save the job description to proceed", "error");
+    }
+
     let currency = "naira";
     if (inputData.money_sign === "$") {
       currency = "dollar";
     }
 
-    setSavedTabs((oldState) => ({ ...oldState, tab1: true }));
+    const payload = { currency, ...inputData };
 
-    console.log("inputData", { currency, ...inputData });
+    const formData = new FormData();
+    //@ts-ignore
+    Object.keys(payload).forEach((key) => formData.append(key, payload[key]));
+
+    mutate(formData);
   };
-
-  const editorRef = useRef<any>();
-  const onSubmitButton = () => {
-    const data = editorRef.current.getContent();
-    setValue("description_content", data);
-  };
-
   return (
     <>
+      <Preloader loading={isLoading} />
       <CompanyJobPostManagementContainer>
         <main>
           <div className="left">
@@ -155,6 +186,18 @@ function CompanyJobPostTab1({ setSavedTabs }: Props) {
               </FormSelect>
 
               <InputWithLabel
+                label="Required Documents, separate multiple documents with commas"
+                register={register("job_required_document")}
+                errorMessage={errors.job_required_document?.message}
+              />
+
+              <InputWithLabel
+                label="Job Categories, e.g. Health information technician,Patient,Medical writer"
+                register={register("job_categories")}
+                errorMessage={errors.job_categories?.message}
+              />
+
+              <InputWithLabel
                 label="Required Experience"
                 register={register("required_experience")}
                 errorMessage={errors.required_experience?.message}
@@ -195,7 +238,7 @@ function CompanyJobPostTab1({ setSavedTabs }: Props) {
           justifyContent="flex-end"
           onClick={handleSubmit(onSubmitHandler)}
         >
-          <Button>Save & Continue Later</Button>
+          <Button>Save</Button>
         </FlexBox>
       </CompanyJobPostManagementContainer>
     </>

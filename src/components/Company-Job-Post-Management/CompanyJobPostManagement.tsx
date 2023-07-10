@@ -7,12 +7,18 @@ import { CompanyNavBarItemsContainer } from "../Company-NavBar/CompanyNavBar.sty
 
 import CompanyJobPostTab1 from "./CompanyJobPostTab1";
 import { useState } from "react";
-import { SavedTabs } from "./types";
+import { JobPostDetailsType, SavedTabs } from "./types";
 import useToast from "../../hooks/useToastify";
 import CompanyJobPostTab2 from "./CompanyJobPostTab2";
+import CompanyJobPostTab3 from "./CompanyJobPostTab3";
 
 function CompanyJobPostManagement() {
   const [currentRender, setCurrentRender] = useState(1);
+
+  const [jobPostDetails, setJobPostDetails] = useState<JobPostDetailsType>({
+    jobId: null,
+    jobFilterQuestionId: null,
+  });
   const [savedTabs, setSavedTabs] = useState<SavedTabs>({
     tab1: false,
     tab2: false,
@@ -25,8 +31,6 @@ function CompanyJobPostManagement() {
     if (currentRender === 1 && !savedTabs.tab1) {
       return true;
     } else if (currentRender === 2 && !savedTabs.tab2) {
-      return true;
-    } else if (currentRender === 3 && !savedTabs.tab3) {
       return true;
     }
   };
@@ -58,14 +62,18 @@ function CompanyJobPostManagement() {
         </CompanyNavBarItemsContainer>
       </CompanyNavBar>
 
-      <FlexBox justifyContent="space-between">
+      {/* <FlexBox justifyContent="space-between">
         {currentRender === 2 ? (
           <Button styleType="sec" onClick={() => changeRenderedTab("decr")}>
             Back to Job Creation
           </Button>
-        ) : (
-          <p></p>
-        )}
+        ) : null}
+
+        {currentRender === 3 ? (
+          <Button styleType="sec" onClick={() => changeRenderedTab("decr")}>
+            Back to Set CV Sorting Questions
+          </Button>
+        ) : null}
 
         <Button
           // disabled={btnDisabler()}
@@ -79,6 +87,26 @@ function CompanyJobPostManagement() {
         >
           {currentRender === 1 && "Save & Proceed to set CV sorting Question"}
           {currentRender === 2 && "Save & Proceed to CV Cut off point"}
+          {currentRender === 3 && "Save & Publish"}
+        </Button>
+      </FlexBox> */}
+
+      <FlexBox justifyContent="flex-end">
+        <Button
+          // disabled={btnDisabler()}
+          onClick={() => {
+            if (btnDisabler()) {
+              notify("save this job to proceed", "error");
+            } else if (currentRender === 3) {
+              setCurrentRender(1);
+            } else {
+              changeRenderedTab("incr");
+            }
+          }}
+        >
+          {currentRender === 1 && "Proceed to set CV sorting Question"}
+          {currentRender === 2 && "Proceed to CV Cut off point"}
+          {currentRender === 3 && "Post another job"}
         </Button>
       </FlexBox>
 
@@ -88,7 +116,7 @@ function CompanyJobPostManagement() {
       {currentRender === 2 ? (
         <CompanyJobPostTab2 setSavedTabs={setSavedTabs} />
       ) : null}
-      {/* {currentRender === 3 ? <CompanyJobPostTab1 /> : null} */}
+      {currentRender === 3 ? <CompanyJobPostTab3 /> : null}
     </>
   );
 }

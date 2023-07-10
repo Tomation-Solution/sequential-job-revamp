@@ -84,10 +84,10 @@ export function QuestionSetterCard({
           <label htmlFor={disableAll ? "" : "file-input"}>
             <BsFillImageFill size={30} />
             <small>
-              {state.image[0]?.name
-                ? state.image[0].name.length > 20
-                  ? `${state.image[0].name.slice(0, 20)}...`
-                  : state.image[0].name
+              {state.image?.name
+                ? state.image?.name.length > 20
+                  ? `${state.image?.name.slice(0, 20)}...`
+                  : state.image?.name
                 : "Add Image"}
             </small>
           </label>
@@ -99,7 +99,7 @@ export function QuestionSetterCard({
             onChange={(e) =>
               onStateChange!((oldState) => ({
                 ...oldState,
-                image: e.target.files,
+                image: e.target.files![0] || "",
               }))
             }
           />

@@ -18,18 +18,14 @@ export const companyJobPostValidationSchema = yup.object({
     .integer(),
   currency: yup.string().optional(),
   job_required_document: yup
-    .array()
-    .of(yup.string())
-    .min(1, "atleast one document must be required"),
+    .string()
+    .required("job required document is required"),
   description_content: yup.string().required(),
   job_variant: yup
     .string()
     .oneOf(["filter_only", "filter_and_test"])
     .required(),
-  job_categories: yup
-    .array()
-    .of(yup.string())
-    .min(1, "atleast on job category should be provided"),
+  job_categories: yup.string().required("job categories is required"),
 
   //backend addition
   money_sign: yup.string().oneOf(["$", "₦"]).required(),
