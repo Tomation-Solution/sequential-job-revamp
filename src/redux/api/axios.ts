@@ -7,7 +7,7 @@ import axios from 'axios'
 export const url =`https://sequential-api-test.up.railway.app` 
 const api =axios.create({
   baseURL: url,
-  withCredentials:true
+  // withCredentials:true
 });
 
 export default api
