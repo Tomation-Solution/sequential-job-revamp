@@ -37,11 +37,9 @@ import CompanyLayout from "./layout/CompanyLayout";
 import CompanyMedicalsPage from "./pages/company/CompanyMedicalsPage";
 import CompletionComponent from "./components/CompletionComponent/CompletionComponent";
 import CompanySettingsPage from "./pages/company/CompanySettingsPage";
-<<<<<<< HEAD
 import ComapnySignup from "./components/Auth/SignUp/Company-Signup";
-=======
+
 import CompanyJobTestManagementPage from "./pages/company/CompanyJobTestManagementPage";
->>>>>>> 7161a7ee7e74e5596ff4a9861bee557a4cac2dbc
 const queryClient = new QueryClient();
 
 function App() {
