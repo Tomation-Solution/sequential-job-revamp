@@ -73,7 +73,11 @@ export const updateCvApi = async (payload: CvManagementFormType) => {
   formData.append("experience", JSON.stringify(payload.experience));
   formData.append("certificaton", JSON.stringify(payload.certification));
   formData.append("refrences", JSON.stringify(payload.refrences));
-  formData.append("country_of_residence", payload.country_of_residence);
+  if(payload.country_of_residence){
+    formData.append("country_of_residence", payload.country_of_residence);
+  }else{
+    formData.append("country_of_residence", 'Nil');
+  }
 
   const resp = await api.patch("/auth/jobseeker-profile/", formData);
   return resp.data;
