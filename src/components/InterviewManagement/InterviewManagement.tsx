@@ -11,12 +11,25 @@ import {
 } from "../TestManagement/TestManagement.style";
 import dayjs from "dayjs";
 import SelectWithLabel from "../SelectWithLabel/SelectWithLabel";
+import useToast from "../../hooks/useToastify";
 
 const InterviewManagement = () => {
   const [filter,setFilter] = useState<'unscheduled'|'scheduled'>('unscheduled')
   const user = getUser()  
+  const {notify} = useToast()
+  const go = useNavigate()
   const {isLoading,data,refetch} = useQuery(['get_interviews_for_jobseekers',filter],()=>get_interviews({'filter_by_scheduled':filter}),{
-      enabled:user?.user_type==='job_seakers'?true:false
+      enabled:user?.user_type==='job_seakers'?true:false,
+      onError:(err:any)=>{
+        if(err.response.data?.error){
+          let error:any = err.response.data.error
+          if(error.cv){
+            notify('You need to upload your cv','error')
+            // notify('Please Hold we would take you to upload your cv','success')
+            go('/cvmanagement')
+          }
+        } 
+      }
   })
   const  navigate = useNavigate();
   return (
