@@ -138,3 +138,23 @@ export const get_jobseerker_profile =
     const resp = await api.get("/auth/jobseeker-profile/");
     return resp.data.data;
   };
+
+
+
+       
+export const requestForgotPasswordApi= async(data:{email:string}):Promise<any>=>{
+  const resp = await api.post(`/auth/forgot-password/request_password_change/`,data)
+  return resp.data.data
+}
+
+type resetPasswordResponse ={
+  "new_password":string,
+  "token":string,
+  "uidb64":string
+}
+
+
+export const resetPasswordAPi = async(data:resetPasswordResponse)=>{
+  const resp = await api.post(`/auth/forgot-password/rest_password/`,data)
+  return resp.data.data
+}
