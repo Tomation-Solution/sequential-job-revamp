@@ -37,8 +37,8 @@ const schema = yup.object({
 
   state: yup.string().required(),
   country_of_residence: yup.string(),
-  linkdin: yup.string().required(),
-  twitter: yup.string().required(),
+  linkdin: yup.string(),
+  twitter: yup.string(),
   education: yup.array().of(
     yup.object({
       degree_type: yup.string(),
@@ -157,7 +157,6 @@ const CVManagement = () => {
   console.log({ "form errors": errors });
 
   useEffect(() => {
-    console.log(mydata);
     const cvstructure = mydata?.user_extra.job_seakers;
     if (mydata) {
       setValue("phone_number", mydata.phone_number);
@@ -182,6 +181,9 @@ const CVManagement = () => {
       setValue("certification", cvstructure.cvStucture.certificaton);
       setValue("refrences", cvstructure.cvStucture.refrences);
       setValue("addresse", cvstructure.cvStucture.addresse);
+    }else{
+      setValue('linkdin','#')
+      setValue('twitter','#')
     }
   }, [mydata]);
   return (
