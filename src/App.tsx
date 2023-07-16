@@ -54,8 +54,9 @@ function App() {
             <Route path="/sign-up" element={<SignUp />} />
             <Route path="/sign-up-company" element={<ComapnySignup />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/reset-password/:uid/:token" element={<ResetPassword />} />
-            {/*  */}
+
+            <Route path="/reset-password/:uid/:token"
+             element={<ResetPassword />} />
             <Route element={<MainLayout />}>
               <Route path="/" element={<Dashboard />} />
               {/*ELIJAHS REUSABLE COMPONENTS || LOOK AT THEM */}
