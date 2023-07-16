@@ -7,7 +7,7 @@ import Logo from "../../assets/Logo.png";
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useMutation } from "react-query";
 import { requestForgotPasswordApi, resetPasswordAPi } from "../../redux/api/authentication.api";
 import { useState } from "react";
@@ -30,7 +30,7 @@ const ForgotPassword = ()=>{
       const {mutate,isLoading} = useMutation(requestForgotPasswordApi,{
         'onSuccess':(data)=>{
             notify('Please check your mail for reset password link','success')
-            go('/reset-password')
+            // go('/reset-password')
         },'onError':(error:any)=>{
             notify('Please Check your internet and try again','error')
         }   
@@ -100,11 +100,11 @@ export const ResetPassword =()=>{
     const { register, handleSubmit, formState: { errors } } = useForm<ResetPasswordSchemaI>({
         resolver: yupResolver(ResetPasswordSchema)
       });
-
-    const [searchParams, setSearchParams] = useSearchParams();
+      const {uid,token} = useParams()
+    // const [searchParams, setSearchParams] = useSearchParams();
         const onSubmit = (data: ResetPasswordSchemaI) =>{
-            let uid =searchParams.get('uid') 
-            let token =searchParams.get('token') 
+            // let uid =searchParams.get('uid') 
+            // let token =searchParams.get('token') 
             // console.log(data,{uid,token})
             if(uid&&token){
                 mutate({
