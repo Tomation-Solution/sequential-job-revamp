@@ -66,8 +66,8 @@ export const updateCvApi = async (payload: CvManagementFormType) => {
   formData.append("email", payload.email);
   formData.append("addresse", payload.addresse);
   formData.append("state", payload.state);
-  formData.append("linkdin", payload.linkdin);
-  formData.append("twitter", payload.twitter);
+  formData.append("linkdin", payload.linkdin?payload.linkdin:'NiL');
+  formData.append("twitter", payload.twitter?payload.twitter:'NiL');
   formData.append("city", payload.city);
   formData.append("education", JSON.stringify(payload.education));
   formData.append("experience", JSON.stringify(payload.experience));
