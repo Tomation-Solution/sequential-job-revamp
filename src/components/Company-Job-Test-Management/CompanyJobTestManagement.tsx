@@ -16,25 +16,29 @@ import {
   TestManagementFormTestQuestionsType,
 } from "../../globals/QuestionSetterCard/types";
 import CompanyJobTestCutoff from "./CompanyJobTestCutoff";
-import { TestCutOffMark } from "./types";
+import { JobType, TestCutOffMark } from "./types";
 import CompanyJobTestInvitationLetter from "./CompanyJobTestInvitationLetter";
+import { useMutation, useQueryClient } from "react-query";
+import {
+  getAllCompanyJobs,
+  postCompanyJobTest,
+} from "../../redux/api/company/jobs-test-management.api";
+import useToast from "../../hooks/useToastify";
+import { useCustomFetcher } from "../../utils/fetcher";
+import EmptyState from "../EmptyState/EmptyState";
+import moment from "moment";
+import { convertImageToBase64String } from "../../utils/base64EncodeImage";
+import Preloader from "../Preloader/Preloader";
+import { useJobTestDetailsStore } from "../../zustand-store/jobTest";
 
 function CompanyJobTestManagement() {
-  const [dropdownOption, setDropdownOption] = useState<string>("foodjob");
-  const [testInstruction, setTestInstruction] = useState<string>("");
+  const [dropdownOption, setDropdownOption] = useState<string>("");
+  const [testInstruction, setTestInstruction] = useState<string>();
   const [currentRender, setCurrentRender] = useState(1);
-  const [testCutOffMark, setTestCutOffMark] = useState<TestCutOffMark>({
-    not_suitable: 0,
-    end_not_suitable: 0,
 
-    partially_suitable: 0,
-    end_partially_suitable: 0,
+  const { notify } = useToast();
 
-    suitable: 0,
-    end_suitable: 0,
-  });
-
-  console.log(testCutOffMark);
+  const jobTestDetailsCtrl = useJobTestDetailsStore((state) => state);
 
   const [allQuestion, setAllQuestion] =
     useState<TestManagementFormTestQuestionsType>({
@@ -45,10 +49,10 @@ function CompanyJobTestManagement() {
 
   const [testQuestion, setTestQuestion] = useState<QuestionType>({
     question_type: "options_question",
-    quetion: "Are you an employer",
-    option_to_choose_from: ["Yes"],
+    quetion: "Type Question Here",
+    option_to_choose_from: ["Option 1"],
     image: "",
-    answer: "Yes",
+    answer: "Question Answer",
     quetion_mark: 10,
   });
 
@@ -70,28 +74,138 @@ function CompanyJobTestManagement() {
     }
   };
 
-  // console.log("testQuestion", testQuestion);
-  // console.log("allQuestion", allQuestion);
+  const queryClient = useQueryClient();
+
+  const { loadingState, isError, data } = useCustomFetcher<JobType[]>(
+    "all-jobs",
+    getAllCompanyJobs,
+    (data) =>
+      data.data
+        .filter((item: any) => item.job_variant === "filter_and_test")
+        .map((item: any) => ({
+          id: item.id,
+          job_title: item.job_title,
+          created_at: item.created_at,
+        }))
+  );
+
+  const { isLoading, mutate } = useMutation(postCompanyJobTest, {
+    onSuccess: (res) => {
+      setTestQuestion({
+        question_type: "options_question",
+        quetion: "Type Question Here",
+        option_to_choose_from: ["Option 1"],
+        image: "",
+        answer: "Question Answer",
+        quetion_mark: 10,
+      });
+
+      setAllQuestion({
+        fill_in_gap_quetion: [],
+        option_quetion: [],
+        multi_choice_quetion: [],
+      });
+
+      setTestInstruction("");
+
+      jobTestDetailsCtrl.setTestQuestionId(res.data?.job_test_id);
+
+      queryClient.invalidateQueries("all-jobs");
+
+      notify(
+        "test questions have been assigned to the selected job",
+        "success"
+      );
+    },
+    onError: () => {
+      notify("failed to assign tests to job", "error");
+    },
+  });
+
+  const uploadQuestionHandler = async () => {
+    if (!dropdownOption) {
+      window.scrollTo(0, 0);
+      notify("please select a job from the dropdown highlighted blue", "error");
+      return;
+    }
+
+    if (!testInstruction || testInstruction === "") {
+      notify("instruction must be provided", "error");
+    } else if (
+      allQuestion.fill_in_gap_quetion.length <= 0 &&
+      allQuestion.option_quetion.length <= 0
+    ) {
+      notify("atleast one question must be provided", "error");
+    } else {
+      let { option_quetion, fill_in_gap_quetion, multi_choice_quetion } =
+        allQuestion;
+
+      const new_option_quetion = option_quetion.map(async (item) => ({
+        ...item,
+        image: await convertImageToBase64String(item?.image),
+      }));
+
+      const new_fill_in_gap_quetion = fill_in_gap_quetion.map(async (item) => ({
+        ...item,
+        image: await convertImageToBase64String(item?.image),
+      }));
+
+      const new_multi_choice_quetion = multi_choice_quetion.map(
+        async (item: any) => ({
+          ...item,
+          image: await convertImageToBase64String(item?.image),
+        })
+      );
+
+      const payloadData = {
+        title: testInstruction,
+        option_quetion: await Promise.all(new_option_quetion),
+        fill_in_gap_quetion: await Promise.all(new_fill_in_gap_quetion),
+        multi_choice_quetion: await Promise.all(new_multi_choice_quetion),
+      };
+
+      mutate({ jobId: dropdownOption, payloadData });
+    }
+  };
+
+  if (loadingState) {
+    return <EmptyState header="Fetching all Jobs" />;
+  }
+
+  if (isError || data?.length! <= 0 || !data) {
+    return (
+      <EmptyState
+        header="Oops something went wrong"
+        subHeader="Failed to fetch all company job, you can try refreshing the page."
+      />
+    );
+  }
 
   return (
     <>
+      <Preloader loading={isLoading} />
       <CompanyNavBar>
         <CompanyNavBarItemsContainer>
           <Dropdown
             disabledOption="Select a Job"
-            options={[
-              { label: "cookingjob", value: "cookingjob" },
-              { label: "sleepingjob", value: "sleepingjob" },
-              { label: "foodjob", value: "foodjob" },
-            ]}
+            options={data.map((item) => ({
+              label: `${item.job_title} // ${moment(
+                new Date(item.created_at)
+              ).format("MMM Do YY")}`,
+              value: `${item.id}`,
+            }))}
             onChange={setDropdownOption}
             defaultValue={dropdownOption}
           />
           <CompanyNavBarTab isSelected={currentRender === 1}>
-            Set Test
+            <p>Set Test</p>
+          </CompanyNavBarTab>
+          <CompanyNavBarTab isSelected={currentRender === 2}>
+            <p>Set cutoffmark for test</p>
+            <p>Preview current test questions</p>
           </CompanyNavBarTab>
           <CompanyNavBarTab isSelected={currentRender === 3}>
-            Upload Invitation for Job Test
+            <p>Upload Invitation for Job Test</p>
           </CompanyNavBarTab>
         </CompanyNavBarItemsContainer>
       </CompanyNavBar>
@@ -212,21 +326,18 @@ function CompanyJobTestManagement() {
           </main>
 
           <FlexBox justifyContent="flex-end">
-            <Button>Save & Continue Later</Button>
+            <Button onClick={uploadQuestionHandler}>Save</Button>
           </FlexBox>
         </CompanyJobTestManagementContainer>
       ) : null}
 
       {currentRender === 2 ? (
-        <CompanyJobTestCutoff
-          allQuestion={allQuestion}
-          setAllQuestion={setAllQuestion}
-          state={testCutOffMark}
-          onStateChange={setTestCutOffMark}
-        />
+        <CompanyJobTestCutoff jobId={dropdownOption} />
       ) : null}
 
-      {currentRender === 3 ? <CompanyJobTestInvitationLetter /> : null}
+      {currentRender === 3 ? (
+        <CompanyJobTestInvitationLetter jobId={dropdownOption} />
+      ) : null}
     </>
   );
 }

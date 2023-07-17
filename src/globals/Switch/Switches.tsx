@@ -1,11 +1,16 @@
 import Switch from "react-switch";
 
 interface SwitchedProps {
+  disabled?: boolean;
   onChangefn: (value: boolean) => void;
   checked: boolean;
 }
 
-const Switches: React.FC<SwitchedProps> = ({ onChangefn, checked }) => {
+const Switches: React.FC<SwitchedProps> = ({
+  onChangefn,
+  disabled,
+  checked,
+}) => {
   const handleChange = (nextChecked: boolean) => {
     onChangefn(nextChecked);
   };
@@ -18,6 +23,7 @@ const Switches: React.FC<SwitchedProps> = ({ onChangefn, checked }) => {
         onColor="#304ef5"
         onHandleColor="#fff"
         handleDiameter={15}
+        disabled={disabled}
         draggable={false}
         uncheckedIcon={false}
         checkedIcon={false}

@@ -1,6 +1,5 @@
 import styled from "styled-components";
-import { seqBlue100, seqLightBlue } from "../../../globals/colors";
-import { Laptop, tablet } from "../../../responsive";
+import { tablet } from "../../../responsive";
 
 export const SignUpContainer = styled.div`
   display: flex;
@@ -13,7 +12,7 @@ export const SignUpWrapper = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
 `;
 
 export const DecisionContainer = styled.div`

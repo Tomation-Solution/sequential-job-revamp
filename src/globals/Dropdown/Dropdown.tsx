@@ -14,6 +14,7 @@ type Props = {
   defaultValue: string[] | string;
   multiple?: boolean;
   disabledOption: string;
+  disabledValue?: string;
 };
 
 function Dropdown({
@@ -22,6 +23,7 @@ function Dropdown({
   multiple,
   disabledOption,
   defaultValue,
+  disabledValue = "",
 }: Props) {
   return (
     <DropdownContainer>
@@ -32,7 +34,9 @@ function Dropdown({
         multiple={multiple}
         onChange={(e) => onChange(e.target.value)}
       >
-        <option disabled>{disabledOption}</option>
+        <option value={disabledValue} disabled>
+          {disabledOption}
+        </option>
         {options.map((item, index) => (
           <option key={index} value={item.value}>
             {item.label}

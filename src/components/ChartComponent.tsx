@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -7,8 +6,9 @@ import {
   Title,
   Tooltip,
   Legend,
-} from 'chart.js';
-import { Bar } from 'react-chartjs-2';
+} from "chart.js";
+
+import { Bar } from "react-chartjs-2";
 
 ChartJS.register(
   CategoryScale,
@@ -23,38 +23,36 @@ export const options = {
   responsive: true,
   plugins: {
     legend: {
-      position: 'top' as const,
+      position: "top" as const,
     },
     title: {
       display: true,
-      text: '',
+      text: "",
     },
   },
 };
 
-const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+const labels = ["January", "February", "March", "April", "May", "June", "July"];
 
-export type ChartComponentProp ={
-    info:{
-        data:number[],
-        labels:string[],
-        backgroundColor:string[]
-    }
-}
-const ChartComponent = ({info}:{info:ChartComponentProp})=> {
-    const data = {
-      labels:info.info.labels,
-      datasets: [
-        {
-          label: 'Job Bar Chart',
-          data:info.info.data,
-          backgroundColor:info.info.backgroundColor,
-        },
-    
-      ],
-    };
+export type ChartComponentProp = {
+  info: {
+    data: number[];
+    labels: string[];
+    backgroundColor: string[];
+  };
+};
+const ChartComponent = ({ info }: { info: ChartComponentProp }) => {
+  const data = {
+    labels: info.info.labels,
+    datasets: [
+      {
+        label: "Job Bar Chart",
+        data: info.info.data,
+        backgroundColor: info.info.backgroundColor,
+      },
+    ],
+  };
   return <Bar options={options} data={data} />;
-}
+};
 
-
-export default ChartComponent
+export default ChartComponent;

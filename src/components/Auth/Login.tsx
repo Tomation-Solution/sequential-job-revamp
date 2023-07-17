@@ -4,16 +4,13 @@ import {
   SignUpContainer,
   SignUpWrapper,
 } from "./SignUp/Signup.styles";
-import {
-  Form,
-  FormContainer,
-} from "../../globals/styles/forms.styles";
+import { Form, FormContainer } from "../../globals/styles/forms.styles";
 import { Link } from "react-router-dom";
 import EastIcon from "@mui/icons-material/East";
 import Logo from "../../assets/Logo.png";
 import InputWithLabel from "../InputWithLabel/InputWithLabel";
 import { useForm } from "react-hook-form";
-import { yupResolver } from '@hookform/resolvers/yup';
+import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "react-query";
@@ -25,44 +22,45 @@ import Preloader from "../Preloader/Preloader";
 // styles here were copied from signups.styles.tsx and forms.styles.tsx
 // and then modified to fit the needs of this component
 
-
 const schema = yup.object({
   email: yup.string().email().required(),
-  password:yup.string().required(),
-})
+  password: yup.string().required(),
+});
 
 type LoginFormType = yup.InferType<typeof schema>;
 const Login = () => {
   const navigate = useNavigate();
-  const {notify} = useToast()
-  const {mutate,isLoading} = useMutation(signInApi,{
-    'onSuccess':(data)=>{
-      if(data.status == 200){
-        const user = setUser(data.data.tokens)
-        const savedUser = getUser()
-        notify(`Welcome back ${savedUser?.full_name}`,'success')
-        if(savedUser?.user_type ==='job_seakers'){
-          navigate('/')
-        }else{
-          navigate('/company/dashboard')
-
+  const { notify } = useToast();
+  const { mutate, isLoading } = useMutation(signInApi, {
+    onSuccess: (data) => {
+      if (data.status == 200) {
+        const user = setUser(data.data.tokens);
+        const savedUser = getUser();
+        notify(`Welcome back ${savedUser?.full_name}`, "success");
+        if (savedUser?.user_type === "job_seakers") {
+          navigate("/");
+        } else {
+          navigate("/company/dashboard");
         }
       }
     },
-    'onError':(error:any)=>{
-      const data:any = error.response.data
-      notify(data.message,'error')
-    }
-  })
-  const { register, handleSubmit, formState: { errors } } = useForm<LoginFormType>({
-    resolver: yupResolver(schema)
+    onError: (error: any) => {
+      const data: any = error.response.data;
+      notify(data.message, "error");
+    },
+  });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormType>({
+    resolver: yupResolver(schema),
   });
 
-  const onSubmit = (data: LoginFormType) =>{
-    console.log({data});
-    mutate(data)
-  } 
-  console.log({'foprm error':errors})
+  const onSubmit = (data: LoginFormType) => {
+    mutate(data);
+  };
+  console.log({ "foprm error": errors });
 
   return (
     <SignUpContainer>
@@ -77,23 +75,20 @@ const Login = () => {
 
           <DecisionContainer>
             <Form onSubmit={handleSubmit(onSubmit)}>
-              <InputWithLabel 
-                  label="email"
-                  register={register('email')}
-                  errorMessage={errors.email?.message}
+              <InputWithLabel
+                label="email"
+                register={register("email")}
+                errorMessage={errors.email?.message}
               />
-               <InputWithLabel 
-                  label="password"
-                  register={register('password')}
-                  errorMessage={errors.password?.message}
-                  type='password'
+              <InputWithLabel
+                label="password"
+                register={register("password")}
+                errorMessage={errors.password?.message}
+                type="password"
               />
               <br />
-              <Button type="submit">
-                Login
-              </Button>
+              <Button type="submit">Login</Button>
             </Form>
-
           </DecisionContainer>
         </FormContainer>
       </SignUpWrapper>

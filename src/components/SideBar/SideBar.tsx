@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import {
   SideBarContainer,
   SideBtn,
@@ -12,32 +12,44 @@ import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import QuizIcon from "@mui/icons-material/Quiz";
 import ImportContactsIcon from "@mui/icons-material/ImportContacts";
 import FileOpenIcon from "@mui/icons-material/FileOpen";
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import SettingsIcon from "@mui/icons-material/Settings";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { removeUserCred } from "../../utils/extraFunction";
 
 type Props = {
   show?: boolean;
-  navlinks?:{
-    name:string,
-    link:string,
-    icon:any
-  }[]
+  navlinks?: {
+    name: string;
+    link: string;
+    icon: any;
+  }[];
 };
 
-const SideBar: FC<Props> = ({ show,navlinks=[
-  {name:'DashBoard',link:'/',icon:<DashboardIcon />},
-  {name:'Jobs',link:'/jobs_list',icon:<LibraryBooksIcon />},
-  {name:'CV Management',link:'/cvmanagement',icon:<ArrowUpwardIcon />},
-  {name:'Test Management',link:'/test-management',icon:<QuizIcon/>},
-  {name:'Interview Management',link:'/interviews',icon:<ImportContactsIcon />},
-  {name:'Documentation Management',link:'/document_managent',icon:<FileOpenIcon />},
-  {name:'Medicals Invite',link:'/medicals',icon:<FileOpenIcon  />},
-  {name:'Settings',link:'/',icon:<DashboardIcon />},
-] }) => {
-  const navigate = useNavigate()
+const SideBar: FC<Props> = ({
+  show,
+  navlinks = [
+    { name: "DashBoard", link: "/", icon: <DashboardIcon /> },
+    { name: "Jobs", link: "/jobs_list", icon: <LibraryBooksIcon /> },
+    { name: "CV Management", link: "/cvmanagement", icon: <ArrowUpwardIcon /> },
+    { name: "Test Management", link: "/test-management", icon: <QuizIcon /> },
+    {
+      name: "Interview Management",
+      link: "/interviews",
+      icon: <ImportContactsIcon />,
+    },
+    {
+      name: "Documentation Management",
+      link: "/document_managent",
+      icon: <FileOpenIcon />,
+    },
+    { name: "Medicals Invite", link: "/medicals", icon: <FileOpenIcon /> },
+    { name: "Settings", link: "/", icon: <DashboardIcon /> },
+  ],
+}) => {
+  const navigate = useNavigate();
+
+  const location = useLocation();
+
   return (
     <SideBarContainer show={show}>
       <SideLogo>
@@ -45,27 +57,22 @@ const SideBar: FC<Props> = ({ show,navlinks=[
       </SideLogo>
 
       <SideBtnCon>
-        {/* <SideBtn onClick={e=>navigate('')}>
-        </SideBtn> */}
-        {/* <SideBtn onClick={e=>navigate('/jobs_list')}>
-          <LibraryBooksIcon />
-          
-        </SideBtn> */}
- {
-  navlinks.map((d,index)=>(
-    <SideBtn key={index} onClick={e=>navigate(d.link)}>
-    {d.icon}
-    {d.name}
-  </SideBtn>
-  ))
- }
+        {navlinks.map((d, index) => (
+          <SideBtn
+            key={index}
+            onClick={(e) => navigate(d.link)}
+            isSelected={location.pathname === d.link}
+          >
+            {d.icon}
+            {d.name}
+          </SideBtn>
+        ))}
 
- 
         <SideBtn
-        onClick={e=>{
-          removeUserCred()
-          navigate('/login')
-        }}
+          onClick={(e) => {
+            removeUserCred();
+            navigate("/login");
+          }}
         >
           <LogoutIcon />
           Logout

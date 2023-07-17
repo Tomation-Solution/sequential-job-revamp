@@ -80,30 +80,34 @@ export function QuestionSetterCard({
       />
 
       <div className="image-select">
-        <section className="add-image-input">
-          <label htmlFor={disableAll ? "" : "file-input"}>
-            <BsFillImageFill size={30} />
-            <small>
-              {state.image?.name
-                ? state.image?.name.length > 20
-                  ? `${state.image?.name.slice(0, 20)}...`
-                  : state.image?.name
-                : "Add Image"}
-            </small>
-          </label>
-          <input
-            id="file-input"
-            type="file"
-            disabled={disableAll}
-            accept="image/*"
-            onChange={(e) =>
-              onStateChange!((oldState) => ({
-                ...oldState,
-                image: e.target.files![0] || "",
-              }))
-            }
-          />
-        </section>
+        {disableAll && !state?.image?.name ? (
+          <img alt="" src={state?.image || ""} className="preview-image" />
+        ) : (
+          <section className="add-image-input">
+            <label htmlFor={disableAll ? "" : "file-input"}>
+              <BsFillImageFill size={30} />
+              <small>
+                {state.image?.name
+                  ? state.image?.name.length > 20
+                    ? `${state.image?.name.slice(0, 20)}...`
+                    : state.image?.name
+                  : "Add Image"}
+              </small>
+            </label>
+            <input
+              id="file-input"
+              type="file"
+              disabled={disableAll}
+              accept="image/*"
+              onChange={(e) =>
+                onStateChange!((oldState) => ({
+                  ...oldState,
+                  image: e.target.files![0] || "",
+                }))
+              }
+            />
+          </section>
+        )}
 
         <div className="select-container">
           <FiTarget size={15} className="svg1" />
@@ -178,7 +182,7 @@ export function OptionQuestionSetterCard({
 }: OptionQuestionSetterCardProps) {
   return (
     <OptionQuestionSetterCardContainer>
-      {state.option_to_choose_from.map((item, index) => (
+      {state.option_to_choose_from?.map((item, index) => (
         <div className="option" key={index}>
           <BsCircle size={15} />
           <input
@@ -265,6 +269,7 @@ export function FillInGapQuestionSetterCard({
         <input
           placeholder="provide the expected answer"
           value={state.answer}
+          disabled={disableAll}
           onChange={(e) =>
             onStateChange((oldState) => ({
               ...oldState,

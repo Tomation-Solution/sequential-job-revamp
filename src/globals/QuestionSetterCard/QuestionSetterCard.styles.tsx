@@ -12,6 +12,14 @@ export const QuestionSetterCardContainer = styled.div`
   gap: 10px;
   position: relative;
 
+  .preview-image {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    object-position: center;
+    background-color: #d3d3d3;
+  }
+
   .trash-bin {
     position: absolute;
     top: 5px;

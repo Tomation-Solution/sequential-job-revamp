@@ -1,4 +1,3 @@
-import { string } from "yup";
 import { signUpAsJobSeekerForm } from "../../components/Auth/SignUp/SignUp";
 import { CvManagementFormType } from "../../pages/CVManagement/CVManagement";
 import api from "./axios";

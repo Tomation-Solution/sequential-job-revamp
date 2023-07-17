@@ -15,6 +15,7 @@ export const CompanyNavBarTabContainer = styled.div<{ isSelected?: boolean }>`
   p {
     font-size: 14px;
     font-weight: 600;
+    color: ${(props) => (props.isSelected ? `${seqLightBlue}` : ``)};
   }
 `;
 
@@ -26,6 +27,19 @@ export const CompanyNavBarContainer = styled.div`
   justify-content: space-between;
   background-color: ${seqWhite};
   margin: 10px 0px;
+  position: relative;
+  gap: 30px;
+
+  .hamburger-icon {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    display: none;
+
+    ${tablet({
+      display: "block",
+    })}
+  }
 
   ${tablet({
     flexDirection: "column-reverse",

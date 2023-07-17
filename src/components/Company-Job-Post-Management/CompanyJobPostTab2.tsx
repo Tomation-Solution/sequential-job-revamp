@@ -18,10 +18,11 @@ import { convertImageToBase64String } from "../../utils/base64EncodeImage";
 import { useJobPostDetailsStore } from "../../zustand-store/jobPost";
 
 type Props = {
+  selectedJobId: any;
   setSavedTabs: React.Dispatch<React.SetStateAction<SavedTabs>>;
 };
 
-function CompanyJobPostTab2({ setSavedTabs }: Props) {
+function CompanyJobPostTab2({ setSavedTabs, selectedJobId }: Props) {
   const [testInstruction, setTestInstruction] = useState<string>("");
   const { notify } = useToast();
   const jobPostDetailsCtrl = useJobPostDetailsStore((state) => state);
@@ -96,6 +97,11 @@ function CompanyJobPostTab2({ setSavedTabs }: Props) {
   });
 
   const onSubmitHandler = async () => {
+    if (selectedJobId === "create_mode" || !selectedJobId) {
+      notify("please select a job", "error");
+      return;
+    }
+
     if (!testInstruction || testInstruction === "") {
       notify("instruction must be provided", "error");
     } else if (
@@ -131,7 +137,7 @@ function CompanyJobPostTab2({ setSavedTabs }: Props) {
         multi_choice_quetion: await Promise.all(new_multi_choice_quetion),
       };
 
-      mutate({ jobId: jobPostDetailsCtrl.jobId, ...payloadData });
+      mutate({ jobId: selectedJobId, ...payloadData });
     }
   };
 
@@ -141,7 +147,7 @@ function CompanyJobPostTab2({ setSavedTabs }: Props) {
       <CompanyJobPostManagementContainer>
         <main>
           <div className="left">
-            <h2>Applicant Sorting </h2>
+            <h2>Applicant Sorting</h2>
 
             <p style={{ textAlign: "center" }}>
               In other to ease the recruiutment selection process, It is

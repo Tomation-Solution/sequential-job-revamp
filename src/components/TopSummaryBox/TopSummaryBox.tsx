@@ -129,24 +129,31 @@ const TopSummaryBox = () => {
 
 export default TopSummaryBox;
 
+type CompanyTopSummaryBoxType = {
+  color: string;
+  name: string;
+  status: string;
+  count: any;
+};
+
 export const CompanyTopSummaryBox = () => {
   const { dashboardJobSummaryStatus } = useAppSelector(selectCompanyDashboard);
-  const [data, setData] = useState([
+  const [data, setData] = useState<CompanyTopSummaryBoxType[]>([
     {
       color: "red",
-      name: "Total Applications",
+      name: "Total Candidates",
       status: "total_application",
       count: 0,
     },
     {
       color: "green",
-      name: "Applicants hired",
+      name: "Candidates hired",
       status: "applicants_hired",
       count: 0,
     },
     {
       color: "gray",
-      name: "Total Number of Job Post",
+      name: "Total Vacancies",
       status: "total_number_of_job_post",
       count: 0,
     },
@@ -159,7 +166,9 @@ export const CompanyTopSummaryBox = () => {
     },
     { color: "brown", name: "Active Jobs", status: "active_jobs", count: 0 },
   ]);
+
   const dispatch = useAppDispatch();
+
   const { isLoading } = useQuery(
     "getCompanyDashboardSummaryApi",
     getCompanyDashboardSummaryApi,
@@ -168,25 +177,25 @@ export const CompanyTopSummaryBox = () => {
         setData([
           {
             color: "red",
-            name: "Total Applications",
+            name: "Total Candidates",
             status: "total_application",
             count: data.total_applicant,
           },
           {
             color: "green",
-            name: "Applicant Hired",
+            name: "Candidates hired",
             status: "applicants_hired",
             count: data.applicant_hired,
           },
           {
             color: "gray",
-            name: "Total Number of Job Post",
+            name: "Total Vacancies",
             status: "total_number_of_job_post",
             count: data.total_number_of_job_post,
           },
           {
             color: "purple",
-            name: "Closed Jobs",
+            name: "Vacancies Closed",
             status: "closed_jobs",
             count: data.closed_jobs,
           },
@@ -214,6 +223,11 @@ export const CompanyTopSummaryBox = () => {
         <TopSummaryItems
           newColor={item.color}
           onClick={(e) => {
+            if (dashboardJobSummaryStatus === item.status) {
+              dispatch(changeApplicationDashboardState("summary-charts"));
+              return;
+            }
+
             dispatch(
               changeApplicationDashboardState(
                 item.status as CompanyDashboardSliceStateType["dashboardJobSummaryStatus"]
@@ -228,12 +242,14 @@ export const CompanyTopSummaryBox = () => {
           key={index}
         >
           <ItemCountCon>
-            <h1>{item.count}</h1>
+            <h1>{item?.count}</h1>
 
+            {/* 
+            Don't delete this
             <div>
               <section></section>
-              {/* +3 */}
-            </div>
+              +3
+            </div> */}
           </ItemCountCon>
           <p>{item.name}</p>
         </TopSummaryItems>

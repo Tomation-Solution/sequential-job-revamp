@@ -11,13 +11,18 @@ import {
 import { yupResolver } from "@hookform/resolvers/yup";
 import Button from "../Button/Button";
 import TextEditor from "../../globals/TextEditor/TextEditor";
-import { useRef, useState } from "react";
-import { JobPostDetailsType, SavedTabs } from "./types";
-import { useMutation } from "react-query";
-import { companyCreateJobs } from "../../redux/api/company/jobs-post-management.api";
+import { useEffect, useRef, useState } from "react";
+import { SavedTabs } from "./types";
+import { useMutation, useQueryClient } from "react-query";
+import {
+  companyCreateJobs,
+  companyGetJob,
+  companyUpdateJobDetails,
+} from "../../redux/api/company/jobs-post-management.api";
 import useToast from "../../hooks/useToastify";
 import Preloader from "../Preloader/Preloader";
 import { useJobPostDetailsStore } from "../../zustand-store/jobPost";
+import { useCustomFetcher } from "../../utils/fetcher";
 
 // type Props = {
 //   register: UseFormRegister<CompanyJobPostValidationType>;
@@ -27,16 +32,18 @@ import { useJobPostDetailsStore } from "../../zustand-store/jobPost";
 //   onSubmitFn: () => void;
 // };
 type Props = {
+  selectedJobId: any;
   setSavedTabs: React.Dispatch<React.SetStateAction<SavedTabs>>;
 };
 
-function CompanyJobPostTab1({ setSavedTabs }: Props) {
+function CompanyJobPostTab1({ setSavedTabs, selectedJobId }: Props) {
   const [jobDescriptionSave, setJobDescriptionSave] = useState(false);
   const jobPostDetailsCtrl = useJobPostDetailsStore((state) => state);
   const {
     register,
     handleSubmit,
     watch,
+    reset,
     setValue,
     formState: { errors },
   } = useForm<CompanyJobPostValidationType>({
@@ -48,17 +55,75 @@ function CompanyJobPostTab1({ setSavedTabs }: Props) {
     },
   });
 
+  const { loadingState, isError, data } = useCustomFetcher<
+    CompanyJobPostValidationType & { job_filter: any; job_test: any }
+  >(`job-details-${selectedJobId}`, () => companyGetJob(selectedJobId));
+
+  useEffect(() => {
+    if (data) {
+      const updateData = {
+        job_title: data?.job_title || "",
+        is_active: data?.is_active || false,
+        location: data?.location || "",
+        job_type: data.job_type || "on_site",
+        salary: data?.salary || 0,
+        currency: data?.currency || "",
+        job_required_document: data?.job_required_document || "",
+        description_content:
+          data?.description_content || "<h1>Job Description</h1>",
+        job_variant: data?.job_variant || "filter_only",
+        job_categories: data?.job_categories || "",
+        employement_type: data?.employement_type || "full_time",
+        money_sign: data?.money_sign || "₦",
+        required_experience: data?.required_experience || "",
+        generic_skills: data?.generic_skills || "",
+        technical_skills: data?.technical_skills || "",
+        professional_path: data?.professional_path || "",
+      };
+
+      reset(updateData);
+    }
+  }, [data, reset, selectedJobId]);
+
   const { notify } = useToast();
+
+  const queryClient = useQueryClient();
 
   const { isLoading, mutate } = useMutation(companyCreateJobs, {
     onSuccess: (res) => {
       setSavedTabs((oldState) => ({ ...oldState, tab1: true }));
 
+      setJobDescriptionSave(false);
+
+      queryClient.invalidateQueries(`all-jobs`);
+
+      queryClient.invalidateQueries(`job-details-${selectedJobId}`);
+
       jobPostDetailsCtrl.setJobId(res?.data?.id);
       notify("job created successfully", "success");
     },
     onError: () => {
+      setJobDescriptionSave(false);
       notify("failed to create job", "error");
+    },
+  });
+
+  const updateJobMutation = useMutation(companyUpdateJobDetails, {
+    onSuccess: (res) => {
+      setSavedTabs((oldState) => ({ ...oldState, tab1: true }));
+
+      queryClient.invalidateQueries(`all-jobs`);
+
+      queryClient.invalidateQueries(`job-details-${selectedJobId}`);
+
+      setJobDescriptionSave(false);
+
+      jobPostDetailsCtrl.setJobId(res?.data?.id);
+      notify("job updated successfully", "success");
+    },
+    onError: () => {
+      setJobDescriptionSave(false);
+      notify("failed to update job", "error");
     },
   });
 
@@ -80,17 +145,40 @@ function CompanyJobPostTab1({ setSavedTabs }: Props) {
       currency = "dollar";
     }
 
-    const payload = { currency, ...inputData };
+    const payload = { ...inputData, currency };
 
     const formData = new FormData();
     //@ts-ignore
     Object.keys(payload).forEach((key) => formData.append(key, payload[key]));
 
-    mutate(formData);
+    if (selectedJobId === "create_mode") {
+      mutate(formData);
+    } else {
+      if (
+        data?.job_variant === "filter_and_test" &&
+        (data?.job_test === null || data?.job_filter === null)
+      ) {
+        notify(
+          `Tests & CV sorting questions need to be set for jobs with the variant type of "Filter & Test" before you can update it`,
+          "error"
+        );
+        return;
+      }
+
+      if (data?.job_variant === "filter_only" && data?.job_filter === null) {
+        notify(
+          `CV sorting questions need to be set for this job before you can update it`,
+          "error"
+        );
+        return;
+      }
+
+      updateJobMutation.mutate({ jobId: selectedJobId, formData });
+    }
   };
   return (
     <>
-      <Preloader loading={isLoading} />
+      <Preloader loading={isLoading || updateJobMutation.isLoading} />
       <CompanyJobPostManagementContainer>
         <main>
           <div className="left">
@@ -234,11 +322,8 @@ function CompanyJobPostTab1({ setSavedTabs }: Props) {
           </div>
         </main>
 
-        <FlexBox
-          justifyContent="flex-end"
-          onClick={handleSubmit(onSubmitHandler)}
-        >
-          <Button>Save</Button>
+        <FlexBox justifyContent="flex-end">
+          <Button onClick={handleSubmit(onSubmitHandler)}>Save</Button>
         </FlexBox>
       </CompanyJobPostManagementContainer>
     </>

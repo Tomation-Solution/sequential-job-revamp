@@ -34,6 +34,9 @@ export const companyFilterQuestions = async (payload: any) => {
 
 export const companyGetJob = async (jobId: any) => {
   try {
+    if (jobId === "" || jobId === "create_mode") {
+      return { data: [] };
+    }
     const res = await api.get(`/jobs/company-job-handler/${jobId}/`);
     return res.data;
   } catch (err: any) {
@@ -60,6 +63,21 @@ export const companySetCutOffDetails = async (payload: any) => {
     const res = await api.post(
       `/jobs/company-filterquetion-handler/set_cut_off_for_quetion/`,
       payload
+    );
+    return res.data;
+  } catch (err: any) {
+    throw new AxiosError(err);
+  }
+};
+
+export const getJobCVSortingQuestions = async (jobId: string) => {
+  try {
+    if (jobId === "" || jobId === "create_mode") {
+      return { data: [] };
+    }
+
+    const res = await api.get(
+      `/jobs/company-filterquetion-handler/get_job_filter_questions?job_id=${jobId}`
     );
     return res.data;
   } catch (err: any) {

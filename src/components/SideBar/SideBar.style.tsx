@@ -20,6 +20,7 @@ export const SideBarContainer = styled.div<Props>`
   left: 0;
   overflow: auto;
   transition: all 0.5s;
+  z-index: 20;
 
   @media (max-width: 768px) {
     transform: ${(props) =>
@@ -46,7 +47,7 @@ export const SideBtnCon = styled.div`
   display: flex;
   flex-direction: column;
 `;
-export const SideBtn = styled.span`
+export const SideBtn = styled.span<{ isSelected?: boolean }>`
   padding: 10px 20px;
   margin: 5px 0px;
   display: flex;
@@ -56,6 +57,11 @@ export const SideBtn = styled.span`
   font-weight: 500;
   font-size: 14px;
   cursor: pointer;
+  transition: all 0.5s;
+
+  background-color: ${(props) => (props.isSelected ? `${seqWhite}` : ``)};
+  color: ${(props) => (props.isSelected ? `${seqBlue100}` : `${seqWhite}`)};
+
   &:hover {
     background-color: ${seqWhite};
     color: ${seqBlue100};

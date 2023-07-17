@@ -40,6 +40,8 @@ import CompanySettingsPage from "./pages/company/CompanySettingsPage";
 import ComapnySignup from "./components/Auth/SignUp/Company-Signup";
 import CompanyJobTestManagementPage from "./pages/company/CompanyJobTestManagementPage";
 import CompanyJobPostManagementPage from "./pages/company/CompanyJobPostManagementPage";
+import CVSummary from "./pages/company/CVSummary/CVSummary";
+import CompanyJobCandidateSum from "./pages/company/CompanyJobCandidateSum/CompanyJobCandidateSum";
 
 function App() {
   return (
@@ -129,6 +131,16 @@ function App() {
             <Route
               path="/company/job-post-management"
               element={<CompanyJobPostManagementPage />}
+            />
+
+            <Route
+              path="/company/cv-details/:id/:role"
+              element={<CVSummary />}
+            />
+
+            <Route
+              path="/company/job-candidate-summary/:jobId"
+              element={<CompanyJobCandidateSum />}
             />
           </Route>
 

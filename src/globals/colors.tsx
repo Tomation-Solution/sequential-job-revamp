@@ -10,5 +10,6 @@ export const seqWhite100 = "#F2F2F2";
 
 export const seqGray = "#0D0D0D";
 export const seqGray100 = "#D7CBF6";
+export const seqGray200 = "#6A6A6A";
 
 export const seqRed = "#FF8A8A";

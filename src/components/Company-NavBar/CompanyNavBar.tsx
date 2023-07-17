@@ -3,6 +3,12 @@ import {
   CompanyNavBarContainer,
   CompanyNavBarTabContainer,
 } from "./CompanyNavBar.styles";
+import SideBar from "../SideBar/SideBar";
+import { useState } from "react";
+import { MainNavLogoCon } from "../MainBody/MainNavBar/MainNavBar.styles";
+
+import { RxHamburgerMenu } from "react-icons/rx";
+import { companyNavLinks } from "../../layout/CompanyLayout";
 
 type CompanyNavBarTabProps = {
   isSelected?: boolean;
@@ -25,15 +31,28 @@ type Props = {
 };
 
 function CompanyNavBar({ children }: Props) {
+  const [showNav, setShowNav] = useState(false);
+
+  const showNavHandler = () => {
+    setShowNav(!showNav);
+  };
+
   return (
-    <CompanyNavBarContainer>
-      <div className="left">{children}</div>
-      <div className="right">
-        <IoMdNotificationsOutline size={20} />
-        <p>Name</p>
-        <img src="" alt="" />
-      </div>
-    </CompanyNavBarContainer>
+    <>
+      <SideBar show={showNav} navlinks={companyNavLinks} />
+      <CompanyNavBarContainer>
+        <div className="left">{children}</div>
+        <div className="right">
+          <IoMdNotificationsOutline size={20} />
+          <p>Name</p>
+          <img src="" alt="" />
+
+          <div className="hamburger-icon">
+            <RxHamburgerMenu size={30} onClick={showNavHandler} />
+          </div>
+        </div>
+      </CompanyNavBarContainer>
+    </>
   );
 }
 
