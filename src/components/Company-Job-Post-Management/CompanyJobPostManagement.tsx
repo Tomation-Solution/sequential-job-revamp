@@ -29,6 +29,8 @@ function CompanyJobPostManagement() {
     tab3: false,
   });
 
+  console.log(savedTabs);
+
   const { notify } = useToast();
 
   const btnDisabler = () => {

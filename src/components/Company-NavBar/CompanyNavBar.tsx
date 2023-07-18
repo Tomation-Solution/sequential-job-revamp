@@ -5,7 +5,6 @@ import {
 } from "./CompanyNavBar.styles";
 import SideBar from "../SideBar/SideBar";
 import { useState } from "react";
-import { MainNavLogoCon } from "../MainBody/MainNavBar/MainNavBar.styles";
 
 import { RxHamburgerMenu } from "react-icons/rx";
 import { companyNavLinks } from "../../layout/CompanyLayout";

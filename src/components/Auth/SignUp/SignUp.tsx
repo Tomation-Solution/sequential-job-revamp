@@ -1,9 +1,4 @@
-import EastIcon from "@mui/icons-material/East";
-import {
-  DecisionContainer,
-  SignUpContainer,
-  SignUpWrapper,
-} from "./Signup.styles";
+import { SignUpContainer, SignUpWrapper } from "./Signup.styles";
 import { Link } from "react-router-dom";
 import Logo from "../../../assets/Logo.png";
 import { Form, FormContainer } from "../../../globals/styles/forms.styles";

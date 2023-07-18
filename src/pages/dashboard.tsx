@@ -2,7 +2,7 @@ import { useMutation, useQuery } from "react-query";
 import Tables from "../components/Tables/Tables";
 import TopSummaryBox from "../components/TopSummaryBox/TopSummaryBox";
 import { selectApplicantDashboard } from "../redux/applicantDashboardSlice";
-import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { useAppSelector } from "../redux/hooks";
 import {
   getInterviewAttendedApi,
   get_interviews,
@@ -24,7 +24,6 @@ import ChartComponent, {
 } from "../components/ChartComponent";
 import styled from "styled-components";
 import MedicalsContent from "../components/Medicals/MedicalsContent/MedicalsContent";
-import { TestManagementSubCon } from "../components/TestManagement/TestManagement.style";
 
 const JobAppliedTable = () => {
   const { isLoading, data } = useQuery(
@@ -349,7 +348,7 @@ const InterviewScheduleTab = () => {
 };
 
 const JobOffers = () => {
-  const [status, setStatus] = useState<
+  const [status] = useState<
     undefined | getApplicationListApiResponse["final_selection_state"]
   >(undefined);
   const { notify } = useToast();
@@ -425,7 +424,7 @@ const JobOffers = () => {
               }
             }}
             disabled={
-              tableProps.row.original.final_selection_state == "selected"
+              tableProps.row.original.final_selection_state === "selected"
                 ? false
                 : true
             }
@@ -448,7 +447,7 @@ const JobOffers = () => {
     if (status) {
       refetch();
     }
-  }, [status]);
+  }, [status, refetch]);
   return (
     <div>
       {data ? (
@@ -484,7 +483,7 @@ const Dashboard = () => {
   const { dashboardJobSummaryStatus } = useAppSelector(
     selectApplicantDashboard
   );
-  const dispatch = useAppDispatch();
+
   const [chartData, setChartData] = useState<ChartComponentProp>({
     info: {
       data: [0, 0, 0, 0, 0, 0],
@@ -500,7 +499,7 @@ const Dashboard = () => {
     },
   });
 
-  const {} = useQuery("job-summary", jobDasboardSummaryApi, {
+  useQuery("job-summary", jobDasboardSummaryApi, {
     onSuccess: (data) => {
       setChartData({
         info: {
@@ -518,7 +517,7 @@ const Dashboard = () => {
     },
   });
 
-  const { isLoading, data } = useQuery(["get_interviews_for_jobseekers"], () =>
+  const { data } = useQuery(["get_interviews_for_jobseekers"], () =>
     get_interviews({ filter_by_scheduled: "scheduled" })
   );
   return (

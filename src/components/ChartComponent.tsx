@@ -32,8 +32,6 @@ export const options = {
   },
 };
 
-const labels = ["January", "February", "March", "April", "May", "June", "July"];
-
 export type ChartComponentProp = {
   info: {
     data: number[];

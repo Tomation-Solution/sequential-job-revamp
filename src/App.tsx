@@ -13,14 +13,11 @@ import MedicalsInvitation from "./components/Medicals/MedicalsInvitation/Medical
 import InterviewManagement from "./components/InterviewManagement/InterviewManagement";
 import Jobs from "./pages/Jobs";
 import CVManagement from "./pages/CVManagement/CVManagement";
-import Button from "./components/Button/Button";
 import MedicalsScheduleInfo from "./pages/MedicalsScheduleInfo";
 import InterviewManagementCompletion from "./pages/InterviewManagement";
 import MedicalsListSubbmission from "./pages/MedicalsListSubbmission";
 import JobList from "./pages/JobList/JobList";
 import JobDetail from "./pages/JobDetail/JobDetail";
-import AuthRoutes from "./components/Auth/AuthRoutes";
-import SignUpRoutes from "./components/Auth/SignUp/SignUpRoutes";
 import Login from "./components/Auth/Login";
 import SignUp from "./components/Auth/SignUp/SignUp";
 

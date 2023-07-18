@@ -23,6 +23,7 @@ import useToast from "../../hooks/useToastify";
 import Preloader from "../Preloader/Preloader";
 import { useJobPostDetailsStore } from "../../zustand-store/jobPost";
 import { useCustomFetcher } from "../../utils/fetcher";
+import EmptyState from "../EmptyState/EmptyState";
 
 // type Props = {
 //   register: UseFormRegister<CompanyJobPostValidationType>;
@@ -176,9 +177,16 @@ function CompanyJobPostTab1({ setSavedTabs, selectedJobId }: Props) {
       updateJobMutation.mutate({ jobId: selectedJobId, formData });
     }
   };
+
+  if (isError) {
+    return <EmptyState header="Failed to get data" />;
+  }
+
   return (
     <>
-      <Preloader loading={isLoading || updateJobMutation.isLoading} />
+      <Preloader
+        loading={isLoading || updateJobMutation.isLoading || loadingState}
+      />
       <CompanyJobPostManagementContainer>
         <main>
           <div className="left">

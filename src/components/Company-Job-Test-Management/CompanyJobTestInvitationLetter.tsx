@@ -1,6 +1,4 @@
-import { BsUpload } from "react-icons/bs";
 import { FlexBox } from "../../globals/styles/FlexBox";
-import { FormInput } from "../../globals/styles/forms.styles";
 import Button from "../Button/Button";
 import { CompanyJobTestManagementContainer } from "./CompanyJobTestManagement.styles";
 import { useCustomFetcher } from "../../utils/fetcher";

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { seqBlue100, seqGray, seqWhite } from "../../globals/colors";
+import { seqGray, seqWhite } from "../../globals/colors";
 import { mobile, tablet } from "../../responsive";
 
 export const CompanyMedicalsScheduleContainer = styled.div`

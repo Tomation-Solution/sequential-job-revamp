@@ -1,9 +1,4 @@
-import EastIcon from "@mui/icons-material/East";
-import {
-  DecisionContainer,
-  SignUpContainer,
-  SignUpWrapper,
-} from "./Signup.styles";
+import { SignUpContainer, SignUpWrapper } from "./Signup.styles";
 import { Link } from "react-router-dom";
 import Logo from "../../../assets/Logo.png";
 import { Form, FormContainer } from "../../../globals/styles/forms.styles";
@@ -13,19 +8,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Button from "../../Button/Button";
 import { useNavigate } from "react-router-dom";
-import {
-  signUpAsJobRecruiterrApi,
-  signUpAsJobSeekerApi,
-} from "../../../redux/api/authentication.api";
+import { signUpAsJobRecruiterrApi } from "../../../redux/api/authentication.api";
 import { useMutation } from "react-query";
 import useToast from "../../../hooks/useToastify";
 import Preloader from "../../Preloader/Preloader";
-
-{
-  /* organisation_name":"dd.0", "industry":"hr industry",
-            "addresses":"devloper logde", "official_phone":"08162047348",
-            "organisation_name_shortname":"ff" */
-}
 
 const schema = yup.object({
   email: yup.string().email().required(),
@@ -71,7 +57,6 @@ const CompanySignup = () => {
     //@ts-ignore
     resolver: yupResolver(schema),
   });
-
 
   const onSubmit = (data: signUpAsJobSeekerForm) => {
     mutate(data);

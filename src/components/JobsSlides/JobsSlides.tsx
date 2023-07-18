@@ -9,7 +9,6 @@ import {
 } from "./JobsSlides.styles";
 import AttachmentIcon from "@mui/icons-material/Attachment";
 import Button from "../Button/Button";
-import JobsUploadComponent from "../JobsUploadComponent/JobsUploadComponent";
 import { useMutation, useQuery } from "react-query";
 import {
   get_required_job_docs,
@@ -82,18 +81,14 @@ export const JobsRejectSlides = ({ job_id }: { job_id: number }) => {
     },
   });
 
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    control,
-    formState: { errors },
-  } = useForm<JobsRejectSlidesFormType>({
-    //@ts-ignore
-    resolver: yupResolver(schema),
-  });
+  const { handleSubmit, setValue, control } = useForm<JobsRejectSlidesFormType>(
+    {
+      //@ts-ignore
+      resolver: yupResolver(schema),
+    }
+  );
 
-  const { fields, prepend } = useFieldArray({
+  const { fields } = useFieldArray({
     control, // control props comes from useForm (optional: if you are using FormContext)
     name: "upload_data", // unique name for your Field Array
   });
@@ -101,18 +96,17 @@ export const JobsRejectSlides = ({ job_id }: { job_id: number }) => {
     if (data) {
       setValue(
         "upload_data",
-        data.map((d, index) => ({ name: d, file: null }))
+        data.map((d, _index) => ({ name: d, file: null }))
       );
     }
-  }, [data]);
+  }, [data, setValue]);
 
   const onSubmit = (data: JobsRejectSlidesFormType) => {
     console.log({ data });
     // { name: "cv", file: File }
     const form = new FormData();
-    data.upload_data?.map((d, index) => {
+    data.upload_data?.forEach((d) => {
       if (d.name) {
-        console.log(d.name, d.file);
         form.append(d.name, d.file);
       }
     });

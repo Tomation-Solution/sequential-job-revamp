@@ -1,5 +1,5 @@
 import { ReactElement, useEffect } from "react";
-import { useForm, useFieldArray, useWatch, Control } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useNavigate, useParams } from "react-router-dom";
@@ -90,18 +90,12 @@ const JobTestPage = (): ReactElement => {
     }
   );
 
-  const {
-    register,
-    control,
-    setValue,
-    watch,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<CvFilterTestType>({
-    //@ts-ignore
-    resolver: yupResolver(schema),
-    mode: "onBlur",
-  });
+  const { register, control, setValue, handleSubmit } =
+    useForm<CvFilterTestType>({
+      //@ts-ignore
+      resolver: yupResolver(schema),
+      mode: "onBlur",
+    });
 
   const { fields } = useFieldArray({
     name: "fill_in_the_gap",
@@ -110,11 +104,6 @@ const JobTestPage = (): ReactElement => {
 
   const { fields: filter_quetion_options } = useFieldArray({
     name: "filter_quetion_option",
-    control,
-  });
-
-  const { fields: filter_quetion_multi_choice_quetion } = useFieldArray({
-    name: "filter_quetion_multi_choice_quetion",
     control,
   });
 
@@ -163,6 +152,7 @@ const JobTestPage = (): ReactElement => {
         })
       );
     }
+    // eslint-disable-next-line
   }, [status]);
   return (
     <div>

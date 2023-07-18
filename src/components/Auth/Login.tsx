@@ -1,4 +1,3 @@
-import React from "react";
 import {
   DecisionContainer,
   SignUpContainer,
@@ -6,7 +5,6 @@ import {
 } from "./SignUp/Signup.styles";
 import { Form, FormContainer } from "../../globals/styles/forms.styles";
 import { Link } from "react-router-dom";
-import EastIcon from "@mui/icons-material/East";
 import Logo from "../../assets/Logo.png";
 import InputWithLabel from "../InputWithLabel/InputWithLabel";
 import { useForm } from "react-hook-form";
@@ -15,7 +13,7 @@ import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "react-query";
 import { signInApi } from "../../redux/api/authentication.api";
-import { getUser, setUser } from "../../utils/extraFunction";
+import { getUser } from "../../utils/extraFunction";
 import useToast from "../../hooks/useToastify";
 import Button from "../Button/Button";
 import Preloader from "../Preloader/Preloader";
@@ -33,8 +31,7 @@ const Login = () => {
   const { notify } = useToast();
   const { mutate, isLoading } = useMutation(signInApi, {
     onSuccess: (data) => {
-      if (data.status == 200) {
-        const user = setUser(data.data.tokens);
+      if (data.status === 200) {
         const savedUser = getUser();
         notify(`Welcome back ${savedUser?.full_name}`, "success");
         if (savedUser?.user_type === "job_seakers") {

@@ -16,7 +16,7 @@ import {
   TestManagementFormTestQuestionsType,
 } from "../../globals/QuestionSetterCard/types";
 import CompanyJobTestCutoff from "./CompanyJobTestCutoff";
-import { JobType, TestCutOffMark } from "./types";
+import { JobType } from "./types";
 import CompanyJobTestInvitationLetter from "./CompanyJobTestInvitationLetter";
 import { useMutation, useQueryClient } from "react-query";
 import {

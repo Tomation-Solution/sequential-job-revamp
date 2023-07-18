@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { seqBlue100, seqLightBlue, seqWhite, seqWhite100 } from "../colors";
+import { seqBlue100, seqLightBlue, seqWhite } from "../colors";
 import { Laptop, mobile, tablet } from "../../responsive";
 
 export const Header = styled.div`

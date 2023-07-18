@@ -10,7 +10,6 @@ import Button from "../Button/Button";
 import { useMutation, useQueryClient } from "react-query";
 import useToast from "../../hooks/useToastify";
 import Preloader from "../Preloader/Preloader";
-import { useJobPostDetailsStore } from "../../zustand-store/jobPost";
 import { QuestionSetterCard } from "../../globals/QuestionSetterCard/QuestionSetterCard";
 import { useCustomFetcher } from "../../utils/fetcher";
 import { TestManagementFormTestQuestionsType } from "../../globals/QuestionSetterCard/types";
@@ -38,8 +37,6 @@ function CompanyJobPostTab3({ selectedJobId }: Props) {
       option_quetion: [],
       multi_choice_quetion: [],
     });
-
-  const jobPostDetailsCtrl = useJobPostDetailsStore((state) => state);
 
   const { notify } = useToast();
 

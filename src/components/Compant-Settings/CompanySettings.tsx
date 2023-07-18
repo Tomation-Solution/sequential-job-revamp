@@ -11,9 +11,7 @@ import { PiPencilSlashBold } from "react-icons/pi";
 import Button from "../Button/Button";
 import CompanyModal from "./Company-Modal/CompanyModal";
 
-type Props = {};
-
-function CompanySettings({}: Props) {
+function CompanySettings() {
   const [showSubmitBtn, setSetShowSubmitBtn] = useState<boolean>(false);
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
   const [options, setOptions] = useState<

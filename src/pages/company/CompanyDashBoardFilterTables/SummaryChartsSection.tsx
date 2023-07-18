@@ -8,9 +8,7 @@ import { useQuery } from "react-query";
 import { getCompanyDashboardSummaryApi } from "../../../redux/api/company/companyjobs.api";
 import Preloader from "../../../components/Preloader/Preloader";
 
-type Props = {};
-
-function SummaryChartsSection({}: Props) {
+function SummaryChartsSection() {
   const [chartData, setChartData] = useState<ChartComponentProp>({
     info: {
       data: [0, 0, 0, 0, 0, 0],

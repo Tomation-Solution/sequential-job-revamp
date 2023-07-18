@@ -7,9 +7,7 @@ import {
 import { AiOutlinePlusCircle, AiOutlineClockCircle } from "react-icons/ai";
 import CompanyMedicalsSelectedItems from "../CompanyMedicalsSelectedItems/CompanyMedicalsSelectedItems";
 
-type Props = {};
-
-function CompanySchedule({}: Props) {
+function CompanySchedule() {
   return (
     <CompanyMedicalsScheduleContainer>
       <div className="examination">

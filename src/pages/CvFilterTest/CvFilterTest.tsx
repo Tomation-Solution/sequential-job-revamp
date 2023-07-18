@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useForm, useFieldArray, useWatch, Control } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useNavigate, useParams } from "react-router-dom";
@@ -69,19 +69,14 @@ export const CvFilterTest = (): React.ReactElement => {
   const navigate = useNavigate();
   const { job_id } = useParams();
   const [numOfQuetions, setNumOfQuetions] = useState(0);
-  const {
-    register,
-    control,
-    setValue,
-    watch,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<CvFilterTestType>({
-    //@ts-ignore
-    resolver: yupResolver(schema),
-    mode: "onBlur",
-  });
-  const [listofQuetions, setListofQuetions] = useState<any>();
+  const { register, control, setValue, handleSubmit } =
+    useForm<CvFilterTestType>({
+      //@ts-ignore
+      resolver: yupResolver(schema),
+      mode: "onBlur",
+    });
+
+  console.log(numOfQuetions);
 
   const { data, isLoading, status } = useQuery(
     "cv_filter",
@@ -100,8 +95,8 @@ export const CvFilterTest = (): React.ReactElement => {
     {
       onSuccess: (data) => {
         notify("Submitted", "success");
-        let has_test = "no";
-        if (data.job_variant == "filter_and_test") {
+
+        if (data.job_variant === "filter_and_test") {
           notify(
             "please check you test managent dashboard you have pending test to write",
             "success"
@@ -128,11 +123,6 @@ export const CvFilterTest = (): React.ReactElement => {
 
   const { fields: filter_quetion_options } = useFieldArray({
     name: "filter_quetion_option",
-    control,
-  });
-
-  const { fields: filter_quetion_multi_choice_quetion } = useFieldArray({
-    name: "filter_quetion_multi_choice_quetion",
     control,
   });
 
@@ -194,8 +184,9 @@ export const CvFilterTest = (): React.ReactElement => {
           data.filter_quetion_multi_choice_quetion.length
       );
     }
-  }, [status]);
-  console.log({ errors });
+    // eslint-disable-next-line
+  }, [status, setValue]);
+
   return (
     <div>
       <Preloader loading={isLoading || submitting} />

@@ -28,7 +28,7 @@ const InputWithLabel = ({
   const [show, setShow] = useState(false);
 
   const decideType = (): string => {
-    if (type == "password") {
+    if (type === "password") {
       return show ? "text" : "password";
     }
     return "text";

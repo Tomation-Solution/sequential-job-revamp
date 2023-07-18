@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { FaTrash } from "react-icons/fa";
 import {
@@ -8,11 +8,10 @@ import {
   CVManagemntPersonalStatement,
   CVManagemntSection,
 } from "./CVManagement.styles";
-import { Form, FormInput, FormSelect } from "../../globals/styles/forms.styles";
+import { Form } from "../../globals/styles/forms.styles";
 import { useForm, useFieldArray } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { useNavigate } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import useToast from "../../hooks/useToastify";
 import InputWithLabel from "../../components/InputWithLabel/InputWithLabel";
@@ -178,7 +177,7 @@ const CVManagement = () => {
       setValue("refrences", cvstructure.cvStucture.refrences);
       setValue("addresse", cvstructure.cvStucture.addresse);
     }
-  }, [mydata]);
+  }, [mydata, setValue]);
   return (
     <>
       <CVManagemntContainer>

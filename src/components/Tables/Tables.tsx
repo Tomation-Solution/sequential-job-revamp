@@ -1,4 +1,4 @@
-import React, { FC, useMemo } from "react";
+import { FC, useMemo } from "react";
 import { Column, PluginHook, useTable, useRowSelect } from "react-table";
 import {
   Table,
@@ -32,7 +32,6 @@ const Tables: FC<Props> = ({ tableData, tableColumn, customHooks }) => {
   const {
     getTableProps,
     // @ts-ignore
-    selectedFlatRows,
     getTableBodyProps,
     headerGroups,
     rows,

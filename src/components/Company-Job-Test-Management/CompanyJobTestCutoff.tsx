@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import CutOffMarkSetter from "../../globals/CutOffMarkSetter/CutOffMarkSetter";
 import { QuestionSetterCard } from "../../globals/QuestionSetterCard/QuestionSetterCard";
 import { TestManagementFormTestQuestionsType } from "../../globals/QuestionSetterCard/types";
-import { FlexBox } from "../../globals/styles/FlexBox";
 import {
   getJobTestQuestions,
   postCompanyCutOffMark,

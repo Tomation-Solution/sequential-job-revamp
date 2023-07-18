@@ -8,9 +8,7 @@ import {
 } from "../../Tables/Tables.styles";
 import { Hooks } from "react-table";
 
-type Props = {};
-
-function CompantMedicalsTable({}: Props) {
+function CompantMedicalsTable() {
   const columns = [
     {
       Header: "Candidate Name",

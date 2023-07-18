@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { JobPostDetailsType, SavedTabs } from "./types";
+import { SavedTabs } from "./types";
 import {
   QuestionType,
   TestManagementFormTestQuestionsType,
