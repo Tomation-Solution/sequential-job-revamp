@@ -68,23 +68,22 @@ function SummaryChartsSection() {
                   testDate={item.date_picked}
                 />
               ))} */}
-
           <MedicalsContent
             style={{ width: "100%" }}
-            time={`2023-10-25 8:00pm`}
+            testDetails={"You Have Beenx Invite For this job intervier"}
+            testDate={"2023-10-24"}
+            time={`${new Date()}`}
             data={{
-              job_seeker: 10,
+              job_seeker: 0,
               interview: {
-                job_title: "intervier",
-                interview_id: 4,
-                company: "Tomation Sollution",
+                job_title: "",
+                interview_id: 0,
+                company: "",
               },
-              id: 14,
-              date_picked: "2023-10-24",
-              time_picked: "2023-10-24",
+              id: 0,
+              date_picked: "",
+              time_picked: "",
             }}
-            testDetails={` You Have Beenx Invite For this job "intervier"`}
-            testDate="2023-10-24"
           />
         </div>
       </CompanyChartAndInterviewContainer>

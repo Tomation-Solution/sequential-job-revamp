@@ -39,7 +39,7 @@ const CompanyIndexPage = () => {
     return <EmptyState header="Fetching all Jobs" />;
   }
 
-  if (isError || data?.length! <= 0 || !data) {
+  if (isError || !data) {
     return (
       <EmptyState
         header="Oops something went wrong"

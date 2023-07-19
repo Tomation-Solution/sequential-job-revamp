@@ -39,6 +39,8 @@ import CompanyJobTestManagementPage from "./pages/company/CompanyJobTestManageme
 import CompanyJobPostManagementPage from "./pages/company/CompanyJobPostManagementPage";
 import CVSummary from "./pages/company/CVSummary/CVSummary";
 import CompanyJobCandidateSum from "./pages/company/CompanyJobCandidateSum/CompanyJobCandidateSum";
+import CompanyInterviewManagementPage from "./pages/company/CompanyInterviewManagementPage";
+import CompanyCalendarPage from "./pages/company/CompanyCalendarPage";
 
 function App() {
   return (
@@ -139,6 +141,13 @@ function App() {
               path="/company/job-candidate-summary/:jobId"
               element={<CompanyJobCandidateSum />}
             />
+
+            <Route
+              path="/company/job-interview-management"
+              element={<CompanyInterviewManagementPage />}
+            />
+
+            <Route path="/company/calendar" element={<CompanyCalendarPage />} />
           </Route>
 
           <Route path="*" element={<NotFound />} />

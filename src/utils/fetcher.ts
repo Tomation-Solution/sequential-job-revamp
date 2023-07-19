@@ -3,10 +3,12 @@ import { useQuery } from "react-query";
 export const useCustomFetcher = <T>(
   key: string,
   fetcherfn: (data?: any) => Promise<any>,
-  select?: (data: any) => any
+  select?: (data: any) => any,
+  otherOptions?: any
 ): { loadingState: boolean; isError: boolean; data: T | undefined } => {
   const options: any = {
     refetchOnWindowFocus: false,
+    ...otherOptions,
   };
 
   if (select) {

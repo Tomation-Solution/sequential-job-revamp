@@ -176,7 +176,7 @@ function CompanyJobTestManagement() {
     return (
       <EmptyState
         header="Oops something went wrong"
-        subHeader="Failed to fetch all company job, you can try refreshing the page."
+        subHeader="No jobs requiring test were found, try uploading some or refreshing the page."
       />
     );
   }

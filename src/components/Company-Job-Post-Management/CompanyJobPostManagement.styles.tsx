@@ -39,6 +39,7 @@ export const CompanyJobPostManagementContainer = styled.div`
             border: none;
             outline: none;
             border-right: 1px solid black;
+            width: 100%;
           }
           select {
             padding: 10px 20px;

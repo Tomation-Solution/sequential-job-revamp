@@ -25,14 +25,18 @@ export const companyNavLinks = [
     link: "/company/job-test-management",
     icon: <LibraryBooksIcon />,
   },
-  { name: "Interview Managent", link: "#", icon: <NoteAltIcon /> },
+  {
+    name: "Interview Managent",
+    link: "/company/job-interview-management",
+    icon: <NoteAltIcon />,
+  },
   { name: "Documentation Management", link: "#", icon: <QuizIcon /> },
   {
     name: "Medicals",
     link: "/company/medicals",
     icon: <MedicalServicesIcon />,
   },
-  { name: "Calendar", link: "#", icon: <CalendarMonthIcon /> },
+  { name: "Calendar", link: "/company/calendar", icon: <CalendarMonthIcon /> },
   {
     name: "Settings",
     link: "/company/settings",

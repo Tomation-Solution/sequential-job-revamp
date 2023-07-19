@@ -13,10 +13,10 @@ import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "react-query";
 import { signInApi } from "../../redux/api/authentication.api";
-import { getUser } from "../../utils/extraFunction";
 import useToast from "../../hooks/useToastify";
 import Button from "../Button/Button";
 import Preloader from "../Preloader/Preloader";
+import { setUser } from "../../utils/extraFunction";
 // styles here were copied from signups.styles.tsx and forms.styles.tsx
 // and then modified to fit the needs of this component
 
@@ -32,7 +32,9 @@ const Login = () => {
   const { mutate, isLoading } = useMutation(signInApi, {
     onSuccess: (data) => {
       if (data.status === 200) {
-        const savedUser = getUser();
+        console.log(data.data.tokens);
+        const savedUser = setUser(data.data.tokens);
+        console.log("savedUser", savedUser);
         notify(`Welcome back ${savedUser?.full_name}`, "success");
         if (savedUser?.user_type === "job_seakers") {
           navigate("/");
@@ -57,7 +59,6 @@ const Login = () => {
   const onSubmit = (data: LoginFormType) => {
     mutate(data);
   };
-  console.log({ "foprm error": errors });
 
   return (
     <SignUpContainer>
