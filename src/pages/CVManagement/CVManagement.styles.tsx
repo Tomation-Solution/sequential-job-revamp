@@ -24,16 +24,15 @@ export const CVManagementHeader = styled.div`
     transition: all 0.5s;
 
     &:hover {
-        background-color: ${seqWhite};
-        color: ${seqBlue100};
-        box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.4);
+      background-color: ${seqWhite};
+      color: ${seqBlue100};
+      box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.4);
     }
 
     span {
-        margin-left: 10px;
+      margin-left: 10px;
     }
-
-
+  }
 `;
 
 export const CVManagemntContainer = styled.div`

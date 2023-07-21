@@ -23,13 +23,11 @@ function CompanyJobPostManagement() {
 
   const [dropdownOption, setDropdownOption] = useState<string>("create_mode");
 
-  const [savedTabs, setSavedTabs] = useState<SavedTabs>({
+  const setSavedTabs = useState<SavedTabs>({
     tab1: false,
     tab2: false,
     tab3: false,
-  });
-
-  console.log(savedTabs);
+  })[1];
 
   const { notify } = useToast();
 

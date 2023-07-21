@@ -17,8 +17,6 @@ const MainBody = () => {
 
 export default MainBody;
 
-
-
 export const CompanyMainBody = () => {
   return (
     <MainContainer>
@@ -31,3 +29,13 @@ export const CompanyMainBody = () => {
   );
 };
 
+export const PanelistMainBody = () => {
+  return (
+    <MainContainer>
+      {/*
+    This controls the rendering of the other components as children of this component
+    */}
+      <Outlet />
+    </MainContainer>
+  );
+};

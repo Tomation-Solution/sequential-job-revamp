@@ -38,6 +38,8 @@ const Login = () => {
         notify(`Welcome back ${savedUser?.full_name}`, "success");
         if (savedUser?.user_type === "job_seakers") {
           navigate("/");
+        } else if (savedUser?.user_type === "panelist") {
+          navigate("/panelist/invite");
         } else {
           navigate("/company/dashboard");
         }

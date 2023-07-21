@@ -6,14 +6,17 @@ type Props = {
   onClick?: () => void;
   color?: string;
   bolder?: boolean;
+  cursor?: string;
   children: React.ReactNode;
 };
 
 const TableDataColoredContainer = styled.div<{
   color?: string;
   bolder?: boolean;
+  cursor?: string;
 }>`
   p {
+    cursor: ${(props) => (props.cursor ? `${props.cursor}` : "")};
     color: ${(props) => (props.color ? `${props.color}` : "black")};
     font-weight: ${(props) => (props.bolder ? `700` : "400")};
   }
@@ -24,9 +27,16 @@ const TableDataColoredContainer = styled.div<{
   }
 `;
 
-function TableDataColored({ where, onClick, color, bolder, children }: Props) {
+function TableDataColored({
+  where,
+  onClick,
+  cursor,
+  color,
+  bolder,
+  children,
+}: Props) {
   return (
-    <TableDataColoredContainer color={color} bolder={bolder}>
+    <TableDataColoredContainer color={color} cursor={cursor} bolder={bolder}>
       {where ? (
         <Link to={where}>{children}</Link>
       ) : (

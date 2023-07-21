@@ -9,11 +9,39 @@ import CompanyInterviewTab1 from "./CompanyInterviewTab1";
 import CompanyInterviewTab2 from "./CompanyInterviewTab2";
 import CompanyInterviewTab3 from "./CompanyInterviewTab3";
 import CompanyInterviewTab4 from "./CompanyInterviewTab4";
-import CompanyInterviewTab5 from "./CompanyInterviewTab5";
+import { useCustomFetcher } from "../../utils/fetcher";
+import { getAllCompanyJobs } from "../../redux/api/company/jobs-test-management.api";
+import EmptyState from "../EmptyState/EmptyState";
+import { JobType } from "../Company-Job-Test-Management/types";
+import moment from "moment";
 
 function CompanyInterviewManagement() {
   const [dropdownOption, setDropdownOption] = useState<string>("");
   const [currentRender, setCurrentRender] = useState(1);
+
+  const { loadingState, isError, data } = useCustomFetcher<JobType[]>(
+    "all-jobs",
+    getAllCompanyJobs,
+    (data) =>
+      data.data.map((item: any) => ({
+        id: item.id,
+        job_title: item.job_title,
+        created_at: item.created_at,
+      }))
+  );
+
+  if (loadingState) {
+    return <EmptyState header="Fetching all Jobs" />;
+  }
+
+  if (isError || data?.length! <= 0 || !data) {
+    return (
+      <EmptyState
+        header="Oops something went wrong"
+        subHeader="No jobs requiring test were found, try uploading some or refreshing the page."
+      />
+    );
+  }
 
   return (
     <>
@@ -22,7 +50,12 @@ function CompanyInterviewManagement() {
           <Dropdown
             disabledValue="create_mode"
             disabledOption="Select a Job"
-            options={[{ label: "Filter by Job Posted", value: "none" }]}
+            options={data.map((item) => ({
+              label: `${item.job_title} // ${moment(
+                new Date(item.created_at)
+              ).format("MMM Do YY")}`,
+              value: `${item.id}`,
+            }))}
             onChange={setDropdownOption}
             defaultValue={dropdownOption}
           />
@@ -42,13 +75,6 @@ function CompanyInterviewManagement() {
           </CompanyNavBarTab>
 
           <CompanyNavBarTab
-            onClick={() => setCurrentRender(3)}
-            isSelected={currentRender === 3}
-          >
-            <p>Invite Applicants</p>
-          </CompanyNavBarTab>
-
-          <CompanyNavBarTab
             onClick={() => setCurrentRender(4)}
             isSelected={currentRender === 4}
           >
@@ -56,10 +82,10 @@ function CompanyInterviewManagement() {
           </CompanyNavBarTab>
 
           <CompanyNavBarTab
-            onClick={() => setCurrentRender(5)}
-            isSelected={currentRender === 5}
+            onClick={() => setCurrentRender(3)}
+            isSelected={currentRender === 3}
           >
-            <p>Meeting Link- set up</p>
+            <p>Invite Applicants</p>
           </CompanyNavBarTab>
         </CompanyNavBarItemsContainer>
       </CompanyNavBar>
@@ -72,14 +98,12 @@ function CompanyInterviewManagement() {
           {currentRender === 2 ? (
             <CompanyInterviewTab2 jobId={dropdownOption} />
           ) : null}
-          {currentRender === 3 ? (
-            <CompanyInterviewTab3 jobId={dropdownOption} />
-          ) : null}
+
           {currentRender === 4 ? (
             <CompanyInterviewTab4 jobId={dropdownOption} />
           ) : null}
-          {currentRender === 5 ? (
-            <CompanyInterviewTab5 jobId={dropdownOption} />
+          {currentRender === 3 ? (
+            <CompanyInterviewTab3 jobId={dropdownOption} />
           ) : null}
         </main>
       </CompanyInterviewManagementContainer>

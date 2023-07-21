@@ -41,6 +41,8 @@ import CVSummary from "./pages/company/CVSummary/CVSummary";
 import CompanyJobCandidateSum from "./pages/company/CompanyJobCandidateSum/CompanyJobCandidateSum";
 import CompanyInterviewManagementPage from "./pages/company/CompanyInterviewManagementPage";
 import CompanyCalendarPage from "./pages/company/CompanyCalendarPage";
+import PanelistLayout from "./layout/PanelistLayout";
+import PanelistInvitePage from "./pages/panelist/PanelistInvitePage";
 
 function App() {
   return (
@@ -151,6 +153,10 @@ function App() {
           </Route>
 
           <Route path="*" element={<NotFound />} />
+
+          <Route element={<PanelistLayout />}>
+            <Route path="/panelist/invite" element={<PanelistInvitePage />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </Provider>

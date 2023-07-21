@@ -1,8 +1,24 @@
 import styled from "styled-components";
 import { seqBlue100, seqWhite } from "../../globals/colors";
-import { tablet } from "../../responsive";
+
+export const SideBarCloseButton = styled.div`
+  position: fixed;
+  top: 5px;
+  left: 5px;
+  z-index: 30;
+  display: none;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: #ddd;
+  transition: all 0.5s;
+
+  @media (max-width: 768px) {
+    display: block;
+  }
+`;
 
 type Props = {
+  width?: string;
   show?: boolean;
 };
 
@@ -10,7 +26,12 @@ export const SideBarContainer = styled.div<Props>`
   padding: 20px;
   display: flex;
   height: 100%;
-  /* width: 260px; */
+  ${(props) => {
+    if (props.width) {
+      return `width: ${props.width};`;
+    }
+    return "width: auto;";
+  }}
   background-color: ${seqBlue100};
   flex-direction: column;
   word-wrap: break-word;
@@ -26,11 +47,6 @@ export const SideBarContainer = styled.div<Props>`
     transform: ${(props) =>
       props.show ? "translateX(0%)" : "translateX(-100%)"};
   }
-
-  /* ${tablet({
-    // transform: "translateX(-100%)",
-    display: "none",
-  })} */
 `;
 export const SideLogo = styled.div`
   display: flex;

@@ -1,5 +1,6 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import {
+  SideBarCloseButton,
   SideBarContainer,
   SideBtn,
   SideBtnCon,
@@ -15,9 +16,13 @@ import FileOpenIcon from "@mui/icons-material/FileOpen";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useLocation, useNavigate } from "react-router-dom";
 import { removeUserCred } from "../../utils/extraFunction";
+import { RxHamburgerMenu } from "react-icons/rx";
+import { ImCancelCircle } from "react-icons/im";
+import { seqLightBlue } from "../../globals/colors";
 
 type Props = {
   show?: boolean;
+  width?: string;
   navlinks?: {
     name: string;
     link: string;
@@ -27,6 +32,7 @@ type Props = {
 
 const SideBar: FC<Props> = ({
   show,
+  width,
   navlinks = [
     { name: "DashBoard", link: "/", icon: <DashboardIcon /> },
     { name: "Jobs", link: "/jobs_list", icon: <LibraryBooksIcon /> },
@@ -50,35 +56,57 @@ const SideBar: FC<Props> = ({
 
   const location = useLocation();
 
+  const [showNavBar, setShowNavBar] = useState(false);
+
   return (
-    <SideBarContainer show={show}>
-      <SideLogo>
-        <img alt="" src={Logo} />
-      </SideLogo>
+    <>
+      <SideBarCloseButton>
+        {!showNavBar ? (
+          <RxHamburgerMenu
+            size={25}
+            color={`${seqLightBlue}`}
+            fontWeight={800}
+            onClick={() => setShowNavBar(!showNavBar)}
+          />
+        ) : (
+          <ImCancelCircle
+            size={25}
+            color="red"
+            fontWeight={800}
+            onClick={() => setShowNavBar(!showNavBar)}
+          />
+        )}
+      </SideBarCloseButton>
 
-      <SideBtnCon>
-        {navlinks.map((d, index) => (
+      <SideBarContainer width={width} show={showNavBar}>
+        <SideLogo>
+          <img alt="" src={Logo} />
+        </SideLogo>
+
+        <SideBtnCon>
+          {navlinks.map((d, index) => (
+            <SideBtn
+              key={index}
+              onClick={(e) => navigate(d.link)}
+              isSelected={location.pathname === d.link}
+            >
+              {d.icon}
+              {d.name}
+            </SideBtn>
+          ))}
+
           <SideBtn
-            key={index}
-            onClick={(e) => navigate(d.link)}
-            isSelected={location.pathname === d.link}
+            onClick={(e) => {
+              removeUserCred();
+              navigate("/login");
+            }}
           >
-            {d.icon}
-            {d.name}
+            <LogoutIcon />
+            Logout
           </SideBtn>
-        ))}
-
-        <SideBtn
-          onClick={(e) => {
-            removeUserCred();
-            navigate("/login");
-          }}
-        >
-          <LogoutIcon />
-          Logout
-        </SideBtn>
-      </SideBtnCon>
-    </SideBarContainer>
+        </SideBtnCon>
+      </SideBarContainer>
+    </>
   );
 };
 

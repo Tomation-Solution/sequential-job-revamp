@@ -149,10 +149,8 @@ const CVManagement = () => {
     console.log({ "form submission": data });
     mutate(data);
   };
-  console.log({ "form errors": errors });
 
   useEffect(() => {
-    console.log(mydata);
     const cvstructure = mydata?.user_extra.job_seakers;
     if (mydata) {
       setValue("phone_number", mydata.phone_number);
@@ -457,7 +455,7 @@ const CVManagement = () => {
           {/* ============================================= */}
           {/* Referencess  */}
           <CVManagemntSection>
-            <h2>Refrences</h2>
+            <h2>References</h2>
 
             {refrences__fields.map((field, index) => (
               <div key={field.id}>
