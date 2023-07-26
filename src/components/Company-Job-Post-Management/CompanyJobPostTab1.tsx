@@ -3,7 +3,11 @@ import { CompanyJobPostManagementContainer } from "./CompanyJobPostManagement.st
 import InputWithLabel from "../InputWithLabel/InputWithLabel";
 import Switches from "../../globals/Switch/Switches";
 import { FlexBox } from "../../globals/styles/FlexBox";
-import { FormError, FormSelect } from "../../globals/styles/forms.styles";
+import {
+  FormCheckbox,
+  FormError,
+  FormSelect,
+} from "../../globals/styles/forms.styles";
 import {
   CompanyJobPostValidationType,
   companyJobPostValidationSchema,
@@ -24,6 +28,7 @@ import Preloader from "../Preloader/Preloader";
 import { useJobPostDetailsStore } from "../../zustand-store/jobPost";
 import { useCustomFetcher } from "../../utils/fetcher";
 import EmptyState from "../EmptyState/EmptyState";
+import { seqLightBlue } from "../../globals/colors";
 
 // type Props = {
 //   register: UseFormRegister<CompanyJobPostValidationType>;
@@ -44,6 +49,8 @@ function CompanyJobPostTab1({
   setCurrentRender,
 }: Props) {
   const [jobDescriptionSave, setJobDescriptionSave] = useState(false);
+  const [suitabaleForRoleCheckbox, setSuitabaleForRoleCheckbox] =
+    useState<boolean>(false);
   const jobPostDetailsCtrl = useJobPostDetailsStore((state) => state);
   const {
     register,
@@ -67,12 +74,19 @@ function CompanyJobPostTab1({
 
   useEffect(() => {
     if (data) {
+      if (String(data?.salary) === "0.00") {
+        setSuitabaleForRoleCheckbox(true);
+      } else {
+        setSuitabaleForRoleCheckbox(false);
+      }
+
       const updateData = {
         job_title: data?.job_title || "",
         is_active: data?.is_active || false,
         location: data?.location || "",
+        country: data?.country || "",
         job_type: data.job_type || "on_site",
-        salary: data?.salary || 0,
+        salary: data?.salary || 1,
         currency: data?.currency || "",
         job_required_document: data?.job_required_document || "",
         description_content:
@@ -147,9 +161,18 @@ function CompanyJobPostTab1({
     setValue("description_content", data);
   };
 
+  const onCheckBoxToogle = () => {
+    setSuitabaleForRoleCheckbox(!suitabaleForRoleCheckbox);
+  };
+
   const onSubmitHandler = (inputData: CompanyJobPostValidationType) => {
     if (!jobDescriptionSave) {
       return notify("save the job description to proceed", "error");
+    }
+
+    let salary = inputData.salary;
+    if (suitabaleForRoleCheckbox) {
+      salary = 0;
     }
 
     let currency = "nigerian naira";
@@ -157,7 +180,7 @@ function CompanyJobPostTab1({
       currency = "US dollar";
     }
 
-    const payload = { ...inputData, currency };
+    const payload = { ...inputData, currency, salary };
 
     const formData = new FormData();
     //@ts-ignore
@@ -211,6 +234,12 @@ function CompanyJobPostTab1({
               />
 
               <InputWithLabel
+                label="Country"
+                register={register("country")}
+                errorMessage={errors.country?.message}
+              />
+
+              <InputWithLabel
                 label="Location"
                 register={register("location")}
                 errorMessage={errors.location?.message}
@@ -257,20 +286,38 @@ function CompanyJobPostTab1({
               </FormSelect>
 
               <h4>Salary</h4>
+              {!suitabaleForRoleCheckbox ? (
+                <div className="parallel-input">
+                  <input
+                    placeholder="amount"
+                    type="number"
+                    {...register("salary")}
+                  />
 
-              <div className="parallel-input">
-                <input
-                  placeholder="amount"
-                  type="number"
-                  {...register("salary")}
-                />
+                  <select defaultValue={"₦"} {...register("money_sign")}>
+                    <option disabled>Select Currency</option>
+                    <option value={"$"}>US Dollar</option>
+                    <option value={"₦"}>Nigerian Naira</option>
+                  </select>
+                </div>
+              ) : null}
 
-                <select defaultValue={"₦"} {...register("money_sign")}>
-                  <option disabled>Select Currency</option>
-                  <option value={"$"}>US Dollar</option>
-                  <option value={"₦"}>Nigerian Naira</option>
-                </select>
-              </div>
+              <FormCheckbox>
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={suitabaleForRoleCheckbox}
+                    onChange={onCheckBoxToogle}
+                  />
+                  Suitable for Role
+                  <small
+                    style={{ marginLeft: "10px", color: `${seqLightBlue}` }}
+                  >
+                    jobs without salary
+                  </small>
+                </label>
+              </FormCheckbox>
+              <br />
 
               <small>
                 <FormError>{errors.salary?.message}</FormError>

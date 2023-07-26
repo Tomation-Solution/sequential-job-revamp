@@ -5,6 +5,7 @@ import { BsHeartFill } from "react-icons/bs";
 import { JobType } from "../../redux/api/jobs.api";
 import Button from "../Button/Button";
 import { useNavigate } from "react-router-dom";
+import numbro from "numbro";
 
 type Prop = {
   job: JobType;
@@ -28,7 +29,10 @@ const JobCard = ({ job }: Prop): React.ReactElement => {
         <strong>{job.org_name}</strong>
       </h3>
       <p>
-        {job.country},{job.location}
+        {`
+  ${job.country ? `${job.country},` : ""}
+  ${job.location}
+`}
       </p>
       <div
         style={{
@@ -38,15 +42,28 @@ const JobCard = ({ job }: Prop): React.ReactElement => {
           width: "100%",
           padding: ".7rem 0",
           flexWrap: "wrap",
+          gap: "20px",
         }}
       >
         <span>
-          <IoBagSharp /> {job.job_type.replace("_", " ").toUpperCase()}
+          <IoBagSharp /> {job?.job_type?.replace("_", " ")?.toUpperCase()}
         </span>
+
         <span>
-          <FaMoneyBillWave /> {job.currency}
-          {job.salary}/year
+          <IoBagSharp />{" "}
+          {job?.employement_type?.replace("_", " ")?.toUpperCase() || ""}
         </span>
+
+        {job.salary === "0.00" ? (
+          <span>
+            <FaMoneyBillWave /> Suitable for Role
+          </span>
+        ) : (
+          <span>
+            <FaMoneyBillWave /> {job.money_sign}{" "}
+            {numbro(job.salary).format({ thousandSeparated: true })} a year
+          </span>
+        )}
       </div>
       <Button
         style={{ padding: ".3rem .9rem" }}

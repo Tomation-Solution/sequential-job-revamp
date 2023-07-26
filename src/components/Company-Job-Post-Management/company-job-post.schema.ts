@@ -17,6 +17,7 @@ export const companyJobPostValidationSchema = yup.object({
     .positive()
     .integer(),
   currency: yup.string().optional(),
+  country: yup.string().required(),
   job_required_document: yup
     .string()
     .required("job required document is required"),
