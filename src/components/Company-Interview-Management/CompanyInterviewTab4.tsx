@@ -1,38 +1,46 @@
-import { useState } from "react";
 import { FlexBox } from "../../globals/styles/FlexBox";
-import { CompanyNavBarTab } from "../Company-NavBar/CompanyNavBar";
-import { CompanyNavBarItemsContainer } from "../Company-NavBar/CompanyNavBar.styles";
-import Dropdown from "../../globals/Dropdown/Dropdown";
 import CompanyInterviewTab4Comp1 from "./CompanyInterviewTab4Comps/CompanyInterviewTab4Comp1";
-import CompanyInterviewTab4Comp2 from "./CompanyInterviewTab4Comps/CompanyInterviewTab4Comp2";
+import { CompanyCreateInterview } from "./Types";
+import Button from "../Button/Button";
+import { FormInput } from "../../globals/styles/forms.styles";
 
 type Props = {
+  setInterviewToJobfn: () => void;
   jobId: any;
+  state: CompanyCreateInterview;
+  onStateChange: React.Dispatch<React.SetStateAction<CompanyCreateInterview>>;
 };
 
-function CompanyInterviewTab4({ jobId }: Props) {
-  const [options, setOptions] = useState<"rating" | "candidate">("rating");
-  const [selectedCandidate, setSelectedCandidate] = useState("");
-
+function CompanyInterviewTab4({
+  jobId,
+  setInterviewToJobfn,
+  state,
+  onStateChange,
+}: Props) {
   return (
     <>
-      <FlexBox justifyContent="space-between">
-        <CompanyNavBarItemsContainer>
-          <CompanyNavBarTab
-            onClick={() => setOptions("rating")}
-            isSelected={options === "rating"}
-          >
-            <p>Set Rating Scale</p>
-          </CompanyNavBarTab>
+      <FlexBox justifyContent="flex-end">
+        <Button onClick={setInterviewToJobfn}>Set Interview to Job</Button>
+      </FlexBox>
 
-          <CompanyNavBarTab
-            onClick={() => setOptions("candidate")}
-            isSelected={options === "candidate"}
-          >
-            <p>Rate Candidates</p>
-          </CompanyNavBarTab>
-        </CompanyNavBarItemsContainer>
+      <FormInput>
+        <input
+          type="url"
+          placeholder="interview link"
+          value={state.interview_link}
+          onChange={(e) =>
+            onStateChange((oldState) => {
+              const newState = { ...oldState };
+              newState.interview_link = e.target.value;
+              return newState;
+            })
+          }
+        />
+      </FormInput>
 
+      <p>Set Rating Scale</p>
+
+      {/* 
         {options === "candidate" ? (
           <Dropdown
             disabledOption="Select Candidate"
@@ -40,11 +48,11 @@ function CompanyInterviewTab4({ jobId }: Props) {
             onChange={setSelectedCandidate}
             defaultValue={selectedCandidate}
           />
-        ) : null}
-      </FlexBox>
+        ) : null} */}
 
-      {options === "rating" ? <CompanyInterviewTab4Comp1 /> : null}
-      {options === "candidate" ? <CompanyInterviewTab4Comp2 /> : null}
+      <CompanyInterviewTab4Comp1 state={state} onStateChange={onStateChange} />
+
+      {/* {options === "candidate" ? <CompanyInterviewTab4Comp2 /> : null} */}
     </>
   );
 }

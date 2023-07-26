@@ -1,118 +1,110 @@
-import { AiOutlinePlusCircle, AiOutlineClockCircle } from "react-icons/ai";
-import { BsCalendar, BsCaretDown } from "react-icons/bs";
 import { CompanyMedicalsScheduleContainer } from "../Company-Medicals/CompanyMedicals.styles";
-import {
-  CompanyMdeicalsBtnWitHeader,
-  CompanyMedicalsBtn,
-} from "../Company-Medicals/CompanyMedicalsBtn/CompanyMedicalsBtn";
 import CompanyMedicalsSelectedItems from "../Company-Medicals/CompanyMedicalsSelectedItems/CompanyMedicalsSelectedItems";
+import { CompanyCreateInterview } from "./Types";
+import { SetRatingCandidateMoreBtn } from "./CompanyInterviewManagement.styles";
+import { PiPlusCircleBold } from "react-icons/pi";
+import { useState } from "react";
+import { FlexBox } from "../../globals/styles/FlexBox";
+import Button from "../Button/Button";
 
 type Props = {
   jobId: any;
+  state: CompanyCreateInterview;
+  nextPage: React.Dispatch<React.SetStateAction<any>>;
+  onStateChange: React.Dispatch<React.SetStateAction<CompanyCreateInterview>>;
 };
 
-function CompanyInterviewTab1({ jobId }: Props) {
+function CompanyInterviewTab1({
+  jobId,
+  state,
+  nextPage,
+  onStateChange,
+}: Props) {
+  const [dateValue, setDateValue] = useState<string>("");
+  const [timeValue, setTimeValue] = useState<string>("");
+
   return (
     <>
+      <FlexBox justifyContent="flex-end">
+        <Button onClick={() => nextPage(2)}>Proceed to Panelist</Button>
+      </FlexBox>
       <CompanyMedicalsScheduleContainer>
         <div className="examination">
           <h1>Set Medical Examination Schedule</h1>
 
-          <CompanyMdeicalsBtnWitHeader header="Set Available date  for candidates to pick from: ">
-            <CompanyMedicalsBtn>
-              <BsCalendar size={20} />
-              Select Date 1
-              <BsCaretDown size={20} color="aqua" />
-            </CompanyMedicalsBtn>
+          <div>
+            <p>Set Available date for candidates to pick from: </p>
 
-            <CompanyMedicalsBtn>
-              <BsCalendar size={20} />
-              Select Date 2
-              <BsCaretDown size={20} color="aqua" />
-            </CompanyMedicalsBtn>
+            <SetRatingCandidateMoreBtn>
+              <div className="flexed">
+                <input
+                  type="date"
+                  value={dateValue}
+                  onChange={(e) => setDateValue(e.target.value)}
+                />
+              </div>
 
-            <AiOutlinePlusCircle cursor={"pointer"} />
-          </CompanyMdeicalsBtnWitHeader>
+              <PiPlusCircleBold
+                size={25}
+                onClick={() =>
+                  onStateChange((oldState) => {
+                    const newState = { ...oldState };
+                    newState?.list_of_available_dates?.push({
+                      available_dates: dateValue,
+                    });
 
-          <CompanyMdeicalsBtnWitHeader header="Set Available Time  for candidates to pick from:">
-            <CompanyMedicalsBtn>
-              <BsCalendar size={20} />
-              Select time for day 1
-              <BsCaretDown size={20} color="aqua" />
-            </CompanyMedicalsBtn>
+                    setDateValue("");
 
-            <CompanyMedicalsBtn>
-              <BsCalendar size={20} />
-              Select time for day 2
-              <BsCaretDown size={20} color="aqua" />
-            </CompanyMedicalsBtn>
+                    return newState;
+                  })
+                }
+              />
+            </SetRatingCandidateMoreBtn>
+          </div>
+          <br />
 
-            <AiOutlinePlusCircle cursor={"pointer"} />
-          </CompanyMdeicalsBtnWitHeader>
+          <div>
+            <p>Set Available Time for candidates to pick from:</p>
 
-          <CompanyMdeicalsBtnWitHeader header="Click to select from qualified candidates">
-            <CompanyMedicalsBtn centered>Select Candidate</CompanyMedicalsBtn>
-          </CompanyMdeicalsBtnWitHeader>
+            <SetRatingCandidateMoreBtn>
+              <div className="flexed">
+                <input
+                  type="time"
+                  value={timeValue}
+                  onChange={(e) => setTimeValue(e.target.value)}
+                />
+              </div>
 
-          <CompanyMdeicalsBtnWitHeader header="Select Hospital">
-            <CompanyMedicalsBtn centered>
-              <AiOutlinePlusCircle size={20} />
-              Add Email Address
-            </CompanyMedicalsBtn>
-          </CompanyMdeicalsBtnWitHeader>
+              <PiPlusCircleBold
+                size={25}
+                onClick={() =>
+                  onStateChange((oldState) => {
+                    const newState = { ...oldState };
+                    newState?.list_of_available_time?.push({
+                      available_time: timeValue,
+                    });
+
+                    setTimeValue("");
+
+                    return newState;
+                  })
+                }
+              />
+            </SetRatingCandidateMoreBtn>
+          </div>
         </div>
 
         <div className="preview">
-          <CompanyMdeicalsBtnWitHeader header="Set Available date for candidates to pick from:">
-            <CompanyMedicalsBtn>
-              <BsCalendar size={20} />
-              Select Date
-              <BsCaretDown size={20} color="aqua" />
-            </CompanyMedicalsBtn>
-          </CompanyMdeicalsBtnWitHeader>
-
           <CompanyMedicalsSelectedItems
-            title="Dates Selected"
-            data={[
-              { header: "les go", subHeader: "lets go even further" },
-              { header: "les go" },
-              { header: "les go" },
-            ]}
+            title="Available date for candidates to pick from:"
+            keyValue="available_dates"
+            data={[...state?.list_of_available_dates]}
           />
 
           <CompanyMedicalsSelectedItems
-            title="Dates Selected"
-            data={[
-              { header: "les go", subHeader: "lets go even further" },
-              { header: "les go" },
-              { header: "les go" },
-            ]}
-          />
-
-          <CompanyMdeicalsBtnWitHeader header="Set Available Time for candidates to pick from:">
-            <CompanyMedicalsBtn>
-              <AiOutlineClockCircle size={20} />
-              Select Time
-              <BsCaretDown size={20} color="aqua" />
-            </CompanyMedicalsBtn>
-          </CompanyMdeicalsBtnWitHeader>
-
-          <CompanyMedicalsSelectedItems
-            title="Time Selected"
-            data={[
-              { header: "les go", subHeader: "lets go even further" },
-              { header: "les go" },
-              { header: "les go" },
-            ]}
-          />
-
-          <CompanyMedicalsSelectedItems
-            title="Time Selected"
-            data={[
-              { header: "les go", subHeader: "lets go even further" },
-              { header: "les go" },
-              { header: "les go" },
-            ]}
+            title="Available Time for candidates to pick from:"
+            keyValue="available_time"
+            data={[...state?.list_of_available_time]}
           />
         </div>
       </CompanyMedicalsScheduleContainer>

@@ -64,12 +64,30 @@ function CompanyJobTestManagement() {
         new_options.push(payload);
         return { ...oldState, option_quetion: new_options };
       });
+
+      setTestQuestion({
+        question_type: "options_question",
+        quetion: "",
+        option_to_choose_from: [""],
+        image: "",
+        answer: "",
+        quetion_mark: 0,
+      });
     } else if (testQuestion.question_type === "fill_in_gap_question") {
       const { question_type, ...payload } = testQuestion;
       setAllQuestion((oldState) => {
         const new_options = [...oldState.fill_in_gap_quetion];
         new_options.push(payload);
         return { ...oldState, fill_in_gap_quetion: new_options };
+      });
+
+      setTestQuestion({
+        question_type: "options_question",
+        quetion: "",
+        option_to_choose_from: [""],
+        image: "",
+        answer: "",
+        quetion_mark: 0,
       });
     }
   };

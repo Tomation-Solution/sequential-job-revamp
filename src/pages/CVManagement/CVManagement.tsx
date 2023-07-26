@@ -15,7 +15,6 @@ import * as yup from "yup";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import useToast from "../../hooks/useToastify";
 import InputWithLabel from "../../components/InputWithLabel/InputWithLabel";
-import SelectWithLabel from "../../components/SelectWithLabel/SelectWithLabel";
 import Button from "../../components/Button/Button";
 import { useMediaQuery } from "react-responsive";
 import {
@@ -105,6 +104,7 @@ const CVManagement = () => {
       notify("Update Success", "success");
     },
     onError: (err: any) => {
+      notify("Update failed, something went wrong", "success");
       console.log({ "server eroor": err });
     },
   });
@@ -241,15 +241,11 @@ const CVManagement = () => {
             <InputWithLabel label={"City"} register={register("city")} />
             <InputWithLabel label={"State"} register={register("state")} />
 
-            <SelectWithLabel
-              setValue={setValue}
+            <InputWithLabel
               label={"Country of Residence"}
-              options={[
-                { label: "lagos", value: "lagos" },
-                { label: "Abuja", value: "Abuja" },
-              ]}
-              name={"country_of_residence"}
+              register={register("country_of_residence")}
             />
+
             <InputWithLabel label="linkedin" register={register("linkdin")} />
             <InputWithLabel label="Twitter" register={register("twitter")} />
 
@@ -283,27 +279,23 @@ const CVManagement = () => {
                   //  min="1900"
                   //  max="2099"
                 />
-                <SelectWithLabel
+
+                <InputWithLabel
                   label="Course of Study"
-                  options={[
-                    { label: "Course 1", value: "Course 1" },
-                    { label: "Course 2", value: "Course 1" },
-                    { label: "Course 3", value: "Course 3" },
-                  ]}
-                  setValue={setValue}
-                  name={`education.${index}.course_of_study`}
+                  register={register(`education.${index}.course_of_study`)}
+                  errorMessage={
+                    errors.education?.[index]?.course_of_study?.message
+                  }
+                  placeholder={"Course of Study"}
                 />
 
-                <SelectWithLabel
+                <InputWithLabel
                   label="Type of Degree"
-                  options={[
-                    { label: "HND", value: "HND" },
-                    { label: "BSC", value: "BSC" },
-                    { label: "SSCE", value: "SSCE" },
-                  ]}
-                  setValue={setValue}
-                  name={`education.${index}.degree_type`}
+                  register={register(`education.${index}.degree_type`)}
+                  errorMessage={errors.education?.[index]?.degree_type?.message}
+                  placeholder={"Type of Degree"}
                 />
+
                 {/* <FormSelect>
                           <label>Type of Degree</label>
                           <select name="degree">
@@ -465,17 +457,12 @@ const CVManagement = () => {
                   register={register(`refrences.${index}.full_name`)}
                 />
 
-                <SelectWithLabel
+                <InputWithLabel
                   label="Relationship"
-                  setValue={setValue}
-                  name={`refrences.${index}.relationship`}
-                  options={[
-                    { label: "Relationship1", value: "Relationship1" },
-                    { label: "Relationship2", value: "Relationship2" },
-                    { label: "Relationship3", value: "Relationship3" },
-                    { label: "Relationship4", value: "Relationship4" },
-                  ]}
+                  placeholder="Relationship"
+                  register={register(`refrences.${index}.relationship`)}
                 />
+
                 <InputWithLabel
                   label="Email"
                   placeholder="john@gmail.com"

@@ -20,6 +20,10 @@ type Props = {
 };
 
 function CompanyJobPostTab3({ selectedJobId }: Props) {
+  /**
+   * testCutOffMark properties starting with end are generally not used here
+   * i left them there due to laziness 😊
+   */
   const [testCutOffMark, setTestCutOffMark] = useState<TestCutOffMark>({
     not_suitable: 0,
     end_not_suitable: 0,
@@ -87,10 +91,26 @@ function CompanyJobPostTab3({ selectedJobId }: Props) {
       notify("please select a job", "error");
       return;
     }
+    const payload = {
+      not_suitable: testCutOffMark.not_suitable,
+      end_not_suitable:
+        testCutOffMark.partially_suitable !== 0
+          ? testCutOffMark.partially_suitable - 1
+          : testCutOffMark.partially_suitable,
+
+      partially_suitable: testCutOffMark.partially_suitable,
+      end_partially_suitable:
+        testCutOffMark.suitable !== 0
+          ? testCutOffMark.suitable - 1
+          : testCutOffMark.suitable,
+
+      suitable: testCutOffMark.suitable,
+      end_suitable: testCutOffMark.suitable + 1000,
+    };
 
     setCutOffMutation.mutate({
       id: data?.id,
-      ...testCutOffMark,
+      ...payload,
     });
   };
 
@@ -126,44 +146,23 @@ function CompanyJobPostTab3({ selectedJobId }: Props) {
             <h3 style={{ fontWeight: 400 }}>Set Cut Off</h3>
 
             <CutOffMarkSetter
-              title="Not Suitable min."
+              title="Not Suitable Cut Off Mark"
               value={testCutOffMark.not_suitable}
               itemKey="not_suitable"
               onStateChange={setTestCutOffMark}
             />
 
             <CutOffMarkSetter
-              title="Not Suitable max."
-              value={testCutOffMark.end_not_suitable}
-              itemKey="end_not_suitable"
-              onStateChange={setTestCutOffMark}
-            />
-
-            <CutOffMarkSetter
-              title="Partially Suitable min."
+              title="Partially Suitable Cut Off Mark"
               value={testCutOffMark.partially_suitable}
               itemKey="partially_suitable"
               onStateChange={setTestCutOffMark}
             />
 
             <CutOffMarkSetter
-              title="Partially Suitable max."
-              value={testCutOffMark.end_partially_suitable}
-              itemKey="end_partially_suitable"
-              onStateChange={setTestCutOffMark}
-            />
-
-            <CutOffMarkSetter
-              title="Suitable min."
+              title="Suitable Cut Off Mark"
               value={testCutOffMark.suitable}
               itemKey="suitable"
-              onStateChange={setTestCutOffMark}
-            />
-
-            <CutOffMarkSetter
-              title="Suitable max."
-              value={testCutOffMark.end_suitable}
-              itemKey="end_suitable"
               onStateChange={setTestCutOffMark}
             />
 
@@ -172,6 +171,9 @@ function CompanyJobPostTab3({ selectedJobId }: Props) {
 
           <div className="right">
             <h1>Preview CV Sorting Questions</h1>
+
+            <h3>Instructions</h3>
+            <small>{data?.title}</small>
 
             <div className="right">
               {allQuestion.option_quetion.map((item, index) => {

@@ -32,9 +32,7 @@ const Login = () => {
   const { mutate, isLoading } = useMutation(signInApi, {
     onSuccess: (data) => {
       if (data.status === 200) {
-        console.log(data.data.tokens);
         const savedUser = setUser(data.data.tokens);
-        console.log("savedUser", savedUser);
         notify(`Welcome back ${savedUser?.full_name}`, "success");
         if (savedUser?.user_type === "job_seakers") {
           navigate("/");

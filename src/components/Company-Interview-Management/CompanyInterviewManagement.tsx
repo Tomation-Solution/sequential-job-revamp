@@ -14,10 +14,28 @@ import { getAllCompanyJobs } from "../../redux/api/company/jobs-test-management.
 import EmptyState from "../EmptyState/EmptyState";
 import { JobType } from "../Company-Job-Test-Management/types";
 import moment from "moment";
+import { CompanyCreateInterview, CompanyGetInterview } from "./Types";
+import { useMutation, useQuery } from "react-query";
+import {
+  companyCreateInterview,
+  companyGetJobInterview,
+} from "../../redux/api/company/interview-management.api";
+import useToast from "../../hooks/useToastify";
+import Preloader from "../Preloader/Preloader";
 
 function CompanyInterviewManagement() {
   const [dropdownOption, setDropdownOption] = useState<string>("");
   const [currentRender, setCurrentRender] = useState(1);
+
+  const [companyInterviewManagement, setCompanyInterviewManagement] =
+    useState<CompanyCreateInterview>({
+      list_of_available_dates: [],
+      list_of_available_time: [],
+      rating_sheet: [],
+      list_of_email: [],
+      panelist_invitation_letter: "",
+      interview_link: "",
+    });
 
   const { loadingState, isError, data } = useCustomFetcher<JobType[]>(
     "all-jobs",
@@ -29,6 +47,85 @@ function CompanyInterviewManagement() {
         created_at: item.created_at,
       }))
   );
+
+  const { notify } = useToast();
+
+  const interviewDetails = useQuery<CompanyGetInterview, any>(
+    `interview-details-${dropdownOption}`,
+    () => companyGetJobInterview(dropdownOption),
+    {
+      retry: false,
+      refetchOnWindowFocus: false,
+      onSuccess: (data) => {
+        console.log(data);
+        // const { company, job, id, ...result } = data;
+
+        // setCompanyInterviewManagement(result);
+      },
+      onError: (error: any) => {
+        if (error?.message?.request?.status === 404) {
+          notify("no interview found for this job", error);
+        }
+      },
+    }
+  );
+  // console.log("companyInterviewManagement", companyInterviewManagement);
+  // console.log("interviewDetails?.data", interviewDetails?.data);
+  // useEffect(() => {
+  //   if (interviewDetails?.data) {
+  //     console.log("reached");
+  //     const { company, job, id, ...result } = interviewDetails.data;
+
+  //     setCompanyInterviewManagement(result);
+  //   }
+  // }, [interviewDetails.data, setCompanyInterviewManagement]);
+
+  const { isLoading, mutate } = useMutation(companyCreateInterview, {
+    onSuccess: () => {
+      notify("interview successfully created", "success");
+    },
+    onError: () => {
+      notify("failed to create interview", "error");
+    },
+  });
+
+  console.log("companyInterviewManagement", companyInterviewManagement);
+
+  const onCreateInterviewHandler = () => {
+    if (dropdownOption === "" || !dropdownOption) {
+      notify("please select a job", "error");
+      return;
+    }
+    if (!companyInterviewManagement.interview_link) {
+      notify("interview link is required", "error");
+      return;
+    }
+    if (companyInterviewManagement.list_of_available_dates.length <= 0) {
+      notify("interview schedule dates are required", "error");
+      return;
+    }
+    if (companyInterviewManagement.list_of_available_time.length <= 0) {
+      notify("interview schedule time is required", "error");
+      return;
+    }
+    if (companyInterviewManagement.list_of_email.length <= 0) {
+      notify("panelists are required", "error");
+      return;
+    }
+    if (companyInterviewManagement.panelist_invitation_letter.length <= 0) {
+      notify("panelist invitation letter is required", "error");
+      return;
+    }
+    if (companyInterviewManagement.rating_sheet.length <= 0) {
+      notify("rating scale is required", "error");
+      return;
+    }
+
+    mutate({
+      job_id: dropdownOption,
+      ...companyInterviewManagement,
+    });
+  };
 
   if (loadingState) {
     return <EmptyState header="Fetching all Jobs" />;
@@ -43,12 +140,32 @@ function CompanyInterviewManagement() {
     );
   }
 
+  if (
+    interviewDetails.error?.message?.request?.status &&
+    interviewDetails.error?.message?.request?.status !== 404
+  ) {
+    return (
+      <EmptyState
+        header="Oops something went wrong"
+        subHeader={`failed to get interview details for job ${
+          data?.find((item) => item.id === Number(dropdownOption))?.job_title ||
+          ""
+        }, try refreshing the page`}
+      ></EmptyState>
+    );
+  }
+
   return (
     <>
+      <Preloader
+        loading={
+          interviewDetails.isLoading || interviewDetails.isFetching || isLoading
+        }
+      />
       <CompanyNavBar>
         <CompanyNavBarItemsContainer>
           <Dropdown
-            disabledValue="create_mode"
+            disabledValue=""
             disabledOption="Select a Job"
             options={data.map((item) => ({
               label: `${item.job_title} // ${moment(
@@ -93,17 +210,32 @@ function CompanyInterviewManagement() {
       <CompanyInterviewManagementContainer>
         <main>
           {currentRender === 1 ? (
-            <CompanyInterviewTab1 jobId={dropdownOption} />
+            <CompanyInterviewTab1
+              jobId={dropdownOption}
+              state={companyInterviewManagement}
+              nextPage={setCurrentRender}
+              onStateChange={setCompanyInterviewManagement}
+            />
           ) : null}
           {currentRender === 2 ? (
-            <CompanyInterviewTab2 jobId={dropdownOption} />
+            <CompanyInterviewTab2
+              jobId={dropdownOption}
+              state={companyInterviewManagement}
+              nextPage={setCurrentRender}
+              onStateChange={setCompanyInterviewManagement}
+            />
           ) : null}
 
-          {currentRender === 4 ? (
-            <CompanyInterviewTab4 jobId={dropdownOption} />
-          ) : null}
           {currentRender === 3 ? (
             <CompanyInterviewTab3 jobId={dropdownOption} />
+          ) : null}
+          {currentRender === 4 ? (
+            <CompanyInterviewTab4
+              setInterviewToJobfn={onCreateInterviewHandler}
+              jobId={dropdownOption}
+              state={companyInterviewManagement}
+              onStateChange={setCompanyInterviewManagement}
+            />
           ) : null}
         </main>
       </CompanyInterviewManagementContainer>

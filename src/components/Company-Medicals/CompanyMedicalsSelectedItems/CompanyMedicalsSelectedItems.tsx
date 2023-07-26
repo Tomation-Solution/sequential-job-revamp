@@ -12,10 +12,11 @@ import "swiper/css/pagination";
 
 type Props = {
   title: string;
-  data: { header: string; subHeader?: string }[];
+  keyValue?: string;
+  data: { [key: string]: string }[];
 };
 
-function CompanyMedicalsSelectedItems({ title, data }: Props) {
+function CompanyMedicalsSelectedItems({ title, data, keyValue }: Props) {
   return (
     <CompanyMedicalsSelectedItemsContainer>
       <h4>{title}</h4>
@@ -42,11 +43,10 @@ function CompanyMedicalsSelectedItems({ title, data }: Props) {
         }}
         className="mySwiper"
       >
-        {[...new Array(10)].map((item, index) => (
+        {data.map((item, index) => (
           <SwiperSlide key={index}>
             <CompanyMedicalsSelectedActualItems>
-              <p>{"item.header"}</p>
-              <p>{"item.subHeader" || ""}</p>
+              <p>{item[keyValue || "header"]}</p>
             </CompanyMedicalsSelectedActualItems>
           </SwiperSlide>
         ))}

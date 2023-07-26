@@ -5,7 +5,12 @@ export const useCustomFetcher = <T>(
   fetcherfn: (data?: any) => Promise<any>,
   select?: (data: any) => any,
   otherOptions?: any
-): { loadingState: boolean; isError: boolean; data: T | undefined } => {
+): {
+  loadingState: boolean;
+  isError: boolean;
+  data: T | undefined;
+  error: any;
+} => {
   const options: any = {
     refetchOnWindowFocus: false,
     ...otherOptions,
@@ -17,7 +22,7 @@ export const useCustomFetcher = <T>(
     options.select = (data: any) => data.data;
   }
 
-  const { isLoading, isFetching, isError, data } = useQuery<T>(
+  const { isLoading, isFetching, isError, data, error } = useQuery<T>(
     key,
     fetcherfn,
     options
@@ -25,5 +30,5 @@ export const useCustomFetcher = <T>(
 
   const loadingState = isLoading || isFetching;
 
-  return { loadingState, isError, data };
+  return { loadingState, isError, data, error };
 };

@@ -17,6 +17,9 @@ import { JobType } from "../Company-Job-Test-Management/types";
 import { getAllCompanyJobs } from "../../redux/api/company/jobs-test-management.api";
 import EmptyState from "../EmptyState/EmptyState";
 import moment from "moment";
+import { useMutation, useQueryClient } from "react-query";
+import { switchJobOn } from "../../redux/api/company/companyjobs.api";
+import Preloader from "../Preloader/Preloader";
 
 function CompanyJobPostManagement() {
   const [currentRender, setCurrentRender] = useState(1);
@@ -55,10 +58,37 @@ function CompanyJobPostManagement() {
     (data) =>
       data.data.map((item: any) => ({
         id: item.id,
+        job_filter: item.job_filter,
+        is_active: item.is_active,
         job_title: item.job_title,
         created_at: item.created_at,
       }))
   );
+
+  const queryClient = useQueryClient();
+
+  const { isLoading, mutate } = useMutation(switchJobOn, {
+    onSuccess: () => {
+      queryClient.invalidateQueries("all-jobs");
+
+      notify("job successfully published", "success");
+    },
+    onError: () => {
+      notify("failed to publish job", "error");
+    },
+  });
+
+  /**
+   * function to change job visibility status to true
+   */
+  const publishJobHandler = () => {
+    const formData = new FormData();
+
+    formData.append("switch", "True");
+    formData.append("job_id", dropdownOption);
+
+    mutate(formData);
+  };
 
   if (loadingState) {
     return <EmptyState header="Fetching all Jobs" />;
@@ -75,6 +105,7 @@ function CompanyJobPostManagement() {
 
   return (
     <>
+      <Preloader loading={isLoading} />
       <CompanyNavBar>
         <CompanyNavBarItemsContainer>
           <Dropdown
@@ -120,20 +151,57 @@ function CompanyJobPostManagement() {
           </Button>
         ) : null}
 
-        <Button
-          // disabled={btnDisabler()}
-          onClick={() => {
-            if (btnDisabler()) {
-              notify("save this job to proceed", "error");
-            } else {
-              changeRenderedTab("incr");
-            }
-          }}
-        >
-          {currentRender === 1 && "Proceed to set CV sorting Question"}
-          {currentRender === 2 && "Proceed to CV Cut off point"}
-          {currentRender === 3 && "Post another job"}
-        </Button>
+        {currentRender === 1 ? (
+          <Button
+            onClick={() => {
+              if (btnDisabler()) {
+                notify("save this job to proceed", "error");
+              } else {
+                changeRenderedTab("incr");
+              }
+            }}
+          >
+            Proceed to set CV sorting Question
+          </Button>
+        ) : null}
+
+        {currentRender === 2 ? (
+          <Button
+            onClick={() => {
+              if (btnDisabler()) {
+                notify("save this job to proceed", "error");
+              } else {
+                changeRenderedTab("incr");
+              }
+            }}
+          >
+            Proceed to CV Cut off point
+          </Button>
+        ) : null}
+
+        {currentRender === 3 ? (
+          <Button
+            onClick={() => {
+              if (
+                !data?.find((item) => item.id === Number(dropdownOption))
+                  ?.is_active
+              ) {
+                if (dropdownOption === "create_mode") {
+                  notify("select a job to publish", "error");
+                  return;
+                }
+                publishJobHandler();
+              } else {
+                setCurrentRender(1);
+              }
+            }}
+          >
+            {!data?.find((item) => item.id === Number(dropdownOption))
+              ?.is_active
+              ? "Publish Job (job becomes visible to job seekers)"
+              : "Post another job"}
+          </Button>
+        ) : null}
       </FlexBox>
 
       {/* <FlexBox justifyContent="flex-end">
@@ -158,11 +226,13 @@ function CompanyJobPostManagement() {
       {currentRender === 1 ? (
         <CompanyJobPostTab1
           selectedJobId={dropdownOption}
+          setCurrentRender={setCurrentRender}
           setSavedTabs={setSavedTabs}
         />
       ) : null}
       {currentRender === 2 ? (
         <CompanyJobPostTab2
+          setCurrentRender={setCurrentRender}
           selectedJobId={dropdownOption}
           setSavedTabs={setSavedTabs}
         />

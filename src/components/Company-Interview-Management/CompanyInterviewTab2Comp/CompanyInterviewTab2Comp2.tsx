@@ -3,16 +3,18 @@ import { CompanyJobTestManagementContainer } from "../../Company-Job-Test-Manage
 import { SetRatingCandidateMoreBtn } from "../CompanyInterviewManagement.styles";
 import { PiPlusCircleBold } from "react-icons/pi";
 import { MdCancel } from "react-icons/md";
-import { FlexBox } from "../../../globals/styles/FlexBox";
-import { Button } from "@mui/material";
+import { CompanyCreateInterview } from "../Types";
+import { getUser } from "../../../utils/extraFunction";
 
-function CompanyInterviewTab2Comp2() {
-  const [panelisteEmail, setPanelisteEmail] = useState<string[]>([]);
+type Props = {
+  state: CompanyCreateInterview;
+  onStateChange: React.Dispatch<React.SetStateAction<CompanyCreateInterview>>;
+};
+
+function CompanyInterviewTab2Comp2({ state, onStateChange }: Props) {
   const [email, setEmail] = useState("");
 
-  const onSubmitHandler = () => {
-    console.log(panelisteEmail);
-  };
+  const user = getUser();
 
   return (
     <>
@@ -35,9 +37,12 @@ function CompanyInterviewTab2Comp2() {
               <PiPlusCircleBold
                 size={25}
                 onClick={() =>
-                  setPanelisteEmail((oldState) => {
-                    const newState = [...oldState];
-                    newState.push(email || "");
+                  onStateChange((oldState) => {
+                    const newState = { ...oldState };
+
+                    newState.list_of_email.push({
+                      email: email || user?.email || "",
+                    });
 
                     setEmail("");
 
@@ -51,13 +56,13 @@ function CompanyInterviewTab2Comp2() {
           <div className="right">
             <h3>Preview</h3>
 
-            {panelisteEmail?.map((item, index) => (
+            {state?.list_of_email?.map((item, index) => (
               <SetRatingCandidateMoreBtn key={index}>
                 <div className="flexed">
                   <input
                     type="email"
                     placeholder="Please enter an emails"
-                    value={item}
+                    value={item.email}
                     disabled
                   />
                 </div>
@@ -66,9 +71,9 @@ function CompanyInterviewTab2Comp2() {
                   color="red"
                   size={20}
                   onClick={() =>
-                    setPanelisteEmail((oldState) => {
-                      const newState = [...oldState];
-                      newState.splice(index, 1);
+                    onStateChange((oldState) => {
+                      const newState = { ...oldState };
+                      newState.list_of_email.splice(index, 1);
 
                       return newState;
                     })
@@ -78,9 +83,9 @@ function CompanyInterviewTab2Comp2() {
             ))}
           </div>
         </main>
-        <FlexBox justifyContent="flex-end">
+        {/* <FlexBox justifyContent="flex-end">
           <Button onClick={onSubmitHandler}>Invite All</Button>
-        </FlexBox>
+        </FlexBox> */}
       </CompanyJobTestManagementContainer>
     </>
   );

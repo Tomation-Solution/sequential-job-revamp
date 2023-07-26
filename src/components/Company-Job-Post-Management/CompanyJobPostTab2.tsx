@@ -19,10 +19,15 @@ import { useJobPostDetailsStore } from "../../zustand-store/jobPost";
 
 type Props = {
   selectedJobId: any;
+  setCurrentRender: React.Dispatch<React.SetStateAction<number>>;
   setSavedTabs: React.Dispatch<React.SetStateAction<SavedTabs>>;
 };
 
-function CompanyJobPostTab2({ setSavedTabs, selectedJobId }: Props) {
+function CompanyJobPostTab2({
+  setSavedTabs,
+  setCurrentRender,
+  selectedJobId,
+}: Props) {
   const [testInstruction, setTestInstruction] = useState<string>("");
   const { notify } = useToast();
   const jobPostDetailsCtrl = useJobPostDetailsStore((state) => state);
@@ -36,14 +41,24 @@ function CompanyJobPostTab2({ setSavedTabs, selectedJobId }: Props) {
 
   const [testQuestion, setTestQuestion] = useState<QuestionType>({
     question_type: "options_question",
-    quetion: "Type Question Here",
-    option_to_choose_from: ["Option 1"],
+    quetion: "",
+    option_to_choose_from: [""],
     image: "",
-    answer: "Question Answer",
-    quetion_mark: 10,
+    answer: "",
+    quetion_mark: 0,
   });
 
   const onAddQuestion = () => {
+    const totalNumberOfQuestions =
+      allQuestion.fill_in_gap_quetion.length +
+      allQuestion.option_quetion.length +
+      allQuestion.multi_choice_quetion.length;
+
+    if (totalNumberOfQuestions >= 5) {
+      notify("there a maximum of 5 questions allowed", "error");
+      return;
+    }
+
     if (testQuestion.question_type === "options_question") {
       const { question_type, ...payload } = testQuestion;
       setAllQuestion((oldState) => {
@@ -51,12 +66,30 @@ function CompanyJobPostTab2({ setSavedTabs, selectedJobId }: Props) {
         new_options.push(payload);
         return { ...oldState, option_quetion: new_options };
       });
+
+      setTestQuestion({
+        question_type: "options_question",
+        quetion: "",
+        option_to_choose_from: [""],
+        image: "",
+        answer: "",
+        quetion_mark: 0,
+      });
     } else if (testQuestion.question_type === "fill_in_gap_question") {
       const { question_type, option_to_choose_from, ...payload } = testQuestion;
       setAllQuestion((oldState) => {
         const new_options = [...oldState.fill_in_gap_quetion];
         new_options.push(payload);
         return { ...oldState, fill_in_gap_quetion: new_options };
+      });
+
+      setTestQuestion({
+        question_type: "options_question",
+        quetion: "",
+        option_to_choose_from: [""],
+        image: "",
+        answer: "",
+        quetion_mark: 0,
       });
     }
   };
@@ -90,6 +123,8 @@ function CompanyJobPostTab2({ setSavedTabs, selectedJobId }: Props) {
         "Application sorting questions successfully assigned to Job",
         "success"
       );
+
+      setCurrentRender(3);
     },
     onError: () => {
       notify("Failed to set question to test", "error");

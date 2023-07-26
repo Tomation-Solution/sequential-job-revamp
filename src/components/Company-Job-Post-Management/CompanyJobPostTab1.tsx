@@ -34,10 +34,15 @@ import EmptyState from "../EmptyState/EmptyState";
 // };
 type Props = {
   selectedJobId: any;
+  setCurrentRender: React.Dispatch<React.SetStateAction<number>>;
   setSavedTabs: React.Dispatch<React.SetStateAction<SavedTabs>>;
 };
 
-function CompanyJobPostTab1({ setSavedTabs, selectedJobId }: Props) {
+function CompanyJobPostTab1({
+  setSavedTabs,
+  selectedJobId,
+  setCurrentRender,
+}: Props) {
   const [jobDescriptionSave, setJobDescriptionSave] = useState(false);
   const jobPostDetailsCtrl = useJobPostDetailsStore((state) => state);
   const {
@@ -101,11 +106,17 @@ function CompanyJobPostTab1({ setSavedTabs, selectedJobId }: Props) {
       queryClient.invalidateQueries(`job-details-${selectedJobId}`);
 
       jobPostDetailsCtrl.setJobId(res?.data?.id);
-      notify("job created successfully", "success");
+
+      notify(
+        "job added successfully, proceed to CV sorting questions",
+        "success"
+      );
+
+      setCurrentRender(2);
     },
     onError: () => {
       setJobDescriptionSave(false);
-      notify("failed to create job", "error");
+      notify("failed to add job, please refresh and try again", "error");
     },
   });
 
@@ -141,9 +152,9 @@ function CompanyJobPostTab1({ setSavedTabs, selectedJobId }: Props) {
       return notify("save the job description to proceed", "error");
     }
 
-    let currency = "naira";
+    let currency = "nigerian naira";
     if (inputData.money_sign === "$") {
-      currency = "dollar";
+      currency = "US dollar";
     }
 
     const payload = { ...inputData, currency };
@@ -205,13 +216,20 @@ function CompanyJobPostTab1({ setSavedTabs, selectedJobId }: Props) {
                 errorMessage={errors.location?.message}
               />
 
-              <div style={{ marginBottom: "10px" }}>
-                <h4 style={{ margin: "5px 0px" }}>Is Active</h4>
-                <Switches
-                  checked={watch("is_active")}
-                  onChangefn={() => setValue("is_active", !watch("is_active"))}
-                />
-              </div>
+              {selectedJobId !== "create_mode" && data?.job_filter ? (
+                <div style={{ marginBottom: "10px" }}>
+                  <div>
+                    <h4 style={{ margin: "5px 0px" }}>Job Visibility</h4>
+                    <small>controls job visibility to job seekers</small>
+                  </div>
+                  <Switches
+                    checked={watch("is_active")}
+                    onChangefn={() =>
+                      setValue("is_active", !watch("is_active"))
+                    }
+                  />
+                </div>
+              ) : null}
 
               <FormSelect>
                 <label>Job Type</label>
@@ -249,8 +267,8 @@ function CompanyJobPostTab1({ setSavedTabs, selectedJobId }: Props) {
 
                 <select defaultValue={"₦"} {...register("money_sign")}>
                   <option disabled>Select Currency</option>
-                  <option value={"$"}>Dollar</option>
-                  <option value={"₦"}>Naira</option>
+                  <option value={"$"}>US Dollar</option>
+                  <option value={"₦"}>Nigerian Naira</option>
                 </select>
               </div>
 
@@ -288,7 +306,7 @@ function CompanyJobPostTab1({ setSavedTabs, selectedJobId }: Props) {
               />
 
               <InputWithLabel
-                label="Job Categories, e.g. Health information technician,Patient,Medical writer"
+                label="Job Categories, e.g. Health information technician, Patient, Medical writer"
                 register={register("job_categories")}
                 errorMessage={errors.job_categories?.message}
               />
@@ -317,7 +335,10 @@ function CompanyJobPostTab1({ setSavedTabs, selectedJobId }: Props) {
           </div>
 
           <div className="right">
-            <h2>Job Description</h2>
+            <h2>
+              Job Description{" "}
+              <small style={{ color: "red" }}>(compulsory)</small>
+            </h2>
 
             <FormError>{errors.description_content?.message}</FormError>
             <TextEditor

@@ -23,6 +23,14 @@ export const SetRatingCandidateMoreBtn = styled.div`
     justify-content: center;
   }
 
+  input[type="time"]::-webkit-calendar-picker-indicator {
+    background-color: #fff;
+  }
+
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    background-color: #fff;
+  }
+
   input {
     outline: none;
     border: none;

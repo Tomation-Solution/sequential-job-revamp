@@ -69,6 +69,11 @@ export const getAllCvsForACompany = async () => {
 };
 
 export const switchJobOn = async (payload: any) => {
+  /**
+   * payload must be Form Data
+   * switch contains the booleans (True, False)
+   * job_id contains job id
+   */
   try {
     const res = await api.post(
       `/jobs/company-job-handler/switch_job_on/`,
