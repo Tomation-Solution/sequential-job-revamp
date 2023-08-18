@@ -39,6 +39,9 @@ import CompletionComponent from "./components/CompletionComponent/CompletionComp
 import CompanySettingsPage from "./pages/company/CompanySettingsPage";
 import ComapnySignup from "./components/Auth/SignUp/Company-Signup";
 import CompanyJobTestManagementPage from "./pages/company/CompanyJobTestManagementPage";
+import ForgotPassword, {
+  ResetPassword,
+} from "./components/Auth/ForgotPassword";
 const queryClient = new QueryClient();
 
 function App() {
@@ -51,7 +54,12 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/sign-up" element={<SignUp />} />
             <Route path="/sign-up-company" element={<ComapnySignup />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
 
+            <Route
+              path="/reset-password/:uid/:token"
+              element={<ResetPassword />}
+            />
             <Route element={<MainLayout />}>
               <Route path="/" element={<Dashboard />} />
               {/*ELIJAHS REUSABLE COMPONENTS || LOOK AT THEM */}

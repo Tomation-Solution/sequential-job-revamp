@@ -89,6 +89,13 @@ const Login = () => {
                   type='password'
               />
               <br />
+              <p
+              onClick={e=>{
+                navigate('/forgot-password')
+              }}
+              style={{'color':'#24cde2','textAlign':'right','margin':'20px 0'}}><strong>Forgot password?</strong></p>
+              <br />
+              <br />
               <Button type="submit">
                 Login
               </Button>

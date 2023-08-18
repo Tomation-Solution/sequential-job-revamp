@@ -45,7 +45,7 @@ const ApplyForJobProccess =({job_id}:{job_id:string}):React.ReactElement=>{
             <div className="proccess_btn_container"
             onClick={e=>{
                 e.preventDefault()
-            navigate(`/cvmanagement/`)
+            navigate(`/cvmanagement/?job=${job_id}`)
             }}
             >
                 <div className="proccess_btn">
