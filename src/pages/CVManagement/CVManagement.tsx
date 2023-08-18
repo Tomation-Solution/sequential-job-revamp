@@ -75,7 +75,7 @@ const schema = yup.object({
 export type CvManagementFormType = yup.InferType<typeof schema>;
 const CVManagement = () => {
   const queryClient = useQueryClient();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const go = useNavigate();
   const { notify } = useToast();
   const isBigScreen = useMediaQuery({

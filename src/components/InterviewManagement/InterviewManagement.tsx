@@ -19,7 +19,7 @@ const InterviewManagement = () => {
   const user = getUser();
   const { notify } = useToast();
   const go = useNavigate();
-  const { isLoading, data, refetch } = useQuery(
+  const { isLoading, data } = useQuery(
     ["get_interviews_for_jobseekers", filter],
     () => get_interviews({ filter_by_scheduled: filter }),
     {
@@ -36,7 +36,7 @@ const InterviewManagement = () => {
       },
     }
   );
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   return (
     <TestManagementContainer>
       <h1>Interview Schedule</h1>

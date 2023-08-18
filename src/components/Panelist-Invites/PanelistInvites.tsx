@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { CompanyNavBarItemsContainer } from "../Company-NavBar/CompanyNavBar.styles";
 import Dropdown from "../../globals/Dropdown/Dropdown";
 import PanelistNavBar from "../Panelist-NavBar/PanelistNavBar";
@@ -20,7 +20,7 @@ function PanelistInvites({ userType, allJobsData }: Props) {
   const [overview, setOverview] = useState<"isOverview" | "notOverview">(
     "isOverview"
   );
-  const [data, setData] = useState<any>([]);
+  // const [data, setData] = useState<any>([]);
   const currentUser = getUser();
   const { notify } = useToast();
 

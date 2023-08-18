@@ -24,7 +24,7 @@ import ChartComponent, {
 } from "../components/ChartComponent";
 import styled from "styled-components";
 import MedicalsContent from "../components/Medicals/MedicalsContent/MedicalsContent";
-import { TestManagementSubCon } from "../components/TestManagement/TestManagement.style";
+// import { TestManagementSubCon } from "../components/TestManagement/TestManagement.style";
 import { useNavigate } from "react-router-dom";
 
 const JobAppliedTable = () => {

@@ -3,15 +3,12 @@ import { getAllCompanyJobs } from "../../redux/api/company/jobs-test-management.
 import { useCustomFetcher } from "../../utils/fetcher";
 
 function CompanyInvitePage() {
-  const { loadingState, isError, data } = useCustomFetcher(
-    "all-jobs",
-    getAllCompanyJobs,
-    (data) =>
-      data.data.map((item: any) => ({
-        id: item.id,
-        job_title: item.job_title,
-        created_at: item.created_at,
-      }))
+  const { data } = useCustomFetcher("all-jobs", getAllCompanyJobs, (data) =>
+    data.data.map((item: any) => ({
+      id: item.id,
+      job_title: item.job_title,
+      created_at: item.created_at,
+    }))
   );
 
   return (

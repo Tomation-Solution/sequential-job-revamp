@@ -98,96 +98,106 @@ function App() {
               <Route path="/document_managent" element={<DocumentManagent />} />
               {/*ELIJAHS REUSABLE COMPONENTS || LOOK AT THEM */}
 
-            <Route path="/job_detail/:id/" element={<JobDetail />} />
-            <Route path="/jobs_list" element={<JobList />} />
-            <Route
-              path="/filter_quetions/:job_id/"
-              element={<CvFilterTest />}
-            />
+              <Route path="/job_detail/:id/" element={<JobDetail />} />
+              <Route path="/jobs_list" element={<JobList />} />
+              <Route
+                path="/filter_quetions/:job_id/"
+                element={<CvFilterTest />}
+              />
 
-            <Route path="/cvmanagement" element={<CVManagement />} />
-            {/* ADD OTHER PATHS THAT SHOULD BE RENDERED WITH THE SIDEBAR HERE, ELSE DO SO OUTSIDE */}
-            <Route
-              path="/medicals-scheduleinfo"
-              element={<MedicalsScheduleInfo />}
-            />
-            <Route
-              path="/interview-completion"
-              element={<InterviewManagementCompletion />}
-            />
-            <Route
-              path="/medicals-list-subbmission"
-              element={<MedicalsListSubbmission />}
-            />
-            <Route
-              path="/medicals-list-subbmission"
-              element={<MedicalsListSubbmission />}
-            />
-          </Route>
+              <Route path="/cvmanagement" element={<CVManagement />} />
+              {/* ADD OTHER PATHS THAT SHOULD BE RENDERED WITH THE SIDEBAR HERE, ELSE DO SO OUTSIDE */}
+              <Route
+                path="/medicals-scheduleinfo"
+                element={<MedicalsScheduleInfo />}
+              />
+              <Route
+                path="/interview-completion"
+                element={<InterviewManagementCompletion />}
+              />
+              <Route
+                path="/medicals-list-subbmission"
+                element={<MedicalsListSubbmission />}
+              />
+              <Route
+                path="/medicals-list-subbmission"
+                element={<MedicalsListSubbmission />}
+              />
+            </Route>
 
-          <Route element={<CompanyLayout />}>
-            <Route path="/company/dashboard" element={<CompanyIndexPage />} />
-            <Route path="/company/medicals" element={<CompanyMedicalsPage />} />
-            <Route
-              path="/company/medicals/schedule-completed"
-              element={
-                <CompletionComponent
-                  title={"Medicals Schedule Completed"}
-                  btnText={"Home"}
-                  where={"/company/dashboard"}
-                />
-              }
-            />
-            <Route path="/company/settings" element={<CompanySettingsPage />} />
-            <Route
-              path="/company/job-test-management"
-              element={<CompanyJobTestManagementPage />}
-            />
-            <Route
-              path="/company/job-post-management"
-              element={<CompanyJobPostManagementPage />}
-            />
+            <Route element={<CompanyLayout />}>
+              <Route path="/company/dashboard" element={<CompanyIndexPage />} />
+              <Route
+                path="/company/medicals"
+                element={<CompanyMedicalsPage />}
+              />
+              <Route
+                path="/company/medicals/schedule-completed"
+                element={
+                  <CompletionComponent
+                    title={"Medicals Schedule Completed"}
+                    btnText={"Home"}
+                    where={"/company/dashboard"}
+                  />
+                }
+              />
+              <Route
+                path="/company/settings"
+                element={<CompanySettingsPage />}
+              />
+              <Route
+                path="/company/job-test-management"
+                element={<CompanyJobTestManagementPage />}
+              />
+              <Route
+                path="/company/job-post-management"
+                element={<CompanyJobPostManagementPage />}
+              />
 
-            <Route
-              path="/company/cv-details/:id/:role"
-              element={<CVSummary />}
-            />
+              <Route
+                path="/company/cv-details/:id/:role"
+                element={<CVSummary />}
+              />
 
-            <Route
-              path="/company/job-candidate-summary/:jobId"
-              element={<CompanyJobCandidateSum />}
-            />
+              <Route
+                path="/company/job-candidate-summary/:jobId"
+                element={<CompanyJobCandidateSum />}
+              />
 
-            <Route
-              path="/company/job-interview-management"
-              element={<CompanyInterviewManagementPage />}
-            />
+              <Route
+                path="/company/job-interview-management"
+                element={<CompanyInterviewManagementPage />}
+              />
 
-            <Route path="/company/calendar" element={<CompanyCalendarPage />} />
+              <Route
+                path="/company/calendar"
+                element={<CompanyCalendarPage />}
+              />
 
-            <Route
-              path="/company/candidate-score-obtained/:jobID/:candidateID/:filterType/:filterStatus"
-              element={<CompanyInterviewScorePage />}
-            />
+              <Route
+                path="/company/candidate-score-obtained/:jobID/:candidateID/:filterType/:filterStatus"
+                element={<CompanyInterviewScorePage />}
+              />
 
-            <Route
-              path="/company/interview-rating"
-              element={<CompanyInvitePage />}
-            />
-          </Route>
+              <Route
+                path="/company/interview-rating"
+                element={<CompanyInvitePage />}
+              />
+            </Route>
 
-          <Route element={<PanelistLayout />}>
-            <Route path="/panelist/invite" element={<PanelistInvitePage />} />
+            <Route element={<PanelistLayout />}>
+              <Route path="/panelist/invite" element={<PanelistInvitePage />} />
 
-            <Route
-              path="/panelist/cv-details/:id/:role"
-              element={<CVSummary />}
-            />
-          </Route>
+              <Route
+                path="/panelist/cv-details/:id/:role"
+                element={<CVSummary />}
+              />
+            </Route>
 
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </QueryClientProvider>
     </Provider>
   );
 }
