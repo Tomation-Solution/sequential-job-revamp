@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Dropdown from "../../globals/Dropdown/Dropdown";
 import CompanyNavBar, {
   CompanyNavBarTab,
@@ -14,12 +14,9 @@ import { getAllCompanyJobs } from "../../redux/api/company/jobs-test-management.
 import EmptyState from "../EmptyState/EmptyState";
 import { JobType } from "../Company-Job-Test-Management/types";
 import moment from "moment";
-import { CompanyCreateInterview, CompanyGetInterview } from "./Types";
-import { useMutation, useQuery } from "react-query";
-import {
-  companyCreateInterview,
-  companyGetJobInterview,
-} from "../../redux/api/company/interview-management.api";
+import { CompanyCreateInterview } from "./Types";
+import { useMutation } from "react-query";
+import { companyCreateInterview } from "../../redux/api/company/interview-management.api";
 import useToast from "../../hooks/useToastify";
 import Preloader from "../Preloader/Preloader";
 
@@ -50,33 +47,38 @@ function CompanyInterviewManagement() {
 
   const { notify } = useToast();
 
-  const interviewDetails = useQuery<CompanyGetInterview, any>(
-    `interview-details-${dropdownOption}`,
-    () => companyGetJobInterview(dropdownOption),
-    {
-      retry: false,
-      refetchOnWindowFocus: false,
-      onSuccess: (data) => {
-        console.log(data);
-        // const { company, job, id, ...result } = data;
+  // const interviewDetails = useQuery<CompanyGetInterview, any>(
+  //   `interview-details-${dropdownOption}`,
+  //   () => companyGetJobInterview(dropdownOption),
+  //   {
+  //     retry: false,
+  //     refetchOnWindowFocus: false,
+  //     //@ts-ignore
+  //     select: (data) => data.data,
+  //     onError: (error: any) => {
+  //       if (error?.message?.request?.status === 404) {
+  //         notify("no interview found for this job", error);
+  //       } else {
+  //         notify("Oops job interview not found", "error");
+  //       }
+  //     },
+  //   }
+  // );
 
-        // setCompanyInterviewManagement(result);
-      },
-      onError: (error: any) => {
-        if (error?.message?.request?.status === 404) {
-          notify("no interview found for this job", error);
-        }
-      },
-    }
-  );
-  // console.log("companyInterviewManagement", companyInterviewManagement);
-  // console.log("interviewDetails?.data", interviewDetails?.data);
   // useEffect(() => {
   //   if (interviewDetails?.data) {
-  //     console.log("reached");
   //     const { company, job, id, ...result } = interviewDetails.data;
 
   //     setCompanyInterviewManagement(result);
+  //   } else {
+  //     setCompanyInterviewManagement({
+  //       list_of_available_dates: [],
+  //       list_of_available_time: [],
+  //       rating_sheet: [],
+  //       list_of_email: [],
+  //       panelist_invitation_letter: "",
+  //       interview_link: "",
+  //     });
   //   }
   // }, [interviewDetails.data, setCompanyInterviewManagement]);
 
@@ -84,12 +86,16 @@ function CompanyInterviewManagement() {
     onSuccess: () => {
       notify("interview successfully created", "success");
     },
-    onError: () => {
-      notify("failed to create interview", "error");
+    onError: (error: any) => {
+      if (
+        error?.message?.response?.data?.message === "Already has a interview"
+      ) {
+        notify("the selected job already has a interview setup", "error");
+      } else {
+        notify("failed to create interview", "error");
+      }
     },
   });
-
-  console.log("companyInterviewManagement", companyInterviewManagement);
 
   const onCreateInterviewHandler = () => {
     if (dropdownOption === "" || !dropdownOption) {
@@ -140,28 +146,24 @@ function CompanyInterviewManagement() {
     );
   }
 
-  if (
-    interviewDetails.error?.message?.request?.status &&
-    interviewDetails.error?.message?.request?.status !== 404
-  ) {
-    return (
-      <EmptyState
-        header="Oops something went wrong"
-        subHeader={`failed to get interview details for job ${
-          data?.find((item) => item.id === Number(dropdownOption))?.job_title ||
-          ""
-        }, try refreshing the page`}
-      ></EmptyState>
-    );
-  }
+  // if (
+  //   interviewDetails.error?.message?.request?.status &&
+  //   interviewDetails.error?.message?.request?.status !== 404
+  // ) {
+  //   return (
+  //     <EmptyState
+  //       header="Oops something went wrong"
+  //       subHeader={`failed to get interview details for job ${
+  //         data?.find((item) => item.id === Number(dropdownOption))?.job_title ||
+  //         ""
+  //       }, try refreshing the page`}
+  //     />
+  //   );
+  // }
 
   return (
     <>
-      <Preloader
-        loading={
-          interviewDetails.isLoading || interviewDetails.isFetching || isLoading
-        }
-      />
+      <Preloader loading={isLoading} />
       <CompanyNavBar>
         <CompanyNavBarItemsContainer>
           <Dropdown
@@ -181,7 +183,7 @@ function CompanyInterviewManagement() {
             onClick={() => setCurrentRender(1)}
             isSelected={currentRender === 1}
           >
-            <p>Set Intreview</p>
+            <p>Set Intereview</p>
           </CompanyNavBarTab>
 
           <CompanyNavBarTab

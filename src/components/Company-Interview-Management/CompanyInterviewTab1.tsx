@@ -6,6 +6,7 @@ import { PiPlusCircleBold } from "react-icons/pi";
 import { useState } from "react";
 import { FlexBox } from "../../globals/styles/FlexBox";
 import Button from "../Button/Button";
+import useToast from "../../hooks/useToastify";
 
 type Props = {
   jobId: any;
@@ -22,6 +23,7 @@ function CompanyInterviewTab1({
 }: Props) {
   const [dateValue, setDateValue] = useState<string>("");
   const [timeValue, setTimeValue] = useState<string>("");
+  const { notify } = useToast();
 
   return (
     <>
@@ -48,6 +50,11 @@ function CompanyInterviewTab1({
                 size={25}
                 onClick={() =>
                   onStateChange((oldState) => {
+                    if (!dateValue) {
+                      notify("please provide a date", "error");
+                      return oldState;
+                    }
+
                     const newState = { ...oldState };
                     newState?.list_of_available_dates?.push({
                       available_dates: dateValue,
@@ -79,6 +86,11 @@ function CompanyInterviewTab1({
                 size={25}
                 onClick={() =>
                   onStateChange((oldState) => {
+                    if (!timeValue) {
+                      notify("please provide a time", "error");
+                      return oldState;
+                    }
+
                     const newState = { ...oldState };
                     newState?.list_of_available_time?.push({
                       available_time: timeValue,

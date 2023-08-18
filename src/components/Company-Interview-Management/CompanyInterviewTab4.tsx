@@ -2,7 +2,12 @@ import { FlexBox } from "../../globals/styles/FlexBox";
 import CompanyInterviewTab4Comp1 from "./CompanyInterviewTab4Comps/CompanyInterviewTab4Comp1";
 import { CompanyCreateInterview } from "./Types";
 import Button from "../Button/Button";
-import { FormInput } from "../../globals/styles/forms.styles";
+import {
+  FormError,
+  FormInput,
+  FormSuccess,
+} from "../../globals/styles/forms.styles";
+import * as yup from "yup";
 
 type Props = {
   setInterviewToJobfn: () => void;
@@ -17,6 +22,8 @@ function CompanyInterviewTab4({
   state,
   onStateChange,
 }: Props) {
+  const schema = yup.string().url().required();
+
   return (
     <>
       <FlexBox justifyContent="flex-end">
@@ -36,6 +43,11 @@ function CompanyInterviewTab4({
             })
           }
         />
+        {schema.isValidSync(state.interview_link) ? (
+          <FormSuccess>good url</FormSuccess>
+        ) : (
+          <FormError>invalid url</FormError>
+        )}
       </FormInput>
 
       <p>Set Rating Scale</p>

@@ -20,6 +20,9 @@ export const getCompanyDashboardSummaryApi =
 export const getCompanyTotalApplicantApi = async (
   filterJobId: any
 ): Promise<any> => {
+  if (!filterJobId) {
+    return [];
+  }
   const resp = await api.get(
     `/jobs/company-job-handler/total_applicant/?filter_job_id=${filterJobId}`
   );

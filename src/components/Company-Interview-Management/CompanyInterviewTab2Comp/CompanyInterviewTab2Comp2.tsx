@@ -4,7 +4,7 @@ import { SetRatingCandidateMoreBtn } from "../CompanyInterviewManagement.styles"
 import { PiPlusCircleBold } from "react-icons/pi";
 import { MdCancel } from "react-icons/md";
 import { CompanyCreateInterview } from "../Types";
-import { getUser } from "../../../utils/extraFunction";
+import useToast from "../../../hooks/useToastify";
 
 type Props = {
   state: CompanyCreateInterview;
@@ -13,8 +13,7 @@ type Props = {
 
 function CompanyInterviewTab2Comp2({ state, onStateChange }: Props) {
   const [email, setEmail] = useState("");
-
-  const user = getUser();
+  const { notify } = useToast();
 
   return (
     <>
@@ -38,10 +37,15 @@ function CompanyInterviewTab2Comp2({ state, onStateChange }: Props) {
                 size={25}
                 onClick={() =>
                   onStateChange((oldState) => {
+                    if (!email) {
+                      notify("please provide an email", "error");
+                      return oldState;
+                    }
+
                     const newState = { ...oldState };
 
                     newState.list_of_email.push({
-                      email: email || user?.email || "",
+                      email: email,
                     });
 
                     setEmail("");

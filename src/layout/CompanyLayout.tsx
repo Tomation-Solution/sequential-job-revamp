@@ -30,6 +30,11 @@ export const companyNavLinks = [
     link: "/company/job-interview-management",
     icon: <NoteAltIcon />,
   },
+  {
+    name: "Interview Rating",
+    link: "/company/interview-rating",
+    icon: <NoteAltIcon />,
+  },
   { name: "Documentation Management", link: "#", icon: <QuizIcon /> },
   {
     name: "Medicals",

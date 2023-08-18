@@ -11,6 +11,7 @@ export const SideBarCloseButton = styled.div`
   border-radius: 10px;
   background-color: #ddd;
   transition: all 0.5s;
+  cursor: pointer;
 
   @media (max-width: 768px) {
     display: block;

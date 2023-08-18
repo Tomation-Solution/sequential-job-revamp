@@ -43,6 +43,8 @@ import CompanyInterviewManagementPage from "./pages/company/CompanyInterviewMana
 import CompanyCalendarPage from "./pages/company/CompanyCalendarPage";
 import PanelistLayout from "./layout/PanelistLayout";
 import PanelistInvitePage from "./pages/panelist/PanelistInvitePage";
+import CompanyInterviewScorePage from "./pages/company/CompanyInterviewScorePage";
+import CompanyInvitePage from "./pages/company/CompanyInvitePage";
 
 function App() {
   return (
@@ -150,13 +152,28 @@ function App() {
             />
 
             <Route path="/company/calendar" element={<CompanyCalendarPage />} />
-          </Route>
 
-          <Route path="*" element={<NotFound />} />
+            <Route
+              path="/company/candidate-score-obtained/:jobID/:candidateID/:filterType/:filterStatus"
+              element={<CompanyInterviewScorePage />}
+            />
+
+            <Route
+              path="/company/interview-rating"
+              element={<CompanyInvitePage />}
+            />
+          </Route>
 
           <Route element={<PanelistLayout />}>
             <Route path="/panelist/invite" element={<PanelistInvitePage />} />
+
+            <Route
+              path="/panelist/cv-details/:id/:role"
+              element={<CVSummary />}
+            />
           </Route>
+
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
     </Provider>

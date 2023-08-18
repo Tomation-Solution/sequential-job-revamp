@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CompanyNavBarItemsContainer } from "../Company-NavBar/CompanyNavBar.styles";
 import Dropdown from "../../globals/Dropdown/Dropdown";
 import PanelistNavBar from "../Panelist-NavBar/PanelistNavBar";
@@ -6,12 +6,30 @@ import PanelistCandidateDetailedList from "./PanelistCandidateDetailedList";
 import PanelistRateCandidate from "./PanelistRateCandidate";
 import { FlexBox } from "../../globals/styles/FlexBox";
 import Button from "../Button/Button";
+import { getUser } from "../../utils/extraFunction";
+import { Navigate } from "react-router-dom";
+import useToast from "../../hooks/useToastify";
 
-function PanelistInvites() {
+type Props = {
+  allJobsData: any;
+  userType: "company" | "panelist";
+};
+
+function PanelistInvites({ userType, allJobsData }: Props) {
   const [dropdownOption, setDropdownOption] = useState("");
   const [overview, setOverview] = useState<"isOverview" | "notOverview">(
     "isOverview"
   );
+  const [data, setData] = useState<any>([]);
+  const currentUser = getUser();
+  const { notify } = useToast();
+
+  if (currentUser?.user_type !== userType) {
+    notify("unauthorized user", "error");
+    return <Navigate to={"/login"} />;
+  }
+
+  console.log("allJobsData", allJobsData);
 
   return (
     <>
@@ -38,11 +56,12 @@ function PanelistInvites() {
         <PanelistCandidateDetailedList
           jobId={dropdownOption}
           setOverview={setOverview}
+          userType={userType}
         />
       ) : null}
 
       {overview === "notOverview" ? (
-        <PanelistRateCandidate jobId={dropdownOption} />
+        <PanelistRateCandidate jobId={dropdownOption} userType={userType} />
       ) : null}
     </>
   );

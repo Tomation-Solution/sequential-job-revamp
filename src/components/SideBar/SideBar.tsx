@@ -60,21 +60,15 @@ const SideBar: FC<Props> = ({
 
   return (
     <>
-      <SideBarCloseButton>
+      <SideBarCloseButton onClick={() => setShowNavBar(!showNavBar)}>
         {!showNavBar ? (
           <RxHamburgerMenu
             size={25}
             color={`${seqLightBlue}`}
             fontWeight={800}
-            onClick={() => setShowNavBar(!showNavBar)}
           />
         ) : (
-          <ImCancelCircle
-            size={25}
-            color="red"
-            fontWeight={800}
-            onClick={() => setShowNavBar(!showNavBar)}
-          />
+          <ImCancelCircle size={25} color="red" fontWeight={800} />
         )}
       </SideBarCloseButton>
 

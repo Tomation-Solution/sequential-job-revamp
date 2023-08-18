@@ -4,6 +4,7 @@ import { CompanyJobTestManagementContainer } from "../../Company-Job-Test-Manage
 import { MdCancel } from "react-icons/md";
 import { useState } from "react";
 import { CompanyCreateInterview } from "../Types";
+import useToast from "../../../hooks/useToastify";
 
 type Props = {
   state: CompanyCreateInterview;
@@ -13,6 +14,7 @@ type Props = {
 function CompanyInterviewTab4Comp1({ state, onStateChange }: Props) {
   const [name, setName] = useState("");
   const [points, setPoints] = useState(0);
+  const { notify } = useToast();
 
   return (
     <>
@@ -39,6 +41,14 @@ function CompanyInterviewTab4Comp1({ state, onStateChange }: Props) {
                 size={25}
                 onClick={() =>
                   onStateChange((oldState) => {
+                    if (!name || !points) {
+                      notify(
+                        "please provide a qualification and cutoff points",
+                        "error"
+                      );
+                      return oldState;
+                    }
+
                     const newState = { ...oldState };
                     newState.rating_sheet.push({ name: name, cut_off: points });
 

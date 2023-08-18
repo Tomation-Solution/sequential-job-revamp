@@ -23,8 +23,6 @@ const CompanyInterviewTab2 = ({
   const [letterSaved, setLetterSaved] = useState<boolean>(false);
   const { notify } = useToast();
 
-  console.log("state", state);
-
   return (
     <>
       <FlexBox justifyContent="flex-end">

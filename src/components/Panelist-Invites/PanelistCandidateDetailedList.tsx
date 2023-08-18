@@ -7,9 +7,14 @@ type Props = {
   setOverview: React.Dispatch<
     React.SetStateAction<"isOverview" | "notOverview">
   >;
+  userType: "company" | "panelist";
 };
 
-function PanelistCandidateDetailedList({ jobId, setOverview }: Props) {
+function PanelistCandidateDetailedList({
+  jobId,
+  setOverview,
+  userType,
+}: Props) {
   const columns = [
     {
       Header: "Candidate Name",
@@ -30,7 +35,7 @@ function PanelistCandidateDetailedList({ jobId, setOverview }: Props) {
       Cell: (tableProps: any) => (
         <TableDataColored
           color="blue"
-          where={`/company/job-candidate-summary/${tableProps.row.original.cv}`}
+          where={`/company/cv-details/${tableProps.row.original.cv}/${tableProps.row.original?.jobseekers?.role_applied_for}`}
         >
           View
         </TableDataColored>

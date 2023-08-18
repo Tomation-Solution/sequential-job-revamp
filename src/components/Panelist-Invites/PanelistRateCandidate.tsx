@@ -7,9 +7,10 @@ import { CompanyJobTestManagementContainer } from "../Company-Job-Test-Managemen
 
 type Props = {
   jobId: any;
+  userType: "company" | "panelist";
 };
 
-function PanelistRateCandidate({ jobId }: Props) {
+function PanelistRateCandidate({ jobId, userType }: Props) {
   const [selectedCandidate, setSelectedCandidate] = useState("");
 
   return (
