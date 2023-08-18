@@ -10,10 +10,10 @@ import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNone
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import WorkIcon from "@mui/icons-material/Work";
+import ProfileImg from "../../../assets/ProfileImg.png";
 import MenuIcon from "@mui/icons-material/Menu";
 import Logo from "../../../assets/Logo.png";
 import SideBar from "../../SideBar/SideBar";
-import { getUser } from "../../../utils/extraFunction";
 
 const MainNavBar = () => {
   const [showNav, setShowNav] = useState(false);
@@ -21,8 +21,6 @@ const MainNavBar = () => {
   const showNavHandler = () => {
     setShowNav(!showNav);
   };
-
-  const currentUser = getUser();
 
   return (
     <>
@@ -52,9 +50,9 @@ const MainNavBar = () => {
         <MainNavContentHolder>
           <MainNavProfile>
             <NotificationsNoneOutlinedIcon />
-            <p>{currentUser?.full_name}</p>
+            <p>Elijah Papi</p>
 
-            <img alt="profile" src={currentUser?.profile_image} />
+            <img alt="" src={ProfileImg} />
           </MainNavProfile>
         </MainNavContentHolder>
       </MainNavContainer>

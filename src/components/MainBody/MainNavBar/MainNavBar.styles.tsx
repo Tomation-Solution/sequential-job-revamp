@@ -7,8 +7,6 @@ export const MainNavContainer = styled.div`
   background-color: ${seqWhite};
   border-radius: 10px;
   display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 20px;
@@ -77,7 +75,6 @@ export const MainNavProfile = styled.div`
     object-fit: contain;
     border-radius: 50%;
     cursor: pointer;
-    border: 1px solid #000;
   }
   svg {
     cursor: pointer;

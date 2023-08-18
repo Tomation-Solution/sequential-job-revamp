@@ -13,7 +13,6 @@ const JobList = (): React.ReactElement => {
     "jobs",
     () => get_jobs_api({ is_active: true }),
     {
-      refetchOnWindowFocus: false,
       retry: 1,
       onError: (err: any) => {
         if (err.response.data?.error) {
@@ -27,7 +26,7 @@ const JobList = (): React.ReactElement => {
       },
     }
   );
-
+  console.log(data);
   return (
     <JobListContainer>
       <Preloader loading={isLoading} />

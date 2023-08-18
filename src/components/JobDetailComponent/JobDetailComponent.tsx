@@ -11,7 +11,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { applyForJobsApi, getJobDetailApi } from "../../redux/api/jobs.api";
 import Preloader from "../Preloader/Preloader";
 import useToast from "../../hooks/useToastify";
-import numbro from "numbro";
 
 // @ts-ignore
 // const TurndownService = require('turndown')
@@ -85,18 +84,14 @@ const JobDetailComponent = (): React.ReactElement => {
 
           <p>
             {": "}
-            {job?.salary === "0.00"
-              ? "Suitable for Role"
-              : `${job?.money_sign || ""} ${numbro(job?.salary).format({
-                  thousandSeparated: true,
-                })}`}
+            {job?.salary}
           </p>
         </div>
         <br />
         <div className="job_details" style={{ color: "black" }}>
           <p>JobType</p>
           <p>
-            {": "} {job?.job_type?.replace("_", " ")}
+            {": "} {job?.job_type}
           </p>
         </div>
       </MoreDetailInfo>
