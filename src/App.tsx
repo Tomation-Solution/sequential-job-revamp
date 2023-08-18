@@ -45,46 +45,58 @@ import PanelistLayout from "./layout/PanelistLayout";
 import PanelistInvitePage from "./pages/panelist/PanelistInvitePage";
 import CompanyInterviewScorePage from "./pages/company/CompanyInterviewScorePage";
 import CompanyInvitePage from "./pages/company/CompanyInvitePage";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+import ForgotPassword, {
+  ResetPassword,
+} from "./components/Auth/ForgotPassword";
+const queryClient = new QueryClient();
 
 function App() {
   return (
     <Provider store={store}>
-      <ToastContainer />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/sign-up" element={<SignUp />} />
-          <Route path="/sign-up-company" element={<ComapnySignup />} />
+      <QueryClientProvider client={queryClient}>
+        <ToastContainer />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/sign-up" element={<SignUp />} />
+            <Route path="/sign-up-company" element={<ComapnySignup />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
 
-          <Route element={<MainLayout />}>
-            <Route path="/" element={<Dashboard />} />
-            {/*ELIJAHS REUSABLE COMPONENTS || LOOK AT THEM */}
-            <Route path="/test-management" element={<TestManagement />} />
             <Route
-              path="/test-management/taking_test/:job_id"
-              element={<JobTestPage />}
+              path="/reset-password/:uid/:token"
+              element={<ResetPassword />}
             />
-            <Route path="/take-test" element={<TakeTest />} />
-            <Route path="/test" element={<Tests />} />
-            <Route path="/test-submitted" element={<TestSubmitted />} />
-            <Route path="/medicals" element={<Medicals />} />
-            <Route
-              path="/medicals-invite/:id"
-              element={<MedicalsInvitation />}
-            />
-            <Route path="/interviews" element={<InterviewManagement />} />
-            <Route
-              path="/register-interview/:interview_invite_id/:interview_id/"
-              element={<JobSeekerRegisterForInterview />}
-            />
-            {/* ESPECIALLY THE JOBS COMPONENT */}
-            <Route path="/jobs" element={<Jobs />} />
-            <Route
-              path="/job-quetion-info/:jobid"
-              element={<JobQuetionInfo />}
-            />
-            <Route path="/document_managent" element={<DocumentManagent />} />
-            {/*ELIJAHS REUSABLE COMPONENTS || LOOK AT THEM */}
+            <Route element={<MainLayout />}>
+              <Route path="/" element={<Dashboard />} />
+              {/*ELIJAHS REUSABLE COMPONENTS || LOOK AT THEM */}
+              <Route path="/test-management" element={<TestManagement />} />
+              <Route
+                path="/test-management/taking_test/:job_id"
+                element={<JobTestPage />}
+              />
+              <Route path="/take-test" element={<TakeTest />} />
+              <Route path="/test" element={<Tests />} />
+              <Route path="/test-submitted" element={<TestSubmitted />} />
+              <Route path="/medicals" element={<Medicals />} />
+              <Route
+                path="/medicals-invite/:id"
+                element={<MedicalsInvitation />}
+              />
+              <Route path="/interviews" element={<InterviewManagement />} />
+              <Route
+                path="/register-interview/:interview_invite_id/:interview_id/"
+                element={<JobSeekerRegisterForInterview />}
+              />
+              {/* ESPECIALLY THE JOBS COMPONENT */}
+              <Route path="/jobs" element={<Jobs />} />
+              <Route
+                path="/job-quetion-info/:jobid"
+                element={<JobQuetionInfo />}
+              />
+              <Route path="/document_managent" element={<DocumentManagent />} />
+              {/*ELIJAHS REUSABLE COMPONENTS || LOOK AT THEM */}
 
             <Route path="/job_detail/:id/" element={<JobDetail />} />
             <Route path="/jobs_list" element={<JobList />} />

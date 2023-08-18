@@ -12,6 +12,7 @@ import { Form } from "../../globals/styles/forms.styles";
 import { useForm, useFieldArray } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import useToast from "../../hooks/useToastify";
 import InputWithLabel from "../../components/InputWithLabel/InputWithLabel";
@@ -34,9 +35,9 @@ const schema = yup.object({
   city: yup.string().required(),
 
   state: yup.string().required(),
-  country_of_residence: yup.string().required(),
-  linkdin: yup.string().required(),
-  twitter: yup.string().required(),
+  country_of_residence: yup.string(),
+  linkdin: yup.string(),
+  twitter: yup.string(),
   education: yup.array().of(
     yup.object({
       degree_type: yup.string(),
@@ -74,7 +75,8 @@ const schema = yup.object({
 export type CvManagementFormType = yup.InferType<typeof schema>;
 const CVManagement = () => {
   const queryClient = useQueryClient();
-
+  const [searchParams, setSearchParams] = useSearchParams();
+  const go = useNavigate();
   const { notify } = useToast();
   const isBigScreen = useMediaQuery({
     query: "(min-width: 500px)",
@@ -98,10 +100,13 @@ const CVManagement = () => {
 
   const { mutate, isLoading } = useMutation(updateCvApi, {
     onSuccess: (data) => {
-      console.log({ "UpdateSuccess response": data });
       queryClient.invalidateQueries("mycv");
-
+      let job = searchParams.get("job");
+      console.log({ job });
       notify("Update Success", "success");
+      if (job) {
+        go(`/job_detail/${job}`);
+      }
     },
     onError: (err: any) => {
       notify("Update failed, something went wrong", "success");
@@ -146,7 +151,7 @@ const CVManagement = () => {
   });
 
   const onSubmit = (data: CvManagementFormType) => {
-    console.log({ "form submission": data });
+    // console.log({ "form submission": data });
     mutate(data);
   };
 
@@ -167,6 +172,9 @@ const CVManagement = () => {
         "country_of_residence",
         cvstructure.cvStucture.country_of_residence
       );
+      console.log({
+        "country of": cvstructure.cvStucture.country_of_residence,
+      });
       setValue("linkdin", cvstructure.cvStucture.linkdin);
       setValue("twitter", cvstructure.cvStucture.twitter);
       setValue("education", cvstructure.cvStucture.education);
@@ -174,6 +182,9 @@ const CVManagement = () => {
       setValue("certification", cvstructure.cvStucture.certificaton);
       setValue("refrences", cvstructure.cvStucture.refrences);
       setValue("addresse", cvstructure.cvStucture.addresse);
+    } else {
+      setValue("linkdin", "#");
+      setValue("twitter", "#");
     }
   }, [mydata, setValue]);
   return (

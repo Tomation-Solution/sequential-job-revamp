@@ -24,11 +24,28 @@ import ChartComponent, {
 } from "../components/ChartComponent";
 import styled from "styled-components";
 import MedicalsContent from "../components/Medicals/MedicalsContent/MedicalsContent";
+import { TestManagementSubCon } from "../components/TestManagement/TestManagement.style";
+import { useNavigate } from "react-router-dom";
 
 const JobAppliedTable = () => {
+  const { notify } = useToast();
+  const go = useNavigate();
+
   const { isLoading, data } = useQuery(
     "get_jobs_applied_for",
-    get_jobs_applied_for
+    get_jobs_applied_for,
+    {
+      onError: (err: any) => {
+        if (err.response.data?.error) {
+          let error: any = err.response.data.error;
+          if (error.cv) {
+            notify("You need to upload your cv", "error");
+            // notify('Please Hold we would take you to upload your cv','success')
+            go("/cvmanagement");
+          }
+        }
+      },
+    }
   );
 
   const columns = [
@@ -105,9 +122,23 @@ const JobAppliedTable = () => {
 };
 
 const InterViewAttended = () => {
+  const { notify } = useToast();
+  const go = useNavigate();
   const { isLoading, data } = useQuery(
     "get_interview_attended",
-    getInterviewAttendedApi
+    getInterviewAttendedApi,
+    {
+      onError: (err: any) => {
+        if (err.response.data?.error) {
+          let error: any = err.response.data.error;
+          if (error.cv) {
+            notify("You need to upload your cv", "error");
+            // notify('Please Hold we would take you to upload your cv','success')
+            go("/cvmanagement");
+          }
+        }
+      },
+    }
   );
 
   const columns = [
@@ -183,9 +214,23 @@ const InterViewAttended = () => {
   );
 };
 const JobsTestScheduled = () => {
+  const { notify } = useToast();
+  const go = useNavigate();
   const { isLoading, data } = useQuery(
     "job_test_scheduled",
-    jobsTestScheduledApi
+    jobsTestScheduledApi,
+    {
+      onError: (err: any) => {
+        if (err.response.data?.error) {
+          let error: any = err.response.data.error;
+          if (error.cv) {
+            notify("You need to upload your cv", "error");
+            // notify('Please Hold we would take you to upload your cv','success')
+            go("/cvmanagement");
+          }
+        }
+      },
+    }
   );
 
   const columns = [
@@ -352,6 +397,7 @@ const JobOffers = () => {
     undefined | getApplicationListApiResponse["final_selection_state"]
   >(undefined);
   const { notify } = useToast();
+  const go = useNavigate();
   const { isLoading, data, refetch } = useQuery("docs_application_list", () =>
     getApplicationListApi(status ? { status } : {})
   );
@@ -363,6 +409,16 @@ const JobOffers = () => {
           'Accepted we would get back to you please upload "Required Docs" ',
           "success"
         );
+      },
+      onError: (err: any) => {
+        if (err.response.data?.error) {
+          let error: any = err.response.data.error;
+          if (error.cv) {
+            notify("You need to upload your cv", "error");
+            // notify('Please Hold we would take you to upload your cv','success')
+            go("/cvmanagement");
+          }
+        }
       },
     }
   );
@@ -480,6 +536,8 @@ const ChartAndInterviewContainer = styled.div`
   }
 `;
 const Dashboard = () => {
+  const { notify } = useToast();
+  const go = useNavigate();
   const { dashboardJobSummaryStatus } = useAppSelector(
     selectApplicantDashboard
   );
@@ -514,6 +572,16 @@ const Dashboard = () => {
           ],
         },
       });
+    },
+    onError: (err: any) => {
+      if (err.response.data?.error) {
+        let error: any = err.response.data.error;
+        if (error.cv) {
+          notify("You need to upload your cv", "error");
+          // notify('Please Hold we would take you to upload your cv','success')
+          go("/cvmanagement");
+        }
+      }
     },
   });
 

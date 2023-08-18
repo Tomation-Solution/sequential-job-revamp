@@ -89,10 +89,10 @@ const SignUp = () => {
               errorMessage={errors.email?.message}
             />
 
-            <InputWithLabel
+            {/* <InputWithLabel
               label="Education Qualification"
               style={{ margin: "10px 0" }}
-            />
+            /> */}
             <InputWithLabel
               label="phone"
               style={{ margin: "10px 0" }}

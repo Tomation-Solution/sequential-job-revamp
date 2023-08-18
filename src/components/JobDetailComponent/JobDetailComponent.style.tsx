@@ -12,6 +12,16 @@ text-align: center;
     max-width:600px;
     margin:0 auto;
   }
+
+  .job-details{
+    text-align: justify;
+     
+  }
+  & .job-details::after{
+    content: "";
+    display: inline-block;
+    width: 100%;
+  }
 `
 export const JobTitleContainer = styled.div`
   padding:'.5rem 0';
