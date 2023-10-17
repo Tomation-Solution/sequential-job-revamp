@@ -342,6 +342,7 @@ function CompanyJobPostTab1({
 
             <FormError>{errors.description_content?.message}</FormError>
             <TextEditor
+            
               editorRef={editorRef}
               initialValue={watch("description_content")}
             />

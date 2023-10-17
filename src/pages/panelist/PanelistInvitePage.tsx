@@ -3,7 +3,7 @@ import { getAllPanelistJobs } from "../../redux/api/panelist/panelist-interview-
 import { useCustomFetcher } from "../../utils/fetcher";
 
 function PanelistInvitePage() {
-  const { data } = useCustomFetcher(
+  const { data,error } = useCustomFetcher(
     "all-panelist-jobs",
     getAllPanelistJobs,
     (data) =>
@@ -14,6 +14,7 @@ function PanelistInvitePage() {
         created_at: item.created_at,
       }))
   );
+  // console.log({data,error})
 
   return (
     <>

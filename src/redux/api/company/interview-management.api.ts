@@ -62,3 +62,26 @@ export const companyInviteCandidateForInterview = async (payload: any) => {
     throw new AxiosError(error);
   }
 };
+
+export type getCandidateThatAcceptedInterviewResponse ={
+  "id": number,
+  "interview": number,
+  "date_picked": string,
+  "time_picked": string,
+  "has_mail_sent": boolean,
+  "has_picked_invitation":boolean,
+  "job_seeker": {
+      "full_name": string,
+      "email":string,
+      "cv": string
+  },
+  "candidates_applied": number,
+  "job": {
+      "company_name": string,
+      "position": string
+  }
+}
+export const getCandidateThatAcceptedInterview = async(job_id:string):Promise<getCandidateThatAcceptedInterviewResponse[]>=>{
+  const resp = await api.get(`/interview/interview_setup/get_candidate_that_accepted_interview/?job_id=${job_id}`)
+  return resp.data.data
+}

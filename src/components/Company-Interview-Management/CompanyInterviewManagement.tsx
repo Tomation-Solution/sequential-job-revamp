@@ -19,6 +19,7 @@ import { useMutation } from "react-query";
 import { companyCreateInterview } from "../../redux/api/company/interview-management.api";
 import useToast from "../../hooks/useToastify";
 import Preloader from "../Preloader/Preloader";
+import { parseBackendError } from "../../utils/extraFunction";
 
 function CompanyInterviewManagement() {
   const [dropdownOption, setDropdownOption] = useState<string>("");
@@ -91,7 +92,11 @@ function CompanyInterviewManagement() {
         error?.message?.response?.data?.message === "Already has a interview"
       ) {
         notify("the selected job already has a interview setup", "error");
-      } else {
+      } 
+      if(error.message.response.data.error){
+       notify( parseBackendError(error.message.response.data.error) as string ,'error')
+      }
+      else {
         notify("failed to create interview", "error");
       }
     },
@@ -163,7 +168,7 @@ function CompanyInterviewManagement() {
 
   return (
     <>
-      <Preloader loading={isLoading} />
+      {/* <Preloader loading={isLoading} /> */}
       <CompanyNavBar>
         <CompanyNavBarItemsContainer>
           <Dropdown
