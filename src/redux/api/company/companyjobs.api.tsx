@@ -87,3 +87,53 @@ export const switchJobOn = async (payload: any) => {
     throw new AxiosError(error);
   }
 };
+
+export type sendJobOfferLetterApiProp = {
+  "list_of_applicant_and_action":{
+    "applicant_id":string,
+    "action":string,
+    "letter":string
+}[ ]
+}
+
+export const sendJobOfferLetterApi = async(data:sendJobOfferLetterApiProp)=>{
+  const res = await api.post(`/jobs/company-generate-job-final-result/send_final_letters/`,data);
+  return res.data;   
+}
+
+
+type  getJobOffersAndAcceptedOffersApiResponse =  {
+  "id": number,
+  "jobseekers": {
+      "email": string,
+      "full_name": string,
+      "role_applied_for": string,
+      "date_applied": string,
+      'id':string
+  },
+  "cv_id": number,
+  "filter_quetions_score": number,
+  "test_quetions_score":number,
+  "has_written_exam": boolean,
+  "has_written_test": boolean,
+  "has_mail_sent":boolean,
+  "generated_panelist_total_score": number,
+  "has_been_invited_for_medicals": boolean,
+  "acceptance_letter": string,
+  "final_selection_state": string,
+  "has_sent_selection_mail":boolean,
+  "accept_application":boolean,
+  "created_at": string,
+  "updated_at":string,
+  "job": number
+}
+
+type getJobOffersAndAcceptedOffersApiProp ={
+  get_offers_sent:boolean,
+  get_accepted_offers:boolean,
+  job_id:string|number
+}
+export const getJobOffersAndAcceptedOffersApi = async({get_offers_sent,get_accepted_offers,job_id}:getJobOffersAndAcceptedOffersApiProp):Promise<getJobOffersAndAcceptedOffersApiResponse[]>=>{
+  const res = await api.get(`/jobs/company-generate-job-final-result/${get_offers_sent?'?offers_sent=1':''}${get_accepted_offers?'?jobseeker_acccept_offer=1':''}&job_id=${job_id}`,);
+  return res.data.data;   
+}

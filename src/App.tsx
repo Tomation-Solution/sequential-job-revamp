@@ -50,6 +50,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import ForgotPassword, {
   ResetPassword,
 } from "./components/Auth/ForgotPassword";
+import CompanyDocumentManagement from "./pages/company/CompanyDocumentManagement/CompanyDocumentManagement";
 const queryClient = new QueryClient();
 
 function App() {
@@ -141,6 +142,11 @@ function App() {
                   />
                 }
               />
+              <Route
+                path="/company/documentation-management"
+                element={<CompanyDocumentManagement />}
+              />
+
               <Route
                 path="/company/settings"
                 element={<CompanySettingsPage />}

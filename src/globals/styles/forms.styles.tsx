@@ -289,3 +289,8 @@ export const FormRadioSuccess = styled.div`
   font-weight: 500;
   margin-top: 0.5em;
 `;
+
+
+export const Pane = styled.div`
+background-color:#fff;
+`
