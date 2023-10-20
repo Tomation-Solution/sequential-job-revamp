@@ -104,10 +104,10 @@ const JobDetailComponent = (): React.ReactElement => {
       <br />
       <div
         style={{
-          textAlign: "center",
+          // textAlign: "center",
           overflow: "scroll",
           padding: "0 1rem",
-          color: "black",
+          // color: "black",
         }}
       >
         {job ? (
@@ -126,35 +126,7 @@ const JobDetailComponent = (): React.ReactElement => {
       <br />
       <br />
 
-      <h2 style={{ color: "#24CDE2", padding: "1rem 0", fontWeight: 400 }}>
-        Job Description
-      </h2>
-      <br />
-      <br />
-      <div
-        style={{
-          // 'textAlign':'justify',
-          overflow: "scroll",
-          padding: "0 1rem",
-          color: "black",
-        }}
-      >
-        {job ? (
-          <p
-            className="job-details"
-            dangerouslySetInnerHTML={{
-              __html: `${job?.description_content?.replaceAll(
-                '"',
-                " "
-              )}`.replaceAll("\\", " "),
-            }}
-          />
-        ) : (
-          ""
-        )}
-      </div>
-      <br />
-      <br />
+
 
       <div>
         <Button

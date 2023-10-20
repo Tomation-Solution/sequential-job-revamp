@@ -7,7 +7,10 @@ const JobDetail = (): React.ReactElement => {
   const { id } = useParams();
   return (
     <JobDetailStyle>
-      <div style={{ maxWidth: "700px" }}>
+      <div style={{ 
+        // maxWidth: "700px"
+        'width':'50%'
+         }}>
         <JobDetailComponent />
       </div>
       {id ? <ApplyForJobProccess job_id={id} /> : ""}

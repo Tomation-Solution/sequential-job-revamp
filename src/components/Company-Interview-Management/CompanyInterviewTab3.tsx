@@ -52,7 +52,8 @@ const CompanyInterviewTab3 = ({ jobId }: Props) => {
   } = useMutation(companyInterviewManagementFilterCandidatesByTest, {
     onSuccess: (data) => {
       if (data?.data) {
-        setData(data.data);
+        // console.log({'testData':data.data.data})
+        setData(data.data.data);
       } else {
         setData([]);
       }

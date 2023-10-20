@@ -9,11 +9,12 @@ import { CompanyJobTestManagementContainer } from "../Company-Job-Test-Managemen
 import { useForm, useFieldArray, useWatch, Control } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { get_rating_sheet, rating_job_seekers} from "../../redux/api/panelist/panelist-interview-management.api";
 import useToast from "../../hooks/useToastify";
 import Preloader from "../Preloader/Preloader";
 import Button from "../Button/Button";
+import { get_applicantFinal_result } from "../../redux/api/company/companyjobs.api";
 
 
 type Props = {
@@ -50,7 +51,7 @@ export type rating_job_seekersProp = yup.InferType<typeof schema>
 function PanelistRateCandidate({ jobId, userType }: Props) {
   const {notify} = useToast()
   const [selectedCandidate, setSelectedCandidate] = useState("");
-
+  let candidate_id = window.localStorage.getItem('job_applicant_id')
 
   const { register,control, handleSubmit, setValue,formState: { errors } } = useForm<rating_job_seekersProp>({
     resolver: yupResolver(schema),
@@ -92,7 +93,7 @@ function PanelistRateCandidate({ jobId, userType }: Props) {
     'onError':(err:any)=>{
         notify('Check your network and refresh','error')
     }
-})
+},)
 useEffect(()=>{
   let candidate_id = window.localStorage.getItem('job_applicant_id')
   if(candidate_id){
@@ -100,11 +101,13 @@ useEffect(()=>{
   }
 
   if(typeof candidate_id =='string'){
+    if(userType != 'company'){
       setValue('job',parseInt(jobId))
       setValue('job_applicant',parseInt(candidate_id))
       mutate({
           'job_id':parseInt(jobId),'job_applicant':parseInt(candidate_id)
       })
+    }
   }
 
   setValue('summary_of_qualification','..')
@@ -137,14 +140,18 @@ const {isLoading:submitting,data:rating_sheet_response_for_submmission,mutate:ha
       console.log({'resp from subbmited err':err})
   }
 })
+const {data:rating_fields_company,isLoading:loading} = useQuery('get_applicantFinal_result',()=>get_applicantFinal_result(parseInt(candidate_id as string)),{
+  'enabled':typeof candidate_id ==='string'?true:false
+})
 
 const onSubmit = (data: rating_job_seekersProp) =>{
   // console.log({'Data Submited':data})
   handleSubmission(data)
 }
+
   return (
     <>
-    <Preloader  loading={isLoading||submitting}/>
+    <Preloader  loading={isLoading||submitting||loading}/>
     <form
      onSubmit={handleSubmit(onSubmit)}
      >
@@ -153,12 +160,12 @@ const onSubmit = (data: rating_job_seekersProp) =>{
         <FlexBox justifyContent="space-between">
           <h2>Rate Candidates</h2>
 
-          <Dropdown
+          {/* <Dropdown
             disabledOption="Select Candidate"
             options={[{ label: "Select Candidate", value: "" }]}
             onChange={setSelectedCandidate}
             defaultValue={selectedCandidate}
-          />
+          /> */}
         </FlexBox>
 
         <main style={{'padding':'2rem 0'}}>
@@ -170,7 +177,31 @@ const onSubmit = (data: rating_job_seekersProp) =>{
                 <a href="/">See CV</a>
               </h3>
             </FlexBox>
+          {
+            userType == 'company'?
+            <SetRatingCandidateMoreBtn>
+              <div className="flexed">
+                {
+                  rating_fields_company?.interview_breakdown.map((data,index)=>(
+                    <div style={{'display':'flex','alignItems':'center','gap':'10px','flexWrap':'wrap'}}>
 
+                      <input type="text" value={data.value} disabled  />
+      
+                      <input type="text" 
+                      placeholder={`/${data.cut_off}`}
+                      value={`${(data.score/data.cut_off)*100}%`}
+                      // {...register(`rating_sheet.${index}.score`)}
+                      disabled
+                      />
+                    </div>
+                  ))
+                }
+              </div>
+            </SetRatingCandidateMoreBtn>:''
+          }
+
+{
+            userType == 'panelist'?
             <SetRatingCandidateMoreBtn>
               <div className="flexed">
                 {
@@ -187,7 +218,8 @@ const onSubmit = (data: rating_job_seekersProp) =>{
                   ))
                 }
               </div>
-            </SetRatingCandidateMoreBtn>
+            </SetRatingCandidateMoreBtn>:''
+          }
           </div>
 
           <div className="right">

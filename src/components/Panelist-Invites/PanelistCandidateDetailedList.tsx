@@ -86,7 +86,7 @@ function PanelistCandidateDetailedList({
           }}
           color="gold"
         >
-          Rate
+         {userType==='company'?'view':'Rate'}
         </TableDataColored>
       ),
     },

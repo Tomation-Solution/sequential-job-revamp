@@ -48,8 +48,8 @@ const [openDocs,setOpenDocs] = useState(false)
           id:2,
           Cell: (tableProps: any) => (
             <TableDataColored>
-                unavailable
-              {/* { `${moment(new Date(tableProps.row.original.date_picked)).format("MMMM Do YYYY, ")} `} */}
+                {tableProps.row.original.date_picked}
+              {/* { `${moment(new Date(tableProps.row.original.created_at)).format("MMMM Do YYYY, ")} `} */}
             </TableDataColored>
           ),
         },
@@ -83,7 +83,7 @@ const [openDocs,setOpenDocs] = useState(false)
           Cell: (tableProps: any) => (
             <TableDataColored color="green">
                 unavailable
-             {/* {tableProps.row.original.time_picked} */}
+             {tableProps.row.original.generated_panelist_total_score_current}
             </TableDataColored>
           ),
         },

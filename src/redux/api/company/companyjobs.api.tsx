@@ -137,3 +137,31 @@ export const getJobOffersAndAcceptedOffersApi = async({get_offers_sent,get_accep
   const res = await api.get(`/jobs/company-generate-job-final-result/${get_offers_sent?'?offers_sent=1':''}${get_accepted_offers?'?jobseeker_acccept_offer=1':''}&job_id=${job_id}`,);
   return res.data.data;   
 }
+
+
+
+type get_applicantFinal_resultResponseType = {
+  "id": number,
+  "jobseekers": {
+      "email":string,
+      "full_name": string
+  },
+  "filter_quetions_score": number,
+  "test_quetions_score": number,
+  "has_written_exam":boolean,
+  "has_written_test": boolean,
+  "has_mail_sent": boolean,
+  "generated_panelist_total_score": number,
+  "job": number,
+  "interview_breakdown": {
+    "score": number,
+    "value": string,
+    "cut_off": number
+}[],
+"generated_panelist_total_score_current": number,
+}
+
+export const  get_applicantFinal_result = async (job_seeker_id:number):Promise<get_applicantFinal_resultResponseType>=>{
+  const resp = await api.get('/jobs/company-generate-job-final-result/get_jobseeker_finial_result?job_seeker_id='+job_seeker_id)
+  return resp.data.data
+}
