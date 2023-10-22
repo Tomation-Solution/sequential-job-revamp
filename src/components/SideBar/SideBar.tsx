@@ -48,7 +48,7 @@ const SideBar: FC<Props> = ({
       link: "/document_managent",
       icon: <FileOpenIcon />,
     },
-    { name: "Medicals Invite", link: "/medicals", icon: <FileOpenIcon /> },
+    // { name: "Medicals Invite", link: "/medicals", icon: <FileOpenIcon /> },
     { name: "Settings", link: "/", icon: <DashboardIcon /> },
   ],
 }) => {

@@ -36,11 +36,11 @@ export const companyNavLinks = [
     icon: <NoteAltIcon />,
   },
   { name: "Documentation Management", link: "/company/documentation-management/", icon: <QuizIcon /> },
-  {
-    name: "Medicals",
-    link: "/company/medicals",
-    icon: <MedicalServicesIcon />,
-  },
+  // {
+  //   name: "Medicals",
+  //   link: "/company/medicals",
+  //   icon: <MedicalServicesIcon />,
+  // },
   { name: "Calendar", link: "/company/calendar", icon: <CalendarMonthIcon /> },
   {
     name: "Settings",

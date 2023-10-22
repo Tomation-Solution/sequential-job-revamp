@@ -55,7 +55,7 @@ const MainNavBar = () => {
             {/* <NotificationsNoneOutlinedIcon /> */}
             <p>{user?.full_name}</p>
 
-            <img alt="" src={ProfileImg} />
+            <img alt="" src={user?.profile_image} />
           </MainNavProfile>
         </MainNavContentHolder>
       </MainNavContainer>
