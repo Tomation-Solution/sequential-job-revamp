@@ -134,7 +134,7 @@ const [openDocs,setOpenDocs] = useState(false)
           id:7,
           Cell: (tableProps: any) => (
             <TableDataColored>
-              {tableProps.row.original.job.role_applied_for}
+              {tableProps.row.original.jobseekers.role_applied_for}
             </TableDataColored>
           ),
         },
@@ -201,7 +201,7 @@ const [openDocs,setOpenDocs] = useState(false)
           id:7,
           Cell: (tableProps: any) => (
             <TableDataColored>
-              {tableProps.row.original.job.role_applied_for}
+              {tableProps.row.original.jobseekers.role_applied_for}
             </TableDataColored>
           ),
         },
@@ -271,7 +271,7 @@ const [openDocs,setOpenDocs] = useState(false)
         'enabled': dropdownOption.length !==0?true:false
       })
       console.log({
-        selectedJobSeeker
+        offers_sent
       })
       return (
         <div>
