@@ -1,4 +1,5 @@
 import { signUpAsJobSeekerForm } from "../../components/Auth/SignUp/SignUp";
+import { UpdateCompanyProfileI } from "../../components/Compant-Settings/CompanySettings";
 import { CvManagementFormType } from "../../pages/CVManagement/CVManagement";
 import api from "./axios";
 
@@ -156,4 +157,64 @@ type resetPasswordResponse ={
 export const resetPasswordAPi = async(data:resetPasswordResponse)=>{
   const resp = await api.post(`/auth/forgot-password/rest_password/`,data)
   return resp.data.data
+}
+
+
+
+type getCompanyInfoResp = {
+  "full_name": string,
+  "profile_image": null|string,
+  "phone_number": string,
+  "user_extra": {
+      "company": {
+          "organisation_name": string,
+          "organisation_name_shortname": string,
+          "industry": string,
+          "organisation_size": number,
+          "location": string,
+          "official_mail":string,
+          "official_phone": string,
+          "addresses": string
+      }
+  }
+} 
+export const getCompanyInfoApi = async():Promise<getCompanyInfoResp>=>{
+
+  const resp = await api.get(`/auth/company-profile/`,)
+  return resp.data.data
+}
+
+
+export const updateCompanyInfoApi = async (data:UpdateCompanyProfileI)=>{
+  const form = new FormData()
+  form.append('full_name',data.full_name)
+
+  if(data.profile_image){
+
+    form.append('profile_image',data.profile_image)
+  }
+  form.append('phone_number',data.phone_number)
+  form.append('organisation_name',data.organisation_name)
+  form.append('organisation_name_shortname',data.organisation_name_shortname)
+  form.append('industry',data.industry)
+  form.append('organisation_size',data.organisation_size.toString())
+  form.append('location',data.location)
+  form.append('official_mail',data.official_mail)
+  form.append('official_phone',data.official_phone)
+  form.append('addresses',data.addresses)
+
+  const resp = await api.patch(`/auth/company-profile/`,form)
+  return resp.data
+}
+
+
+export const changePasswordApi = async(password:string)=>{
+  const resp = await api.post(`/auth/users-settings/update_password/`,{password})
+  return resp.data
+}
+
+
+export const deleteUserApi = async()=>{
+  const resp = await api.delete(`/auth/users-settings/s/`)
+  return resp.data
 }
