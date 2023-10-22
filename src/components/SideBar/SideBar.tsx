@@ -49,7 +49,7 @@ const SideBar: FC<Props> = ({
       icon: <FileOpenIcon />,
     },
     // { name: "Medicals Invite", link: "/medicals", icon: <FileOpenIcon /> },
-    { name: "Settings", link: "/", icon: <DashboardIcon /> },
+    { name: "Settings", link: "/s", icon: <DashboardIcon /> },
   ],
 }) => {
   const navigate = useNavigate();

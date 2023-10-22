@@ -1,5 +1,6 @@
 import { AxiosError } from "axios";
 import api from "../axios";
+import { JobSeerkerInterviewType } from "../jobSeekerInterview.api";
 
 type getCompanyDashboardSummaryResponse = {
   total_applicant: number;
@@ -163,5 +164,10 @@ type get_applicantFinal_resultResponseType = {
 
 export const  get_applicantFinal_result = async (job_seeker_id:number):Promise<get_applicantFinal_resultResponseType>=>{
   const resp = await api.get('/jobs/company-generate-job-final-result/get_jobseeker_finial_result?job_seeker_id='+job_seeker_id)
+  return resp.data.data
+}
+
+export const get_scheduled_interviews_invite = async():Promise<JobSeerkerInterviewType[]>=>{
+  const resp = await api.get('/interview/interview_setup/get_scheduled_interviews_invite/')
   return resp.data.data
 }
