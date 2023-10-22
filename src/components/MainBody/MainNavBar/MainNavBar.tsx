@@ -14,10 +14,12 @@ import ProfileImg from "../../../assets/ProfileImg.png";
 import MenuIcon from "@mui/icons-material/Menu";
 import Logo from "../../../assets/Logo.png";
 import SideBar from "../../SideBar/SideBar";
+import NofiicationComponent from "../../NofiicationComponent";
+import { getUser } from "../../../utils/extraFunction";
 
 const MainNavBar = () => {
   const [showNav, setShowNav] = useState(false);
-
+  const user = getUser()
   const showNavHandler = () => {
     setShowNav(!showNav);
   };
@@ -49,8 +51,9 @@ const MainNavBar = () => {
 
         <MainNavContentHolder>
           <MainNavProfile>
-            <NotificationsNoneOutlinedIcon />
-            <p>Elijah Papi</p>
+            <NofiicationComponent />
+            {/* <NotificationsNoneOutlinedIcon /> */}
+            <p>{user?.full_name}</p>
 
             <img alt="" src={ProfileImg} />
           </MainNavProfile>
