@@ -37,8 +37,8 @@ const schema = yup.object({
 
   state: yup.string().required(),
   country_of_residence: yup.string(),
-  linkdin: yup.string(),
-  twitter: yup.string(),
+  linkdin: yup.string().required(),
+  twitter: yup.string().required(),
   education: yup.array().of(
     yup.object({
       degree_type: yup.string(),
@@ -154,10 +154,10 @@ const CVManagement = () => {
   const onSubmit = (data: CvManagementFormType) => {
     // console.log({ "form submission": data });
     
-    if( isCorrectUrl(data.linkdin??'') ){
+    if(!isCorrectUrl(data.linkdin) ){
       return notify('Please enter correct linkdin url','error')
     }
-    if( isCorrectUrl(data.twitter??'') ){
+    if(!isCorrectUrl(data.twitter) ){
       return notify('Please enter correct twitter url','error')
     }
     mutate(data);
