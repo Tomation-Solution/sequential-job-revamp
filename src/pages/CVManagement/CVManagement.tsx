@@ -23,6 +23,7 @@ import {
   updateCvApi,
 } from "../../redux/api/authentication.api";
 import Preloader from "../../components/Preloader/Preloader";
+import { isCorrectUrl } from "../../utils/extraFunction";
 
 const schema = yup.object({
   personal_statement: yup.string().required(),
@@ -102,14 +103,14 @@ const CVManagement = () => {
     onSuccess: (data) => {
       queryClient.invalidateQueries("mycv");
       let job = searchParams.get("job");
-      console.log({ job });
+      // console.log({ job });
       notify("Update Success", "success");
       if (job) {
         go(`/job_detail/${job}`);
       }
     },
     onError: (err: any) => {
-      notify("Update failed, something went wrong", "success");
+      notify("Update failed, something went wrong", "error");
       console.log({ "server eroor": err });
     },
   });
@@ -152,6 +153,13 @@ const CVManagement = () => {
 
   const onSubmit = (data: CvManagementFormType) => {
     // console.log({ "form submission": data });
+    
+    if( isCorrectUrl(data.linkdin??'') ){
+      return notify('Please enter correct linkdin url','error')
+    }
+    if( isCorrectUrl(data.twitter??'') ){
+      return notify('Please enter correct twitter url','error')
+    }
     mutate(data);
   };
 
@@ -419,8 +427,8 @@ const CVManagement = () => {
 
                 <InputWithLabel
                   label="Issuer"
-                  placeholder="issuer"
-                  register={register(`certification.${index}.issuer`)}
+                  placeholder="Start Year"
+                  register={register(`certification.${index}.start_year`)}
                 />
                 <InputWithLabel
                   label="Issuer"

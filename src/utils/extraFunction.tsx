@@ -65,3 +65,14 @@ export const parseBackendError =(error:any)=>{
 
   return errorMessage
 }
+
+export const isCorrectUrl = (url:string)=>{
+
+  try{
+    new URL(url)
+    return true
+  }catch(err:any){
+    return false
+  }
+
+}
