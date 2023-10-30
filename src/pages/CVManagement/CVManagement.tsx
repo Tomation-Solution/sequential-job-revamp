@@ -37,8 +37,8 @@ const schema = yup.object({
 
   state: yup.string().required(),
   country_of_residence: yup.string(),
-  linkdin: yup.string().required(),
-  twitter: yup.string().required(),
+  linkdin: yup.string(),
+  twitter: yup.string(),
   education: yup.array().of(
     yup.object({
       degree_type: yup.string(),
@@ -154,12 +154,12 @@ const CVManagement = () => {
   const onSubmit = (data: CvManagementFormType) => {
     // console.log({ "form submission": data });
     
-    if(!isCorrectUrl(data.linkdin) ){
-      return notify('Please enter correct linkdin url','error')
-    }
-    if(!isCorrectUrl(data.twitter) ){
-      return notify('Please enter correct twitter url','error')
-    }
+    // if(!isCorrectUrl(data.linkdin) ){
+    //   return notify('Please enter correct linkdin url','error')
+    // }
+    // if(!isCorrectUrl(data.twitter) ){
+    //   return notify('Please enter correct twitter url','error')
+    // }
     mutate(data);
   };
 
@@ -426,8 +426,8 @@ const CVManagement = () => {
                 />
 
                 <InputWithLabel
-                  label="Issuer"
-                  placeholder="Start Year"
+                  label="Year"
+                  placeholder="Year"
                   register={register(`certification.${index}.start_year`)}
                 />
                 <InputWithLabel
