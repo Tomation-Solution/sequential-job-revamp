@@ -23,7 +23,7 @@ import {
   updateCvApi,
 } from "../../redux/api/authentication.api";
 import Preloader from "../../components/Preloader/Preloader";
-import { isCorrectUrl } from "../../utils/extraFunction";
+import { getUser, isCorrectUrl } from "../../utils/extraFunction";
 
 const schema = yup.object({
   personal_statement: yup.string().required(),
@@ -79,6 +79,7 @@ const CVManagement = () => {
   const [searchParams] = useSearchParams();
   const go = useNavigate();
   const { notify } = useToast();
+  const user = getUser()
   const isBigScreen = useMediaQuery({
     query: "(min-width: 500px)",
   });
@@ -168,21 +169,32 @@ const CVManagement = () => {
     if (mydata) {
       setValue("phone_number", mydata.phone_number);
     }
+    console.log({cvstructure})
     if (cvstructure) {
       setValue("personal_statement", cvstructure.cvStucture.personal_statement);
+      if(cvstructure.cvStucture.first_name.length !==1){
       setValue("first_name", cvstructure.cvStucture.first_name);
+      }else{
+        setValue("first_name", user?.full_name??'');
+      }
+
+
+      
       setValue("middle_name", cvstructure.cvStucture.middle_name);
       setValue("last_name", cvstructure.cvStucture.last_name);
-      setValue("email", cvstructure.cvStucture.email);
+      if(cvstructure.cvStucture.email.length !==1){
+        setValue("email", cvstructure.cvStucture.email);
+        }else{
+          setValue("email", user?.email??'');
+        }
+
       setValue("city", cvstructure.cvStucture.addresse);
       setValue("state", cvstructure.cvStucture.state);
       setValue(
         "country_of_residence",
         cvstructure.cvStucture.country_of_residence
       );
-      console.log({
-        "country of": cvstructure.cvStucture.country_of_residence,
-      });
+
       setValue("linkdin", cvstructure.cvStucture.linkdin);
       setValue("twitter", cvstructure.cvStucture.twitter);
       setValue("education", cvstructure.cvStucture.education);
@@ -190,9 +202,14 @@ const CVManagement = () => {
       setValue("certification", cvstructure.cvStucture.certificaton);
       setValue("refrences", cvstructure.cvStucture.refrences);
       setValue("addresse", cvstructure.cvStucture.addresse);
+
+      // 
+      // setValue("email", user.email);
+   
     } else {
-      setValue("linkdin", "#");
-      setValue("twitter", "#");
+      setValue("linkdin", "NiL");
+      setValue("twitter", "NiL");
+     
     }
   }, [mydata, setValue]);
   return (

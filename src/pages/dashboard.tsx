@@ -585,12 +585,20 @@ const Dashboard = () => {
     },
   });
 
-  const { data } = useQuery(["get_interviews_for_jobseekers"], () =>
-    get_interviews({ filter_by_scheduled: "scheduled" })
+  const { data,isLoading } = useQuery(["get_interviews_for_jobseekers"], () =>
+    get_interviews({ filter_by_scheduled: "scheduled" }),{
+      'onError':(err:any)=>{
+        if(err?.response?.data?.error?.cv){
+          notify('Please Update Cv','error')
+          go('/cvmanagement')
+        }
+      }
+    }
   );
   return (
     <div>
       <TopSummaryBox />
+      <Preloader  loading={isLoading}/>
 
       {dashboardJobSummaryStatus === "job_applied" ? <JobAppliedTable /> : ""}
       {dashboardJobSummaryStatus === "interviews_attended" ? (

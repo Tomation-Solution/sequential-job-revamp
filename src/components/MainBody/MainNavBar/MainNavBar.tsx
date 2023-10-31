@@ -16,14 +16,16 @@ import Logo from "../../../assets/Logo.png";
 import SideBar from "../../SideBar/SideBar";
 import NofiicationComponent from "../../NofiicationComponent";
 import { getUser } from "../../../utils/extraFunction";
+import moment from "moment";
 
 const MainNavBar = () => {
+  let now = moment();
   const [showNav, setShowNav] = useState(false);
   const user = getUser()
   const showNavHandler = () => {
     setShowNav(!showNav);
   };
-
+console.log({now})
   return (
     <>
       <SideBar show={showNav} />
@@ -36,19 +38,20 @@ const MainNavBar = () => {
         <MainNavContentHolder>
           <MainNavDropDown>
             <CalendarMonthIcon />
-            <p>12.03.23</p>
-            <p>-</p>
-            <p>20.03.23</p>
-            <ArrowDropDownIcon />
+
+            {now.date()}.{now.month()}.{now.year()}
           </MainNavDropDown>
 
-          <MainNavDropDown>
+            {/* <ArrowDropDownIcon /> */}
+          {/* <MainNavDropDown>
             <WorkIcon />
             All Jobs
             <ArrowDropDownIcon />
-          </MainNavDropDown>
+          </MainNavDropDown> */}
         </MainNavContentHolder>
-
+            {/* <p>12.03.23</p>
+            <p>-</p>
+            <p>20.03.23</p> */}
         <MainNavContentHolder>
           <MainNavProfile>
             <NofiicationComponent />
