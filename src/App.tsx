@@ -51,6 +51,7 @@ import ForgotPassword, {
   ResetPassword,
 } from "./components/Auth/ForgotPassword";
 import CompanyDocumentManagement from "./pages/company/CompanyDocumentManagement/CompanyDocumentManagement";
+import JobSeekerSeetings from "./pages/JobSeekerSeetings";
 const queryClient = new QueryClient();
 
 function App() {
@@ -73,6 +74,8 @@ function App() {
               <Route path="/" element={<Dashboard />} />
               {/*ELIJAHS REUSABLE COMPONENTS || LOOK AT THEM */}
               <Route path="/test-management" element={<TestManagement />} />
+              <Route path="/settings" element={<JobSeekerSeetings />} />
+              
               <Route
                 path="/test-management/taking_test/:job_id"
                 element={<JobTestPage />}

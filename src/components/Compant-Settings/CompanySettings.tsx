@@ -22,6 +22,7 @@ import useToast from "../../hooks/useToastify";
 function CompanySettings() {
   const [showSubmitBtn, setSetShowSubmitBtn] = useState<boolean>(false);
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
+  const user = getUser()
   const [options, setOptions] = useState<
     "my-profile" | "security" | "delete-account"
   >("my-profile");
@@ -32,12 +33,15 @@ function CompanySettings() {
       )}
       <CompanySettingsContainer>
         <section className="navigation">
+          {
+              user?.user_type === 'company'?
           <NavigationItems
             isActive={options === "my-profile"}
             onClick={() => setOptions("my-profile")}
           >
             <p>My Profile</p>
-          </NavigationItems>
+          </NavigationItems>:''
+          }
 
           <NavigationItems
             isActive={options === "security"}
@@ -59,7 +63,12 @@ function CompanySettings() {
         </section>
 
         {options === "my-profile" ? (
-          <UpdateCompanyProfile/>
+          <div> 
+            {
+              user?.user_type === 'company'?
+              <UpdateCompanyProfile/>:''
+            }
+          </div>
         ) : null}
 
         {options === "security" ? (
