@@ -3,7 +3,7 @@ import { seqLightBlue, seqWhite, seqWhite100 } from "../../../globals/colors";
 import { mobile, mobileSm, tablet } from "../../../responsive";
 
 export const MainNavContainer = styled.div`
-  padding: 10px;
+  padding: 15px;
   background-color: ${seqWhite};
   border-radius: 10px;
   display: flex;

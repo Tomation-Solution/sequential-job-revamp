@@ -84,7 +84,7 @@ function App() {
                 path="/job-quetion-info/:jobid"
                 element={<JobQuetionInfo />}
               />
-              <Route path="/document_managent" element={<DocumentManagent />} />
+              <Route path="/document_management" element={<DocumentManagent />} />
               {/*ELIJAHS REUSABLE COMPONENTS || LOOK AT THEM */}
 
               <Route path="/job_detail/:id/" element={<JobDetail />} />
