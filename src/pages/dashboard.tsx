@@ -26,6 +26,7 @@ import styled from "styled-components";
 import MedicalsContent from "../components/Medicals/MedicalsContent/MedicalsContent";
 import {TestManagementSubCon} from "../components/TestManagement/TestManagement.style";
 import {useNavigate} from "react-router-dom";
+import {EmptyDataIndicator} from "../components/EmptyDataIndicator";
 
 const JobAppliedTable = () => {
     const {notify} = useToast()
@@ -515,7 +516,7 @@ const JobOffers = () => {
 const ChartAndInterviewContainer = styled.div`
   @media screen and (min-width: 600px) {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
     width: 100%;
     /* border:1px solid red; */
@@ -526,13 +527,15 @@ const ChartAndInterviewContainer = styled.div`
     }
 
     & > div:nth-child(2) {
-      width: 30%;
+      width: 38%;
+      min-height: 25rem;
       background-color: white;
       border-radius: 10px;
-      padding: 1rem 1.5rem;
+      padding: 1rem;
     }
   }
 `;
+
 const Dashboard = () => {
     const {notify} = useToast()
     const go = useNavigate()
@@ -626,16 +629,18 @@ const Dashboard = () => {
                             <br/>
                             <h2>Upcoming Events</h2>
                             <br/>
-                            {data?.map((item, index) => (
-                                <MedicalsContent
-                                    style={{width: "100%"}}
-                                    key={index}
-                                    time={`${item.date_picked} ${item.time_picked}`}
-                                    data={item}
-                                    testDetails={` You Have Beenx Invite For this job "${item.interview.job_title}"`}
-                                    testDate={item.date_picked}
-                                />
-                            ))}
+                            <EmptyDataIndicator isDataEmpty={!data || data?.length < 1} height={"15rem"} >
+                                {data?.map((item, index) => (
+                                    <MedicalsContent
+                                        style={{width: "100%"}}
+                                        key={index}
+                                        time={`${item.date_picked} ${item.time_picked}`}
+                                        data={item}
+                                        testDetails={` You Have Beenx Invite For this job "${item.interview.job_title}"`}
+                                        testDate={item.date_picked}
+                                    />
+                                ))}
+                            </EmptyDataIndicator>
                         </div>
                         {/* </TestManagementSubCon> */}
                         {/* </div> */}
