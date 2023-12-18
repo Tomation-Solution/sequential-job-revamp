@@ -1,9 +1,9 @@
 import styled from "styled-components";
-import { seqBlue100, seqWhite } from "../../globals/colors";
-import { tablet } from "../../responsive";
+import {seqBlue100, seqWhite} from "../../globals/colors";
+import {tablet} from "../../responsive";
 
 type Props = {
-  show?: boolean;
+    show?: boolean;
 };
 
 export const SideBarContainer = styled.div<Props>`
@@ -22,11 +22,10 @@ export const SideBarContainer = styled.div<Props>`
   transition: all 0.5s;
 
   @media (max-width: 768px) {
-    transform: ${(props) =>
-      props.show ? "translateX(0%)" : "translateX(-100%)"};
+    transform: ${(props) => props.show ? "translateX(0%)" : "translateX(-100%)"};
   }
 
-  /* ${tablet({
+    /* ${tablet({
     // transform: "translateX(-100%)",
     display: "none",
   })} */
@@ -45,8 +44,9 @@ export const SideLogo = styled.div`
 export const SideBtnCon = styled.div`
   display: flex;
   flex-direction: column;
+  padding-right: 10px;
 `;
-export const SideBtn = styled.span`
+export const SideBtn = styled.span<{ active: boolean }>`
   padding: 10px 20px;
   margin: 5px 0px;
   display: flex;
@@ -56,11 +56,14 @@ export const SideBtn = styled.span`
   font-weight: 500;
   font-size: 14px;
   cursor: pointer;
+  background-color: ${(props) => props.active ? seqWhite : seqBlue100};
+  color: ${(props) => props.active ? seqBlue100 : seqWhite};
+
   &:hover {
     background-color: ${seqWhite};
     color: ${seqBlue100};
     transition: all 0.5s;
-  }
+  };
 
   svg {
     margin-right: 20px;
