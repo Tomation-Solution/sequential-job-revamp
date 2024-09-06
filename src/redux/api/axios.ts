@@ -4,8 +4,8 @@ import axios from 'axios'
 
 
 // export const url =`${process.env.REACT_APP_BASE_URL}` 
-export const url =`https://sequentialjobs.watchdoglogisticsng.com`
-// export const url='http://localhost:8000'
+// export const url =`https://sequentialjobs.watchdoglogisticsng.com`
+export const url='http://localhost:8000'
 const api =axios.create({
   baseURL: url,
   // withCredentials:true
